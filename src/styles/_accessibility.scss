@@ -23,11 +23,12 @@
    02   Floating Controls
    03   Schriftmodus
    04   Bewegungsmodi
-   05   Kontrastmodus
-   06   Farbmodi
-   07   Neuromodus
-   08   Bildschirmlupe
-   09   Responsive und Pointer
+   05   Bewegungsarme Reveals
+   06   Kontrastmodus
+   07   Farbmodi
+   08   Neuromodus
+   09   Bildschirmlupe
+   10   Responsive und Pointer
    ========================================================================== */
 
 /* ========================================================================== 
@@ -99,7 +100,20 @@ html[data-kgv-comfort='ruhig'] *::after {
 }
 
 /* ========================================================================== 
-   05   Kontrastmodus
+   05   Bewegungsarme Reveals
+   ========================================================================== */
+
+html[data-kgv-motion='reduziert'] [data-kgv-reveal],
+html[data-kgv-motion='aus'] [data-kgv-reveal],
+html[data-kgv-comfort='ruhig'] [data-kgv-reveal] {
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* ========================================================================== 
+   06   Kontrastmodus
    ========================================================================== */
 
 html[data-kgv-contrast='hoch'] {
@@ -132,7 +146,7 @@ html[data-kgv-contrast='hoch'] summary:focus-visible {
 }
 
 /* ========================================================================== 
-   06   Farbmodi
+   07   Farbmodi
    ========================================================================== */
 
 html[data-kgv-color='rot-gruen-1'] app-root > :not(app-accessibility-mode):not(app-scroll-to-top) {
@@ -152,7 +166,7 @@ html[data-kgv-color='graustufen'] app-root > :not(app-accessibility-mode):not(ap
 }
 
 /* ========================================================================== 
-   07   Neuromodus
+   08   Neuromodus
    ========================================================================== */
 
 html[data-kgv-comfort='neuro'] {
@@ -179,7 +193,7 @@ html[data-kgv-comfort='ruhig'] {
 }
 
 /* ========================================================================== 
-   08   Bildschirmlupe
+   09   Bildschirmlupe
    ========================================================================== */
 
 .kgv-screen-magnifier {
@@ -255,7 +269,7 @@ html[data-kgv-comfort='ruhig'] .kgv-screen-magnifier {
 }
 
 /* ========================================================================== 
-   09   Responsive und Pointer
+   10   Responsive und Pointer
    ========================================================================== */
 
 @media (max-width: 680px) {

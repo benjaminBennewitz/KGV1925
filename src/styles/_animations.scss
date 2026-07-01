@@ -1,0 +1,127 @@
+/*###############################
+###
+###     _animations.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Page Transitions
+   02   Reveal Basics
+   03   Reveal Richtungen
+   04   Footer Schutz
+   05   Motion Reductions
+   ========================================================================== */
+
+/* ========================================================================== 
+   01   Page Transitions
+   ========================================================================== */
+
+@keyframes kgv-page-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 1.15rem, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.app-main__route {
+  display: block;
+}
+
+.app-main__route > * {
+  display: block;
+}
+
+.kgv-page {
+  animation: kgv-page-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ========================================================================== 
+   02   Reveal Basics
+   ========================================================================== */
+
+.kgv-reveal-ready [data-kgv-reveal] {
+  opacity: 0;
+  transform: translate3d(0, var(--kgv-reveal-y, 2.75rem), 0);
+  transition: opacity 680ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--kgv-reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.kgv-reveal-ready [data-kgv-reveal].is-kgv-revealed {
+  filter: none;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ========================================================================== 
+   03   Reveal Richtungen
+   ========================================================================== */
+
+.kgv-reveal-ready [data-kgv-reveal='up'] {
+  --kgv-reveal-y: 2.75rem;
+}
+
+.kgv-reveal-ready [data-kgv-reveal='left'] {
+  transform: translate3d(-2rem, 0, 0);
+}
+
+.kgv-reveal-ready [data-kgv-reveal='right'] {
+  transform: translate3d(2rem, 0, 0);
+}
+
+.kgv-reveal-ready [data-kgv-reveal='soft'] {
+  filter: blur(6px);
+  transform: translate3d(0, 0.9rem, 0) scale(0.985);
+}
+
+/* ========================================================================== 
+   04   Footer Schutz
+   05   Motion Reductions
+   ========================================================================== */
+
+html[data-kgv-motion='reduziert'] .kgv-page,
+html[data-kgv-motion='aus'] .kgv-page,
+html[data-kgv-comfort='ruhig'] .kgv-page {
+  animation: none !important;
+}
+
+html[data-kgv-motion='reduziert'] [data-kgv-reveal],
+html[data-kgv-motion='aus'] [data-kgv-reveal],
+html[data-kgv-comfort='ruhig'] [data-kgv-reveal] {
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kgv-page {
+    animation: none !important;
+  }
+
+  .kgv-reveal-ready [data-kgv-reveal] {
+    filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
