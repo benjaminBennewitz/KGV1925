@@ -3,6 +3,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BLOG_BEITRAEGE } from '../../shared/data/blog-beitraege.data';
+import { TERMINE } from '../../shared/data/termine.data';
 
 @Component({
   selector: 'app-startseite',
@@ -12,6 +13,28 @@ import { BLOG_BEITRAEGE } from '../../shared/data/blog-beitraege.data';
 })
 export class StartseiteComponent {
   protected readonly aktuelleBeitraege = BLOG_BEITRAEGE.slice(0, 2);
+  protected readonly naechsterTermin = TERMINE[0];
+  protected readonly heroBild = {
+    pfad: 'assets/img/hero-vereinsgarten-mock.webp',
+    alt: 'Blick in eine grüne Kleingartenanlage mit Vereinshaus und bepflanztem Weg',
+  };
+  protected readonly heroKurzinfos = [
+    {
+      icon: 'groups',
+      titel: 'Gemeinschaft',
+      text: 'Miteinander erleben',
+    },
+    {
+      icon: 'eco',
+      titel: 'Naturverbunden',
+      text: 'Nachhaltig gärtnern',
+    },
+    {
+      icon: 'favorite',
+      titel: 'Tradition',
+      text: 'Seit 1925',
+    },
+  ];
   protected readonly funktionskarten = [
     {
       icon: 'campaign',
@@ -35,20 +58,6 @@ export class StartseiteComponent {
       pfad: '/gartenwissen',
     },
     {
-      icon: 'photo_library',
-      titel: 'Galerie',
-      text: 'Eindrücke aus der Gartenanlage, von Festen und gemeinsamen Aktionen.',
-      linkText: 'Bilder ansehen',
-      pfad: '/galerie',
-    },
-    {
-      icon: 'cottage',
-      titel: 'Vereinshaus',
-      text: 'Informationen zur Vermietung und Vorbereitung deiner Anfrage.',
-      linkText: 'Vermietung ansehen',
-      pfad: '/vereinshausvermietung',
-    },
-    {
       icon: 'inventory_2',
       titel: 'Service',
       text: 'Formulare, Downloads und Infos für unsere Mitglieder.',
@@ -58,18 +67,22 @@ export class StartseiteComponent {
   ];
   protected readonly kennzahlen = [
     {
+      icon: 'campaign',
       wert: '1925',
       label: 'Gegründet',
     },
     {
-      wert: '250+',
+      icon: 'groups',
+      wert: '65',
       label: 'Mitglieder',
     },
     {
+      icon: 'park',
       wert: '48',
       label: 'Parzellen',
     },
     {
+      icon: 'favorite',
       wert: '1',
       label: 'Gemeinschaft',
     },

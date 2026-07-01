@@ -34,12 +34,16 @@
 
 .app-main {
   min-height: 70dvh;
-  padding-block: clamp(1.5rem, 4vw, 3rem);
+  padding-block-end: clamp(1.5rem, 4vw, 3rem);
 }
 
 .kgv-page {
   display: grid;
   gap: clamp(2rem, 5vw, 4rem);
+}
+
+.kgv-page:not(.startseite) {
+  padding-block-start: clamp(1.5rem, 4vw, 3rem);
 }
 
 .kgv-section {

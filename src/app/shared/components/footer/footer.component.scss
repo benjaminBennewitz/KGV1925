@@ -16,7 +16,7 @@
 ###
 #################################*/
 
-/* ========================================================================== 
+/* ==========================================================================
    INHALTSVERZEICHNIS
 
    01   Footer Frame
@@ -29,30 +29,31 @@
    08   Responsive
    ========================================================================== */
 
-/* ========================================================================== 
+/* ==========================================================================
    01   Footer Frame
    ========================================================================== */
 
 .site-footer {
-  background:
-    radial-gradient(circle at 12% 10%, rgba(201, 184, 232, 0.28), transparent 28rem),
-    linear-gradient(180deg, rgba(251, 250, 246, 0) 0%, var(--kgv-background-soft) 100%);
+  background: var(--kgv-primary-active);
   margin-top: clamp(3rem, 7vw, 6rem);
-  padding: clamp(1rem, 4vw, 3rem);
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: 0;
+  width: 100vw;
 }
 
 .site-footer__frame {
   background:
     radial-gradient(circle at 82% 18%, rgba(169, 191, 168, 0.24), transparent 18rem),
     linear-gradient(135deg, var(--kgv-primary-active), #063819 70%, #042a12);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: clamp(1.5rem, 3vw, 2.5rem);
   box-shadow: var(--kgv-shadow-strong);
   color: var(--kgv-text-inverse);
-  margin-inline: auto;
-  max-width: var(--kgv-wide-width);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
   overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .site-footer__frame::before {
@@ -66,42 +67,48 @@
   width: 14rem;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    02   Wordmark
    ========================================================================== */
 
 .site-footer__wordmark {
   color: rgba(255, 255, 255, 0.96);
   font-family: var(--kgv-font-display);
-  font-size: clamp(4.25rem, 17vw, 15.5rem);
+  font-size: clamp(4rem, 20vw, 22rem);
   font-weight: 850;
-  letter-spacing: -0.09em;
+  letter-spacing: 0.12em;
   line-height: 0.72;
-  padding: clamp(2.25rem, 5vw, 4.75rem) clamp(1.25rem, 5vw, 4.5rem) 0;
+  overflow: hidden;
+  padding: clamp(2.25rem, 5vw, 4.75rem) 0 0;
   pointer-events: none;
+  text-align: center;
+  text-indent: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
+  transform: translateY(10px);
+  width: 100%;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    03   Content Layout
    ========================================================================== */
 
 .site-footer__content {
   align-items: start;
+  align-self: stretch;
   background: var(--kgv-surface);
-  border-radius: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 2.5vw, 2rem) 0 0;
+  border-radius: 0;
   color: var(--kgv-text-main);
   display: grid;
   gap: clamp(1.5rem, 3vw, 3rem);
   grid-template-columns: minmax(18rem, 1.35fr) repeat(3, minmax(8rem, 0.7fr));
-  margin: 0 clamp(0.75rem, 2.5vw, 2rem);
+  margin: 0;
   padding: clamp(2rem, 4vw, 4rem);
   position: relative;
   z-index: 1;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    04   Brand und Claim
    ========================================================================== */
 
@@ -130,7 +137,7 @@
   color: var(--kgv-primary);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   margin: 0;
   text-transform: uppercase;
 }
@@ -149,7 +156,7 @@
   margin: var(--kgv-space-md) 0 0;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    05   Kontakt und Socials
    ========================================================================== */
 
@@ -240,7 +247,7 @@
   padding-inline: 0.65rem;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    06   Linkgruppen
    ========================================================================== */
 
@@ -278,7 +285,7 @@
   outline-offset: 3px;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    07   Bottom Bar
    ========================================================================== */
 
@@ -291,7 +298,7 @@
   flex-wrap: wrap;
   gap: var(--kgv-space-sm) var(--kgv-space-xl);
   justify-content: space-between;
-  margin: 0 clamp(0.75rem, 2.5vw, 2rem) clamp(0.75rem, 2.5vw, 2rem);
+  margin: 0;
   padding: var(--kgv-space-md) clamp(1.25rem, 4vw, 4rem) clamp(1.25rem, 3vw, 2rem);
   position: relative;
   z-index: 1;
@@ -306,7 +313,7 @@
   line-height: 0;
 }
 
-/* ========================================================================== 
+/* ==========================================================================
    08   Responsive
    ========================================================================== */
 
@@ -321,13 +328,10 @@
 }
 
 @media (max-width: 760px) {
-  .site-footer {
-    padding-inline: var(--kgv-space-md);
-  }
-
   .site-footer__wordmark {
-    font-size: clamp(3.4rem, 19vw, 7rem);
-    letter-spacing: -0.075em;
+    font-size: clamp(3.2rem, 18vw, 7rem);
+    letter-spacing: 0.08em;
+    text-indent: 0.08em;
   }
 
   .site-footer__content {
@@ -354,15 +358,6 @@
 }
 
 @media (max-width: 420px) {
-  .site-footer {
-    padding-inline: var(--kgv-space-xs);
-  }
-
-  .site-footer__content,
-  .site-footer__bottom {
-    margin-inline: var(--kgv-space-xs);
-  }
-
   .site-footer__content {
     padding: var(--kgv-space-xl) var(--kgv-space-md);
   }

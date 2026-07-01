@@ -33,7 +33,7 @@ export const BLOG_BEITRAEGE: BlogBeitrag[] = [
     datum: '8. Mai 2024',
     lesezeit: '2 Min.',
     kurztext: 'Am Samstag, den 18. Mai, wird das Wasser auf der gesamten Anlage angestellt.',
-    bild: 'assets/img/lavendel-2_aquarell.webp',
+    bild: 'assets/img/hero-vereinsgarten-mock.webp',
     abschnitte: [
       'Das Wasser wird am Samstagvormittag auf der gesamten Anlage angestellt. Bitte kontrolliert vorher eure Anschlüsse und stellt sicher, dass alle Hähne geschlossen sind.',
       'Sollte an einer Parzelle ein Schaden sichtbar werden, meldet euch bitte direkt beim Vorstand.',
