@@ -1,0 +1,171 @@
+/*###############################
+###
+###     vereinshausvermietung.component.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Vermietung Layout
+   02   Hero
+   03   Info Cards
+   04   Anfrage Panel
+   05   Responsive
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Vermietung Layout
+   ========================================================================== */
+
+.vermietung {
+  display: grid;
+  gap: 2rem;
+}
+
+.vermietung__hero {
+  align-items: center;
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.48fr);
+}
+
+.vermietung__content {
+  max-width: 48rem;
+}
+
+.vermietung__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.vermietung__visual {
+  align-items: center;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(201, 184, 232, 0.28), transparent 11rem),
+    linear-gradient(135deg, var(--kgv-surface-sage), var(--kgv-surface));
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  min-height: 18rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.vermietung__visual span {
+  color: var(--kgv-primary);
+  font-size: clamp(4rem, 10vw, 7rem);
+}
+
+.vermietung__visual figcaption {
+  color: var(--kgv-text-muted);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ==========================================================================
+   03   Info Cards
+   ========================================================================== */
+
+.vermietung__grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vermietung-card {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.35rem;
+}
+
+.vermietung-card span {
+  align-items: center;
+  background: var(--kgv-surface-lavender);
+  border-radius: 999px;
+  color: var(--kgv-secondary);
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
+
+.vermietung-card h2,
+.vermietung__panel h2 {
+  font-family: var(--kgv-font-display);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.vermietung-card p,
+.vermietung__panel p {
+  color: var(--kgv-text-muted);
+  margin: 0;
+}
+
+/* ==========================================================================
+   04   Anfrage Panel
+   ========================================================================== */
+
+.vermietung__panel {
+  align-items: start;
+  background: linear-gradient(135deg, var(--kgv-surface), var(--kgv-surface-sage));
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 0.9fr) minmax(16rem, 0.7fr);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.vermietung__panel ul {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vermietung__panel li {
+  align-items: center;
+  display: flex;
+  gap: 0.65rem;
+  font-weight: 800;
+}
+
+.vermietung__panel li span:first-child {
+  color: var(--kgv-success);
+}
+
+/* ==========================================================================
+   05   Responsive
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  .vermietung__hero,
+  .vermietung__panel {
+    grid-template-columns: 1fr;
+  }
+
+  .vermietung__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .vermietung__grid {
+    grid-template-columns: 1fr;
+  }
+}

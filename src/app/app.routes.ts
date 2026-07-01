@@ -34,6 +34,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/gartenwissen/gartenwissen.component').then((modul) => modul.GartenwissenComponent),
   },
   {
+    path: 'galerie',
+    title: 'Galerie | KGV1925',
+    loadComponent: () => import('./pages/galerie/galerie.component').then((modul) => modul.GalerieComponent),
+  },
+  {
+    path: 'vereinshausvermietung',
+    title: 'Vereinshausvermietung | KGV1925',
+    loadComponent: () => import('./pages/vereinshausvermietung/vereinshausvermietung.component').then((modul) => modul.VereinshausvermietungComponent),
+  },
+  {
     path: 'service',
     title: 'Service | KGV1925',
     loadComponent: () => import('./pages/service/service.component').then((modul) => modul.ServiceComponent),

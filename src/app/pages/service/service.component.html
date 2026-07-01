@@ -1,9 +1,21 @@
 <!-- src/app/pages/service/service.component.html -->
 
-<section class="kgv-section kgv-section--narrow placeholder-page kgv-card" aria-labelledby="service-titel">
-  <span class="placeholder-page__icon material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
-  <p class="kgv-eyebrow">KGV1925</p>
-  <h1 id="service-titel" class="kgv-heading">Service</h1>
-  <p class="kgv-subline">Formulare, Downloads und spätere Online-Anfragen an einem zentralen Ort.</p>
-  <a class="kgv-button" routerLink="/">Zur Startseite</a>
-</section>
+<div class="kgv-page service-page">
+  <section class="kgv-section kgv-section--narrow service-hero kgv-card" aria-labelledby="service-titel">
+    <span class="service-hero__icon material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
+    <p class="kgv-eyebrow">KGV1925</p>
+    <h1 id="service-titel" class="kgv-heading">Service</h1>
+    <p class="kgv-subline">Formulare, Downloads, Vereinshausvermietung und spätere Online-Anfragen an einem zentralen Ort.</p>
+  </section>
+
+  <section class="kgv-section service-grid" aria-label="Servicebereiche">
+    @for (karte of serviceKarten; track karte.titel) {
+      <article class="service-card kgv-card">
+        <span class="material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+        <h2>{{ karte.titel }}</h2>
+        <p>{{ karte.text }}</p>
+        <a [routerLink]="karte.pfad">{{ karte.linkText }} <span aria-hidden="true">→</span></a>
+      </article>
+    }
+  </section>
+</div>

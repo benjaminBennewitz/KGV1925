@@ -19,21 +19,30 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   Placeholder Page
+   01   Service Layout
+   02   Hero
+   03   Service Grid
+   04   Service Card
+   05   Responsive
    ========================================================================== */
 
 /* ==========================================================================
-   01   Placeholder Page
+   01   Service Layout
    ========================================================================== */
 
-.placeholder-page {
+.service-page {
+  display: grid;
+  gap: 2rem;
+}
+
+.service-hero {
   display: grid;
   gap: 1rem;
   justify-items: start;
   padding: clamp(1.5rem, 4vw, 3rem);
 }
 
-.placeholder-page__icon {
+.service-hero__icon {
   align-items: center;
   background: var(--kgv-surface-sage);
   border-radius: 999px;
@@ -42,4 +51,51 @@
   height: 3.5rem;
   justify-content: center;
   width: 3.5rem;
+}
+
+.service-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.service-card {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.35rem;
+}
+
+.service-card > span {
+  align-items: center;
+  background: var(--kgv-surface-lavender);
+  border-radius: 999px;
+  color: var(--kgv-secondary);
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
+
+.service-card h2 {
+  font-family: var(--kgv-font-display);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.service-card p {
+  color: var(--kgv-text-muted);
+  margin: 0;
+}
+
+.service-card a {
+  color: var(--kgv-primary);
+  font-weight: 800;
+  margin-top: 0.35rem;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
 }

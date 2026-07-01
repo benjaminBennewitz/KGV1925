@@ -33,6 +33,11 @@ export const HAUPTNAVIGATION: Navigationspunkt[] = [
     kurztext: 'Veranstaltungen und Kalender',
   },
   {
+    label: 'Galerie',
+    pfad: '/galerie',
+    kurztext: 'Bilder aus Gartenanlage und Vereinsleben',
+  },
+  {
     label: 'Service',
     pfad: '/service',
     kurztext: 'Formulare und Downloads',

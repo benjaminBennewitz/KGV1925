@@ -1,0 +1,30 @@
+<!-- src/app/pages/galerie/galerie.component.html -->
+
+<div class="kgv-page galerie">
+  <section class="kgv-section galerie__intro" aria-labelledby="galerie-titel">
+    <div>
+      <p class="kgv-eyebrow">Gärten. Feste. Gemeinschaft.</p>
+      <h1 id="galerie-titel" class="kgv-heading">Galerie aus Anlage und Vereinsleben</h1>
+      <p class="kgv-subline">Hier entsteht eine lebendige Masonry-Galerie für Gartenbilder, Vereinsfeste und gemeinsame Aktionen.</p>
+    </div>
+    <aside class="galerie__note kgv-card">
+      <span class="material-symbols-outlined" aria-hidden="true">photo_camera</span>
+      <p>Die aktuellen Bilder sind Platzhalter. Die Komponente ist bereits für echte Fotos aus Gartenanlage und Festen vorbereitet.</p>
+    </aside>
+  </section>
+
+  <section class="kgv-section" aria-label="Bildergalerie">
+    <div class="masonry-gallery">
+      @for (bild of bilder; track bild.titel) {
+        <article class="gallery-card kgv-card" [class.gallery-card--hoch]="bild.format === 'hoch'" [class.gallery-card--gross]="bild.format === 'gross'">
+          <img [src]="bild.bild" [alt]="bild.titel">
+          <div class="gallery-card__content">
+            <span>{{ bild.kategorie }}</span>
+            <h2>{{ bild.titel }}</h2>
+            <p>{{ bild.beschreibung }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+</div>

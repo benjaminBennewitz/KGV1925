@@ -1,0 +1,51 @@
+<!-- src/app/pages/vereinshausvermietung/vereinshausvermietung.component.html -->
+
+<div class="kgv-page vermietung">
+  <section class="kgv-section vermietung__hero" aria-labelledby="vermietung-titel">
+    <div class="vermietung__content">
+      <p class="kgv-eyebrow">Vereinshaus</p>
+      <h1 id="vermietung-titel" class="kgv-heading">Vereinshausvermietung vorbereiten</h1>
+      <p class="kgv-subline">Diese Seite sammelt später alle Informationen zur Vermietung, Anfrage und Abstimmung rund um das Vereinshaus.</p>
+      <div class="vermietung__actions">
+        <a class="kgv-button" routerLink="/kontakt">
+          <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+          <span>Kontakt aufnehmen</span>
+        </a>
+        <a class="kgv-button kgv-button--secondary" routerLink="/service">
+          <span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
+          <span>Zum Service</span>
+        </a>
+      </div>
+    </div>
+    <figure class="vermietung__visual kgv-card">
+      <span class="material-symbols-outlined" aria-hidden="true">cottage</span>
+      <figcaption>Online-Formular und Verfügbarkeitsprüfung folgen in einem späteren Schritt.</figcaption>
+    </figure>
+  </section>
+
+  <section class="kgv-section vermietung__grid" aria-label="Ablauf der Vereinshausvermietung">
+    @for (info of infos; track info.titel) {
+      <article class="kgv-card vermietung-card">
+        <span class="material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
+        <h2>{{ info.titel }}</h2>
+        <p>{{ info.text }}</p>
+      </article>
+    }
+  </section>
+
+  <section class="kgv-section vermietung__panel kgv-card" aria-labelledby="anfrage-vorbereiten">
+    <div>
+      <p class="kgv-eyebrow">Mietanfrage</p>
+      <h2 id="anfrage-vorbereiten">Welche Angaben später benötigt werden</h2>
+      <p>Das spätere Formular sollte bewusst schlank bleiben, aber genug Informationen liefern, damit der Verein die Anfrage schnell einschätzen kann.</p>
+    </div>
+    <ul>
+      @for (eintrag of vorbereitungsListe; track eintrag) {
+        <li>
+          <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+          <span>{{ eintrag }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+</div>

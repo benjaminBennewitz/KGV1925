@@ -20,9 +20,17 @@
    INHALTSVERZEICHNIS
 
    01   Skip Link
+   02   Floating Controls
+   03   Schriftmodus
+   04   Bewegungsmodi
+   05   Kontrastmodus
+   06   Farbmodi
+   07   Neuromodus
+   08   Bildschirmlupe
+   09   Responsive und Pointer
    ========================================================================== */
 
-/* ==========================================================================
+/* ========================================================================== 
    01   Skip Link
    ========================================================================== */
 
@@ -38,10 +46,229 @@
   top: 0;
   transform: translateY(-120%);
   transition: transform 180ms ease;
-  z-index: 1000;
+  z-index: 1400;
 }
 
 .skip-link:focus,
 .skip-link:focus-visible {
   transform: translateY(0);
+}
+
+/* ========================================================================== 
+   02   Floating Controls
+   ========================================================================== */
+
+:root {
+  --kgv-floating-button-size: 3rem;
+  --kgv-floating-button-right: 1.25rem;
+  --kgv-floating-button-bottom: 1.25rem;
+  --kgv-floating-button-gap: 0.75rem;
+}
+
+/* ========================================================================== 
+   03   Schriftmodus
+   ========================================================================== */
+
+html[data-kgv-font='gross'] {
+  font-size: 112.5%;
+}
+
+/* ========================================================================== 
+   04   Bewegungsmodi
+   ========================================================================== */
+
+html[data-kgv-motion='reduziert'] *,
+html[data-kgv-motion='reduziert'] *::before,
+html[data-kgv-motion='reduziert'] *::after {
+  animation-duration: 80ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 80ms !important;
+}
+
+html[data-kgv-motion='aus'] *,
+html[data-kgv-motion='aus'] *::before,
+html[data-kgv-motion='aus'] *::after,
+html[data-kgv-comfort='ruhig'] *,
+html[data-kgv-comfort='ruhig'] *::before,
+html[data-kgv-comfort='ruhig'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ========================================================================== 
+   05   Kontrastmodus
+   ========================================================================== */
+
+html[data-kgv-contrast='hoch'] {
+  --kgv-background: #ffffff;
+  --kgv-background-soft: #ffffff;
+  --kgv-background-warm: #ffffff;
+  --kgv-surface: #ffffff;
+  --kgv-surface-soft: #ffffff;
+  --kgv-surface-sage: #f4faf4;
+  --kgv-surface-lavender: #f7f2ff;
+  --kgv-text-main: #07130b;
+  --kgv-text-muted: #1f2d24;
+  --kgv-text-soft: #2d4033;
+  --kgv-primary: #123d29;
+  --kgv-primary-hover: #082819;
+  --kgv-secondary: #563a82;
+  --kgv-border: #607166;
+  --kgv-border-soft: #607166;
+  --kgv-focus: #ffbf00;
+}
+
+html[data-kgv-contrast='hoch'] a:focus-visible,
+html[data-kgv-contrast='hoch'] button:focus-visible,
+html[data-kgv-contrast='hoch'] input:focus-visible,
+html[data-kgv-contrast='hoch'] textarea:focus-visible,
+html[data-kgv-contrast='hoch'] select:focus-visible,
+html[data-kgv-contrast='hoch'] summary:focus-visible {
+  outline: 4px solid var(--kgv-focus);
+  outline-offset: 4px;
+}
+
+/* ========================================================================== 
+   06   Farbmodi
+   ========================================================================== */
+
+html[data-kgv-color='rot-gruen-1'] app-root > :not(app-accessibility-mode):not(app-scroll-to-top) {
+  filter: contrast(1.08) saturate(0.86) sepia(0.04);
+}
+
+html[data-kgv-color='rot-gruen-2'] app-root > :not(app-accessibility-mode):not(app-scroll-to-top) {
+  filter: contrast(1.08) saturate(0.82) hue-rotate(-8deg);
+}
+
+html[data-kgv-color='blau-gelb'] app-root > :not(app-accessibility-mode):not(app-scroll-to-top) {
+  filter: contrast(1.08) saturate(1.05) hue-rotate(12deg);
+}
+
+html[data-kgv-color='graustufen'] app-root > :not(app-accessibility-mode):not(app-scroll-to-top) {
+  filter: grayscale(1) contrast(1.08);
+}
+
+/* ========================================================================== 
+   07   Neuromodus
+   ========================================================================== */
+
+html[data-kgv-comfort='neuro'] {
+  --kgv-shadow-soft: 0 10px 26px rgba(24, 33, 27, 0.06);
+  --kgv-shadow-strong: 0 16px 38px rgba(24, 33, 27, 0.08);
+}
+
+html[data-kgv-comfort='neuro'] body,
+html[data-kgv-comfort='ruhig'] body {
+  letter-spacing: 0.01em;
+}
+
+html[data-kgv-comfort='neuro'] p,
+html[data-kgv-comfort='neuro'] li,
+html[data-kgv-comfort='ruhig'] p,
+html[data-kgv-comfort='ruhig'] li {
+  line-height: 1.75;
+}
+
+html[data-kgv-comfort='ruhig'] {
+  --kgv-shadow-soft: none;
+  --kgv-shadow-strong: none;
+  --kgv-shadow-button: none;
+}
+
+/* ========================================================================== 
+   08   Bildschirmlupe
+   ========================================================================== */
+
+.kgv-screen-magnifier {
+  background: var(--kgv-surface);
+  border: 2px solid rgba(255, 255, 255, 0.94);
+  border-radius: 1.1rem;
+  box-shadow: 0 16px 42px rgba(24, 33, 27, 0.28), inset 0 0 0 1px rgba(24, 33, 27, 0.18);
+  contain: strict;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  will-change: transform;
+  z-index: 1198;
+}
+
+.kgv-screen-magnifier.is-visible {
+  opacity: 1;
+}
+
+.kgv-screen-magnifier::after {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 38%);
+  border-radius: inherit;
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.kgv-screen-magnifier-copy {
+  left: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transform-origin: 0 0;
+  user-select: none;
+}
+
+.kgv-screen-magnifier-copy--page {
+  background: var(--kgv-surface);
+  z-index: 1;
+}
+
+.kgv-screen-magnifier-copy--fixed {
+  background: transparent;
+  overflow: visible;
+  z-index: 2;
+}
+
+.kgv-screen-magnifier-copy--fixed app-header,
+.kgv-screen-magnifier-copy--fixed header,
+.kgv-screen-magnifier-copy--fixed [role='banner'] {
+  left: 0 !important;
+  margin: 0 !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+  width: 100% !important;
+}
+
+html[data-kgv-magnifier='an'] app-accessibility-mode button[aria-expanded='false'] {
+  box-shadow: 0 14px 34px rgba(24, 33, 27, 0.18), 0 0 0 4px rgba(238, 245, 239, 0.95);
+}
+
+html[data-kgv-motion='aus'] .kgv-screen-magnifier,
+html[data-kgv-comfort='ruhig'] .kgv-screen-magnifier {
+  transition: none !important;
+}
+
+/* ========================================================================== 
+   09   Responsive und Pointer
+   ========================================================================== */
+
+@media (max-width: 680px) {
+  :root {
+    --kgv-floating-button-size: 2.85rem;
+    --kgv-floating-button-right: 1rem;
+    --kgv-floating-button-bottom: 1rem;
+    --kgv-floating-button-gap: 0.65rem;
+  }
+}
+
+@media (pointer: coarse) {
+  .kgv-screen-magnifier {
+    display: none;
+  }
 }

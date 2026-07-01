@@ -35,6 +35,20 @@ export class StartseiteComponent {
       pfad: '/gartenwissen',
     },
     {
+      icon: 'photo_library',
+      titel: 'Galerie',
+      text: 'Eindrücke aus der Gartenanlage, von Festen und gemeinsamen Aktionen.',
+      linkText: 'Bilder ansehen',
+      pfad: '/galerie',
+    },
+    {
+      icon: 'cottage',
+      titel: 'Vereinshaus',
+      text: 'Informationen zur Vermietung und Vorbereitung deiner Anfrage.',
+      linkText: 'Vermietung ansehen',
+      pfad: '/vereinshausvermietung',
+    },
+    {
       icon: 'inventory_2',
       titel: 'Service',
       text: 'Formulare, Downloads und Infos für unsere Mitglieder.',

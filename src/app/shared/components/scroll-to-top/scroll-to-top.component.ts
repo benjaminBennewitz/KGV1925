@@ -1,6 +1,6 @@
 /* src/app/shared/components/scroll-to-top/scroll-to-top.component.ts */
 
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Component, DestroyRef, HostListener, PLATFORM_ID, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class ScrollToTopComponent {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly router = inject(Router);
 
@@ -38,10 +39,10 @@ export class ScrollToTopComponent {
   }
 
   /**
-   * Scrollt sanft zum Seitenanfang.
+   * Scrollt zum Seitenanfang und berücksichtigt die aktive Bewegungseinstellung.
    */
   protected scrollNachOben(): void {
-    this.scrollZuSeitenanfang('smooth');
+    this.scrollZuSeitenanfang(this.ermittleScrollVerhalten());
   }
 
   /**
@@ -56,5 +57,20 @@ export class ScrollToTopComponent {
       top: 0,
       behavior: verhalten,
     });
+  }
+
+  /**
+   * Ermittelt das passende Scrollverhalten aus dem Access-Modus.
+   */
+  private ermittleScrollVerhalten(): ScrollBehavior {
+    const rootElement = this.document.documentElement;
+    const bewegung = rootElement.getAttribute('data-kgv-motion');
+    const komfort = rootElement.getAttribute('data-kgv-comfort');
+
+    if (bewegung === 'voll' && komfort === 'standard') {
+      return 'smooth';
+    }
+
+    return 'auto';
   }
 }
