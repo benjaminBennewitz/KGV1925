@@ -1,0 +1,55 @@
+KGV1925/
+├── .angular/
+│   └── ...
+├── .vscode/
+│   └── ...
+├── node_modules/
+│   └── ...
+├── public/
+│   └── favicon.ico
+├── src/
+│   ├── app/
+│   │   ├── app.config.server.ts
+│   │   ├── app.config.ts
+│   │   ├── app.html
+│   │   ├── app.routes.server.ts
+│   │   ├── app.routes.ts
+│   │   ├── app.scss
+│   │   ├── app.spec.ts
+│   │   └── app.ts
+│   ├── assets/
+│   │   ├── fonts/
+│   │   │   ├── license/
+│   │   │   │   ├── OFL.txt
+│   │   │   │   └── README.txt
+│   │   │   ├── Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf
+│   │   │   ├── inter-variable.ttf
+│   │   │   └── material-symbols-outlined-latin-fill-normal.woff2
+│   │   └── img/
+│   │       ├── Entwurf/
+│   │       │   └── Entwurf-Startseite.png
+│   │       ├── KGV1925_Logo.webp
+│   │       ├── lavendel-1_aquarell.webp
+│   │       ├── lavendel-2_aquarell.webp
+│   │       ├── lavendel-3_aquarell.webp
+│   │       └── lavendel-4_aquarell.webp
+│   ├── index.html
+│   ├── main.server.ts
+│   ├── main.ts
+│   ├── server.ts
+│   └── styles.scss
+├── .editorconfig
+├── .gitignore
+├── .prettierrc
+├── angular.json
+├── DESIGNSYSTEM.md
+├── make-tree copy.ps1
+├── make-tree.ps1
+├── package.json
+├── package-lock.json
+├── README.md
+├── tools.md
+├── tree.txt
+├── tsconfig.app.json
+├── tsconfig.json
+└── tsconfig.spec.json
