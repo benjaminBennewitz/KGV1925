@@ -1,29 +1,61 @@
 <!-- src/app/shared/components/footer/footer.component.html -->
 
-<footer class="site-footer">
-  <div class="site-footer__inner">
-    <section class="site-footer__brand" aria-label="Vereinsinformationen">
-      <img src="assets/img/KGV1925_Logo.webp" alt="" width="84" height="84">
-      <div>
-        <strong>Kleingartenverein am Steinberg e.V. 1925</strong>
-        <p>Gemeinschaft. Natur. Zuhause.</p>
-      </div>
-    </section>
+<footer class="site-footer" aria-labelledby="site-footer-title">
+  <div class="site-footer__frame">
+    <div class="site-footer__wordmark" aria-hidden="true">KGV1925</div>
 
-    <nav class="site-footer__nav" aria-label="Footer Navigation">
-      @for (punkt of navigation; track punkt.pfad) {
-        <a [routerLink]="punkt.pfad">{{ punkt.label }}</a>
-      }
-    </nav>
+    <div class="site-footer__content">
+      <section class="site-footer__intro" aria-labelledby="site-footer-title">
+        <div class="site-footer__brand-row">
+          <img src="assets/img/KGV1925_Logo-Marke.webp" alt="" width="72" height="72">
+          <p class="site-footer__eyebrow">Kleingartenverein am Steinberg e.V. 1925</p>
+        </div>
 
-    <section class="site-footer__note" aria-label="Hinweis zur Website">
-      <img src="assets/img/lavendel-4_aquarell.webp" alt="" width="96" height="96">
-      <p>Lokale Assets, lokale Fonts und eine wartbare Grundlage für die nächsten Vereinsfunktionen.</p>
-    </section>
-  </div>
+        <h2 id="site-footer-title">Seit 1925 verwurzelt. Für Gemeinschaft gemacht.</h2>
+        <p>News, Termine, Service und Gartenwissen für Mitglieder, Besucher und alle, die den Verein kennenlernen möchten.</p>
 
-  <div class="site-footer__bottom">
-    <span>© {{ jahr }} KGV1925</span>
-    <span>Keine externen Font- oder Tracking-Dienste</span>
+        <form class="site-footer__contact" action="/kontakt" method="get" aria-label="Kontakt im Footer öffnen">
+          <label for="footer-email">Kontakt aufnehmen</label>
+          <div class="site-footer__contact-row">
+            <input id="footer-email" name="email" type="email" autocomplete="email" placeholder="deine@email.de">
+            <button type="submit">Kontakt öffnen</button>
+          </div>
+        </form>
+
+        <div class="site-footer__socials" aria-label="Social Media Kanäle">
+          @for (social of socialHinweise; track social.label) {
+            <span class="site-footer__social" [attr.title]="social.hinweis" [attr.aria-label]="social.hinweis">
+              {{ social.kurzform }}
+            </span>
+          }
+        </div>
+      </section>
+
+      <nav class="site-footer__group" aria-label="Sitemap">
+        <h3>Sitemap</h3>
+        @for (punkt of navigation; track punkt.pfad) {
+          <a [routerLink]="punkt.pfad">{{ punkt.label }}</a>
+        }
+      </nav>
+
+      <nav class="site-footer__group" aria-label="Rechtliche Seiten">
+        <h3>Rechtliches</h3>
+        @for (link of rechtlicheLinks; track link.pfad) {
+          <a [routerLink]="link.pfad">{{ link.label }}</a>
+        }
+      </nav>
+
+      <section class="site-footer__group site-footer__service" aria-label="Service Hinweise">
+        <h3>Service</h3>
+        <a routerLink="/vereinshausvermietung">Vereinshausvermietung</a>
+        <a routerLink="/galerie">Galerie</a>
+        <a routerLink="/service">Formulare & Downloads</a>
+      </section>
+    </div>
+
+    <div class="site-footer__bottom">
+      <span>© {{ jahr }} Kleingartenverein am Steinberg e.V. 1925</span>
+      <span>Designed by <strong>b<sup>2</sup> Benjamin Bennewitz</strong></span>
+    </div>
   </div>
 </footer>
