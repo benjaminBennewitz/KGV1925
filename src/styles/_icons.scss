@@ -1,0 +1,80 @@
+/*###############################
+###
+###     _icons.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Material Icons
+   02   Icon Varianten
+   03   Icon Badges
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Material Icons
+   ========================================================================== */
+
+.material-symbols-outlined,
+.kgv-icon {
+  align-items: center;
+  direction: ltr;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-feature-settings: 'liga';
+  font-size: 1.25em;
+  font-style: normal;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-weight: 400;
+  justify-content: center;
+  letter-spacing: normal;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.kgv-icon--filled {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+.kgv-icon--small {
+  font-size: 1rem;
+}
+
+.kgv-icon--large {
+  font-size: 1.75rem;
+}
+
+.kgv-icon-badge {
+  align-items: center;
+  background: var(--kgv-surface-sage);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-primary);
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
+
+.kgv-icon-badge--lavender {
+  background: var(--kgv-surface-lavender);
+  color: var(--kgv-secondary);
+}

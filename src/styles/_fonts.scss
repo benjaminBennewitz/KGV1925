@@ -1,6 +1,6 @@
 /*###############################
 ###
-###     app.scss
+###     _fonts.scss
 ###     KGV1925 Website
 ###     BASED ON: Angular 21.02.0, SCSS
 ###     AUTHOR: Benjamin Bennewitz
@@ -19,14 +19,33 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   App Host
+   01   Font Face
    ========================================================================== */
 
 /* ==========================================================================
-   01   App Host
+   01   Font Face
    ========================================================================== */
 
-:host {
-  display: block;
-  min-height: 100dvh;
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url('/assets/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/assets/fonts/inter-variable.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('/assets/fonts/material-symbols-outlined-latin-fill-normal.woff2') format('woff2');
 }

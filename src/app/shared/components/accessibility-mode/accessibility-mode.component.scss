@@ -1,0 +1,97 @@
+/*###############################
+###
+###     accessibility-mode.component.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Access Button
+   02   Panel
+   03   Options
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Access Button
+   ========================================================================== */
+
+.accessibility {
+  bottom: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: end;
+  position: fixed;
+  right: 1rem;
+  z-index: 90;
+}
+
+.accessibility__trigger {
+  align-items: center;
+  background: var(--kgv-primary);
+  border: 1px solid var(--kgv-primary);
+  border-radius: 999px;
+  box-shadow: var(--kgv-shadow-strong);
+  color: var(--kgv-text-inverse);
+  display: inline-flex;
+  font-weight: 800;
+  gap: 0.45rem;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+}
+
+.accessibility__panel {
+  background: var(--kgv-surface);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: 1.25rem;
+  box-shadow: var(--kgv-shadow-strong);
+  display: grid;
+  gap: 0.7rem;
+  max-width: min(21rem, calc(100vw - 2rem));
+  padding: 1rem;
+}
+
+.accessibility__panel h2 {
+  font-family: var(--kgv-font-display);
+  font-size: 1.35rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.accessibility__panel p {
+  color: var(--kgv-text-muted);
+  margin: 0;
+}
+
+.accessibility__option {
+  align-items: center;
+  background: var(--kgv-surface-soft);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: 0.85rem;
+  color: var(--kgv-text-main);
+  display: flex;
+  font-weight: 800;
+  gap: 0.55rem;
+  justify-content: flex-start;
+  min-height: 2.8rem;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+}
+
+.accessibility__option[aria-pressed='true'] {
+  background: var(--kgv-surface-sage);
+  border-color: var(--kgv-primary);
+  color: var(--kgv-primary);
+}

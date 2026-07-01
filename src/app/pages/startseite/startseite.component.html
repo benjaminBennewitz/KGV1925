@@ -1,0 +1,76 @@
+<!-- src/app/pages/startseite/startseite.component.html -->
+
+<div class="kgv-page startseite">
+  <section class="hero kgv-section" aria-labelledby="startseite-titel">
+    <div class="hero__content">
+      <p class="kgv-eyebrow">Gemeinschaft. Natur. Zuhause.</p>
+      <h1 id="startseite-titel" class="kgv-heading">Seit 1925 verwurzelt in unserer Gemeinschaft.</h1>
+      <p class="kgv-subline">Unser Kleingartenverein am Steinberg e.V. 1925 steht für traditionelle Gartenkultur, gelebte Nachbarschaft und eine grüne Zukunft.</p>
+
+      <div class="hero__actions">
+        <a class="kgv-button" routerLink="/verein">
+          <span class="material-symbols-outlined" aria-hidden="true">eco</span>
+          <span>Über unseren Verein</span>
+        </a>
+        <a class="kgv-button kgv-button--secondary" routerLink="/termine">
+          <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>
+          <span>Nächste Termine</span>
+        </a>
+      </div>
+    </div>
+
+    <figure class="hero__visual">
+      <img src="assets/img/lavendel-3_aquarell.webp" alt="Botanische Lavendelillustration als Platzhalter für die spätere Gartenansicht">
+      <figcaption>Naturverbunden, ruhig und gemeinschaftlich.</figcaption>
+    </figure>
+  </section>
+
+  <section class="feature-grid kgv-section" aria-label="Schnelleinstiege">
+    @for (karte of funktionskarten; track karte.titel) {
+      <article class="feature-card kgv-card">
+        <span class="feature-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+        <h2>{{ karte.titel }}</h2>
+        <p>{{ karte.text }}</p>
+        <a [routerLink]="karte.pfad">{{ karte.linkText }} <span aria-hidden="true">→</span></a>
+      </article>
+    }
+  </section>
+
+  <section class="news-panel kgv-section" aria-labelledby="startseite-aktuelles">
+    <div>
+      <div class="section-title">
+        <h2 id="startseite-aktuelles">Aktuelles aus dem Verein</h2>
+        <a routerLink="/aktuelles">Alle Nachrichten <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="news-list">
+        @for (beitrag of aktuelleBeitraege; track beitrag.slug) {
+          <article class="news-item">
+            <img [src]="beitrag.bild" alt="">
+            <div>
+              <h3><a [routerLink]="['/aktuelles', beitrag.slug]">{{ beitrag.titel }}</a></h3>
+              <p>{{ beitrag.kurztext }}</p>
+              <span>{{ beitrag.datum }} · {{ beitrag.kategorie }}</span>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+
+    <aside class="welcome-card" aria-label="Willkommen im Grünen">
+      <img src="assets/img/lavendel-2_aquarell.webp" alt="" width="160">
+      <h2>Willkommen im Grünen</h2>
+      <p>Unsere Anlage ist mehr als nur ein Ort zum Gärtnern. Sie ist ein Raum zum Entspannen, Austauschen und Wachsen.</p>
+      <a class="kgv-button" routerLink="/verein">Mehr über unsere Anlage</a>
+    </aside>
+  </section>
+
+  <section class="stats kgv-section" aria-label="Vereinskennzahlen">
+    @for (zahl of kennzahlen; track zahl.label) {
+      <article>
+        <strong>{{ zahl.wert }}</strong>
+        <span>{{ zahl.label }}</span>
+      </article>
+    }
+  </section>
+</div>

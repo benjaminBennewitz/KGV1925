@@ -1,6 +1,6 @@
 /*###############################
 ###
-###     app.scss
+###     _accessibility.scss
 ###     KGV1925 Website
 ###     BASED ON: Angular 21.02.0, SCSS
 ###     AUTHOR: Benjamin Bennewitz
@@ -19,14 +19,29 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   App Host
+   01   Skip Link
    ========================================================================== */
 
 /* ==========================================================================
-   01   App Host
+   01   Skip Link
    ========================================================================== */
 
-:host {
-  display: block;
-  min-height: 100dvh;
+.skip-link {
+  background: var(--kgv-primary);
+  border-radius: 0 0 var(--kgv-radius-md) var(--kgv-radius-md);
+  color: var(--kgv-text-inverse);
+  font-weight: 800;
+  left: 1rem;
+  padding: 0.75rem 1rem;
+  position: fixed;
+  text-decoration: none;
+  top: 0;
+  transform: translateY(-120%);
+  transition: transform 180ms ease;
+  z-index: 1000;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
 }

@@ -1,0 +1,103 @@
+/*###############################
+###
+###     aktuelles.component.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Aktuelles Layout
+   02   Header
+   03   News Grid
+   04   News Card
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Aktuelles Layout
+   ========================================================================== */
+
+.aktuelles {
+  display: grid;
+  gap: 2rem;
+}
+
+.aktuelles__header {
+  max-width: 48rem;
+}
+
+.blog-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.blog-card {
+  display: grid;
+  overflow: hidden;
+}
+
+.blog-card img {
+  aspect-ratio: 16 / 10;
+  background: var(--kgv-surface-sage);
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.blog-card__content {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.25rem;
+}
+
+.blog-card span {
+  color: var(--kgv-secondary);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.blog-card h2 {
+  font-family: var(--kgv-font-display);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.blog-card h2 a,
+.blog-card__link {
+  color: var(--kgv-primary);
+  text-decoration: none;
+}
+
+.blog-card p {
+  color: var(--kgv-text-muted);
+  margin: 0;
+}
+
+.blog-card__link {
+  font-weight: 800;
+}
+
+@media (max-width: 980px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}

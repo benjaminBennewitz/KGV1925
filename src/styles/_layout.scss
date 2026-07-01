@@ -1,0 +1,126 @@
+/*###############################
+###
+###     _layout.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Main Layout
+   02   Sections
+   03   Cluster
+   04   Grid
+   05   Stack
+   06   Visually Hidden
+   07   Responsive Layout
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Main Layout
+   ========================================================================== */
+
+.app-main {
+  min-height: 70dvh;
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+}
+
+.kgv-page {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.kgv-section {
+  margin-inline: auto;
+  width: min(100% - 2rem, var(--kgv-content-width));
+}
+
+.kgv-section--wide {
+  width: min(100% - 2rem, var(--kgv-wide-width));
+}
+
+.kgv-section--narrow {
+  width: min(100% - 2rem, var(--kgv-narrow-width));
+}
+
+.kgv-section-header {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 48rem;
+}
+
+.kgv-cluster {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.kgv-cluster--between {
+  justify-content: space-between;
+}
+
+.kgv-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.kgv-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.kgv-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kgv-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.kgv-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.kgv-stack--large {
+  gap: 1.5rem;
+}
+
+.kgv-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@media (max-width: 980px) {
+  .kgv-grid--3,
+  .kgv-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .kgv-grid--2,
+  .kgv-grid--3,
+  .kgv-grid--4 {
+    grid-template-columns: 1fr;
+  }
+}

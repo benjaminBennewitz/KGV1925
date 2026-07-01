@@ -1,0 +1,119 @@
+/*###############################
+###
+###     _buttons.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Button Basis
+   02   Button Varianten
+   03   Button Größen
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Button Basis
+   ========================================================================== */
+
+.kgv-button {
+  align-items: center;
+  appearance: none;
+  background: var(--kgv-primary);
+  border: 1px solid var(--kgv-primary);
+  border-radius: var(--kgv-radius-sm);
+  box-shadow: var(--kgv-shadow-button);
+  color: var(--kgv-text-inverse);
+  display: inline-flex;
+  font-weight: 800;
+  gap: 0.5rem;
+  justify-content: center;
+  line-height: 1.2;
+  min-height: 2.85rem;
+  padding: 0.75rem 1.1rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.kgv-button:hover {
+  background: var(--kgv-primary-hover);
+  border-color: var(--kgv-primary-hover);
+  color: var(--kgv-text-inverse);
+  transform: translateY(-1px);
+}
+
+.kgv-button:active {
+  background: var(--kgv-primary-active);
+  border-color: var(--kgv-primary-active);
+  transform: translateY(0);
+}
+
+.kgv-button--secondary {
+  background: var(--kgv-surface);
+  border-color: var(--kgv-secondary);
+  box-shadow: none;
+  color: var(--kgv-secondary);
+}
+
+.kgv-button--secondary:hover {
+  background: var(--kgv-surface-lavender);
+  border-color: var(--kgv-secondary-hover);
+  color: var(--kgv-secondary-hover);
+}
+
+.kgv-button--ghost {
+  background: transparent;
+  border-color: var(--kgv-border);
+  box-shadow: none;
+  color: var(--kgv-primary);
+}
+
+.kgv-button--ghost:hover {
+  background: var(--kgv-surface-sage);
+  border-color: var(--kgv-primary);
+  color: var(--kgv-primary-hover);
+}
+
+.kgv-button--lavender {
+  background: var(--kgv-surface-lavender);
+  border-color: var(--kgv-surface-lavender-strong);
+  box-shadow: none;
+  color: var(--kgv-secondary-hover);
+}
+
+.kgv-button--lavender:hover {
+  background: var(--kgv-surface-lavender-strong);
+  border-color: var(--kgv-secondary);
+  color: var(--kgv-secondary-hover);
+}
+
+.kgv-button--small {
+  font-size: 0.9rem;
+  min-height: 2.35rem;
+  padding: 0.55rem 0.85rem;
+}
+
+.kgv-button--large {
+  min-height: 3.25rem;
+  padding: 0.9rem 1.35rem;
+}
+
+.kgv-button--icon {
+  aspect-ratio: 1;
+  border-radius: var(--kgv-radius-round);
+  min-height: 0;
+  padding: 0.75rem;
+}

@@ -1,0 +1,125 @@
+/*###############################
+###
+###     _forms.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Form Layout
+   02   Form Felder
+   03   Select
+   04   Placeholder
+   05   Fokus
+   06   Hilfs- und Fehlertexte
+   07   Checkbox
+   08   Responsive Forms
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Form Layout
+   ========================================================================== */
+
+.kgv-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.kgv-form-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.kgv-field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.kgv-label {
+  color: var(--kgv-text-main);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.kgv-input,
+.kgv-textarea,
+.kgv-select {
+  appearance: none;
+  background: var(--kgv-surface);
+  border: 1px solid var(--kgv-border);
+  border-radius: var(--kgv-radius-sm);
+  color: var(--kgv-text-main);
+  min-height: 2.9rem;
+  padding: 0.72rem 0.9rem;
+  width: 100%;
+}
+
+.kgv-textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.kgv-select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--kgv-primary) 50%), linear-gradient(135deg, var(--kgv-primary) 50%, transparent 50%);
+  background-position: calc(100% - 1.05rem) 1.22rem, calc(100% - 0.78rem) 1.22rem;
+  background-repeat: no-repeat;
+  background-size: 0.32rem 0.32rem, 0.32rem 0.32rem;
+  padding-right: 2.25rem;
+}
+
+.kgv-input::placeholder,
+.kgv-textarea::placeholder {
+  color: var(--kgv-text-soft);
+}
+
+.kgv-input:focus,
+.kgv-textarea:focus,
+.kgv-select:focus {
+  border-color: var(--kgv-focus);
+  box-shadow: 0 0 0 4px rgba(111, 85, 160, 0.12);
+  outline: 0;
+}
+
+.kgv-help-text {
+  color: var(--kgv-text-soft);
+  font-size: 0.88rem;
+}
+
+.kgv-error-text {
+  color: var(--kgv-error);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.kgv-checkbox {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.65rem;
+}
+
+.kgv-checkbox input {
+  accent-color: var(--kgv-primary);
+  height: 1.15rem;
+  margin-top: 0.2rem;
+  width: 1.15rem;
+}
+
+@media (max-width: 680px) {
+  .kgv-form-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,6 +1,6 @@
 /*###############################
 ###
-###     app.scss
+###     blog-beitrag.component.scss
 ###     KGV1925 Website
 ###     BASED ON: Angular 21.02.0, SCSS
 ###     AUTHOR: Benjamin Bennewitz
@@ -19,14 +19,45 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   App Host
+   01   Beitrag Layout
+   02   Header
+   03   Content
    ========================================================================== */
 
 /* ==========================================================================
-   01   App Host
+   01   Beitrag Layout
    ========================================================================== */
 
-:host {
-  display: block;
-  min-height: 100dvh;
+.blog-detail {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.blog-detail__back {
+  color: var(--kgv-primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.blog-detail__image {
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: 1.5rem;
+  box-shadow: var(--kgv-shadow-soft);
+  max-height: 22rem;
+  object-fit: contain;
+  padding: 2rem;
+  width: 100%;
+}
+
+.blog-detail__content {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.blog-detail__content p {
+  color: var(--kgv-text-muted);
+  font-size: 1.05rem;
+  margin: 0;
 }

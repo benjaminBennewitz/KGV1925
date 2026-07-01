@@ -1,0 +1,113 @@
+/*###############################
+###
+###     footer.component.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Footer Layout
+   02   Branding
+   03   Links
+   04   Bottom
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Footer Layout
+   ========================================================================== */
+
+.site-footer {
+  background:
+    linear-gradient(135deg, rgba(238, 245, 239, 0.84), rgba(243, 239, 249, 0.62)),
+    var(--kgv-surface);
+  border-top: 1px solid var(--kgv-border-soft);
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.site-footer__inner {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 5rem);
+  width: min(100%, 1280px);
+}
+
+.site-footer__brand {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.site-footer__brand strong {
+  display: block;
+  font-family: var(--kgv-font-display);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.site-footer__brand p,
+.site-footer__note p {
+  color: var(--kgv-text-muted);
+  margin: 0.35rem 0 0;
+}
+
+.site-footer__nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.site-footer__nav a {
+  color: var(--kgv-text-main);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-footer__nav a:hover {
+  color: var(--kgv-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+.site-footer__note {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.site-footer__note img {
+  flex: 0 0 auto;
+  opacity: 0.82;
+  width: 5rem;
+}
+
+.site-footer__bottom {
+  border-top: 1px solid var(--kgv-border-soft);
+  color: var(--kgv-text-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  justify-content: space-between;
+  margin-inline: auto;
+  padding: 1rem clamp(1rem, 4vw, 5rem);
+  width: min(100%, 1280px);
+}
+
+@media (max-width: 860px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr;
+  }
+}

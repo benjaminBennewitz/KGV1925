@@ -1,6 +1,6 @@
 /*###############################
 ###
-###     app.scss
+###     scroll-to-top.component.scss
 ###     KGV1925 Website
 ###     BASED ON: Angular 21.02.0, SCSS
 ###     AUTHOR: Benjamin Bennewitz
@@ -19,14 +19,31 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   App Host
+   01   Scroll Button
+   02   Visible State
    ========================================================================== */
 
 /* ==========================================================================
-   01   App Host
+   01   Scroll Button
    ========================================================================== */
 
-:host {
-  display: block;
-  min-height: 100dvh;
+.scroll-top {
+  align-items: center;
+  background: var(--kgv-surface);
+  border: 1px solid var(--kgv-border);
+  border-radius: 999px;
+  bottom: 1rem;
+  box-shadow: var(--kgv-shadow-soft);
+  color: var(--kgv-primary);
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  left: 1rem;
+  position: fixed;
+  width: 3rem;
+  z-index: 80;
+}
+
+.scroll-top:hover {
+  background: var(--kgv-surface-sage);
 }

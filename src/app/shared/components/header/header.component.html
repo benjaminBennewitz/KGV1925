@@ -1,0 +1,29 @@
+<!-- src/app/shared/components/header/header.component.html -->
+
+<header class="site-header">
+  <a class="brand" routerLink="/" aria-label="Zur Startseite des Kleingartenvereins am Steinberg">
+    <img class="brand__logo" src="assets/img/KGV1925_Logo.webp" alt="" width="72" height="72">
+    <span class="brand__text">
+      <span>Kleingartenverein</span>
+      <strong>am Steinberg e.V. 1925</strong>
+    </span>
+  </a>
+
+  <button class="nav-toggle" type="button" [attr.aria-expanded]="istMenueOffen()" aria-controls="hauptnavigation" (click)="schalteMenue()">
+    <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+    <span>Menü</span>
+  </button>
+
+  <nav id="hauptnavigation" class="site-nav" [class.site-nav--open]="istMenueOffen()" aria-label="Hauptnavigation">
+    @for (punkt of navigation; track punkt.pfad) {
+      <a class="site-nav__link" [routerLink]="punkt.pfad" routerLinkActive="site-nav__link--active" [routerLinkActiveOptions]="{ exact: punkt.pfad === '/' }" [attr.title]="punkt.kurztext" (click)="schliesseMenue()">
+        {{ punkt.label }}
+      </a>
+    }
+  </nav>
+
+  <a class="member-link" routerLink="/mitgliederbereich">
+    <span class="material-symbols-outlined" aria-hidden="true">person</span>
+    <span>Mitgliederbereich</span>
+  </a>
+</header>

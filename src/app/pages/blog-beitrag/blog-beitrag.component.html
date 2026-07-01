@@ -1,0 +1,19 @@
+<!-- src/app/pages/blog-beitrag/blog-beitrag.component.html -->
+
+<article class="kgv-section kgv-section--narrow blog-detail" aria-labelledby="blog-detail-titel">
+  <a class="blog-detail__back" routerLink="/aktuelles">← Zurück zur Übersicht</a>
+
+  <header class="blog-detail__header">
+    <p class="kgv-eyebrow">{{ beitrag().kategorie }} · {{ beitrag().datum }} · {{ beitrag().lesezeit }}</p>
+    <h1 id="blog-detail-titel" class="kgv-heading">{{ beitrag().titel }}</h1>
+    <p class="kgv-subline">{{ beitrag().kurztext }}</p>
+  </header>
+
+  <img class="blog-detail__image" [src]="beitrag().bild" alt="">
+
+  <div class="blog-detail__content kgv-card">
+    @for (abschnitt of beitrag().abschnitte; track abschnitt) {
+      <p>{{ abschnitt }}</p>
+    }
+  </div>
+</article>

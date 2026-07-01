@@ -1,0 +1,93 @@
+/*###############################
+###
+###     _cards.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Card Basis
+   02   Card Varianten
+   03   Interaktive Cards
+   04   Card Inner
+   05   Pills
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Card Basis
+   ========================================================================== */
+
+.kgv-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-lg);
+  box-shadow: var(--kgv-shadow-soft);
+}
+
+.kgv-card--solid {
+  background: var(--kgv-surface);
+}
+
+.kgv-card--soft {
+  background: var(--kgv-surface-soft);
+}
+
+.kgv-card--sage {
+  background: var(--kgv-surface-sage);
+}
+
+.kgv-card--lavender {
+  background: var(--kgv-surface-lavender);
+}
+
+.kgv-card--interactive {
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.kgv-card--interactive:hover {
+  border-color: var(--kgv-border);
+  box-shadow: var(--kgv-shadow-strong);
+  transform: translateY(-2px);
+}
+
+.kgv-card__inner {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.kgv-pill {
+  align-items: center;
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-primary);
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 800;
+  gap: 0.35rem;
+  line-height: 1.2;
+  padding: 0.4rem 0.7rem;
+  text-decoration: none;
+}
+
+.kgv-pill--lavender {
+  background: var(--kgv-surface-lavender);
+  color: var(--kgv-secondary-hover);
+}
+
+.kgv-pill--sand {
+  background: color-mix(in srgb, var(--kgv-accent-sand) 24%, white);
+  color: #604300;
+}

@@ -1,6 +1,6 @@
 /*###############################
 ###
-###     app.scss
+###     verein.component.scss
 ###     KGV1925 Website
 ###     BASED ON: Angular 21.02.0, SCSS
 ###     AUTHOR: Benjamin Bennewitz
@@ -19,14 +19,45 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   App Host
+   01   Verein Layout
+   02   Hero Card
    ========================================================================== */
 
 /* ==========================================================================
-   01   App Host
+   01   Verein Layout
    ========================================================================== */
 
-:host {
-  display: block;
-  min-height: 100dvh;
+.page-card {
+  display: grid;
+  gap: 2rem;
+}
+
+.topic-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.topic-grid article {
+  padding: 1.25rem;
+}
+
+.topic-grid span {
+  color: var(--kgv-primary);
+}
+
+.topic-grid h2 {
+  font-family: var(--kgv-font-display);
+  margin: 0.75rem 0 0;
+}
+
+.topic-grid p {
+  color: var(--kgv-text-muted);
+  margin: 0.35rem 0 0;
+}
+
+@media (max-width: 620px) {
+  .topic-grid {
+    grid-template-columns: 1fr;
+  }
 }

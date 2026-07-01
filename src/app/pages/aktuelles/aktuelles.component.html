@@ -1,0 +1,23 @@
+<!-- src/app/pages/aktuelles/aktuelles.component.html -->
+
+<section class="kgv-section aktuelles" aria-labelledby="aktuelles-titel">
+  <div class="aktuelles__header">
+    <p class="kgv-eyebrow">Aktuelles</p>
+    <h1 id="aktuelles-titel" class="kgv-heading">Neuigkeiten aus dem Verein.</h1>
+    <p class="kgv-subline">Die Übersichtskomponente sammelt Blogkarten, Hinweise und spätere Kategorien. Die einzelnen Beiträge nutzen ein gemeinsames dynamisches Template.</p>
+  </div>
+
+  <div class="blog-grid">
+    @for (beitrag of beitraege; track beitrag.slug) {
+      <article class="blog-card kgv-card">
+        <img [src]="beitrag.bild" alt="">
+        <div class="blog-card__content">
+          <span>{{ beitrag.kategorie }} · {{ beitrag.datum }}</span>
+          <h2><a [routerLink]="['/aktuelles', beitrag.slug]">{{ beitrag.titel }}</a></h2>
+          <p>{{ beitrag.kurztext }}</p>
+          <a class="blog-card__link" [routerLink]="['/aktuelles', beitrag.slug]">Beitrag lesen <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    }
+  </div>
+</section>

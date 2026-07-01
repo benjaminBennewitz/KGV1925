@@ -1,0 +1,17 @@
+<!-- src/app/pages/verein/verein.component.html -->
+
+<section class="kgv-section kgv-section--narrow page-card" aria-labelledby="verein-titel">
+  <p class="kgv-eyebrow">Unser Verein</p>
+  <h1 id="verein-titel" class="kgv-heading">Gemeinschaft mit gewachsenen Wurzeln.</h1>
+  <p class="kgv-subline">Diese Seite bündelt später Geschichte, Vorstand, Anlage, Mitgliedschaft und alles, was den Kleingartenverein am Steinberg ausmacht.</p>
+
+  <div class="topic-grid">
+    @for (thema of themen; track thema) {
+      <article class="kgv-card">
+        <span class="material-symbols-outlined" aria-hidden="true">eco</span>
+        <h2>{{ thema }}</h2>
+        <p>Inhalt folgt im nächsten Ausbauschritt.</p>
+      </article>
+    }
+  </div>
+</section>

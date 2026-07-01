@@ -1,0 +1,7 @@
+<!-- src/app/shared/components/scroll-to-top/scroll-to-top.component.html -->
+
+@if (istSichtbar()) {
+  <button class="scroll-top" type="button" aria-label="Zum Seitenanfang scrollen" (click)="scrollNachOben()">
+    <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+  </button>
+}

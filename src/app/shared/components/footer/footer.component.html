@@ -1,0 +1,29 @@
+<!-- src/app/shared/components/footer/footer.component.html -->
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <section class="site-footer__brand" aria-label="Vereinsinformationen">
+      <img src="assets/img/KGV1925_Logo.webp" alt="" width="84" height="84">
+      <div>
+        <strong>Kleingartenverein am Steinberg e.V. 1925</strong>
+        <p>Gemeinschaft. Natur. Zuhause.</p>
+      </div>
+    </section>
+
+    <nav class="site-footer__nav" aria-label="Footer Navigation">
+      @for (punkt of navigation; track punkt.pfad) {
+        <a [routerLink]="punkt.pfad">{{ punkt.label }}</a>
+      }
+    </nav>
+
+    <section class="site-footer__note" aria-label="Hinweis zur Website">
+      <img src="assets/img/lavendel-4_aquarell.webp" alt="" width="96" height="96">
+      <p>Lokale Assets, lokale Fonts und eine wartbare Grundlage für die nächsten Vereinsfunktionen.</p>
+    </section>
+  </div>
+
+  <div class="site-footer__bottom">
+    <span>© {{ jahr }} KGV1925</span>
+    <span>Keine externen Font- oder Tracking-Dienste</span>
+  </div>
+</footer>

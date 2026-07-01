@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+/*###############################
+###
+###     styles.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Style Module
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Style Module
+   ========================================================================== */
+
+@use './styles/fonts';
+@use './styles/tokens';
+@use './styles/base';
+@use './styles/typography';
+@use './styles/icons';
+@use './styles/layout';
+@use './styles/buttons';
+@use './styles/cards';
+@use './styles/forms';
+@use './styles/accessibility';

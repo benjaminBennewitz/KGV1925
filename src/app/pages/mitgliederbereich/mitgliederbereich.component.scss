@@ -1,6 +1,6 @@
 /*###############################
 ###
-###     app.scss
+###     mitgliederbereich.component.scss
 ###     KGV1925 Website
 ###     BASED ON: Angular 21.02.0, SCSS
 ###     AUTHOR: Benjamin Bennewitz
@@ -19,14 +19,27 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   App Host
+   01   Placeholder Page
    ========================================================================== */
 
 /* ==========================================================================
-   01   App Host
+   01   Placeholder Page
    ========================================================================== */
 
-:host {
-  display: block;
-  min-height: 100dvh;
+.placeholder-page {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.placeholder-page__icon {
+  align-items: center;
+  background: var(--kgv-surface-sage);
+  border-radius: 999px;
+  color: var(--kgv-primary);
+  display: inline-flex;
+  height: 3.5rem;
+  justify-content: center;
+  width: 3.5rem;
 }

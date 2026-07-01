@@ -1,0 +1,154 @@
+/*###############################
+###
+###     _base.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Reset
+   02   HTML und Body
+   03   Accessibility Overrides
+   04   Interaktive Elemente
+   05   Medien
+   06   Fokus
+   07   Reduced Motion
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Reset
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(169, 191, 168, 0.2), transparent 24rem),
+    radial-gradient(circle at 92% 12%, rgba(201, 184, 232, 0.18), transparent 22rem),
+    linear-gradient(180deg, var(--kgv-background) 0%, var(--kgv-background-soft) 100%);
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.kgv-font-large {
+  font-size: 18px;
+}
+
+body.kgv-high-contrast {
+  --kgv-background: #ffffff;
+  --kgv-background-soft: #ffffff;
+  --kgv-background-warm: #ffffff;
+  --kgv-surface: #ffffff;
+  --kgv-surface-soft: #ffffff;
+  --kgv-surface-sage: #f4faf4;
+  --kgv-surface-lavender: #f7f2ff;
+  --kgv-text-main: #07130b;
+  --kgv-text-muted: #1f2d24;
+  --kgv-text-soft: #2d4033;
+  --kgv-primary: #123d29;
+  --kgv-primary-hover: #082819;
+  --kgv-secondary: #563a82;
+  --kgv-border: #607166;
+  --kgv-border-soft: #607166;
+}
+
+body.kgv-reduced-motion *,
+body.kgv-reduced-motion *::before,
+body.kgv-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled,
+a[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+svg {
+  height: auto;
+}
+
+::selection {
+  background: var(--kgv-surface-lavender-strong);
+  color: var(--kgv-text-main);
+}
+
+:focus-visible {
+  outline: 3px solid var(--kgv-focus);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

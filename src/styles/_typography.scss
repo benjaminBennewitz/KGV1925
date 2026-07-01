@@ -1,0 +1,122 @@
+/*###############################
+###
+###     _typography.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Headings
+   02   Textfluss
+   03   Eyebrow
+   04   Headings Utilities
+   05   Subline
+   06   Textfarben
+   07   Links
+   08   Listen
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Headings
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+p + p {
+  margin-top: 1rem;
+}
+
+.kgv-eyebrow {
+  color: var(--kgv-primary);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.8rem;
+  text-transform: uppercase;
+}
+
+.kgv-heading {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  margin: 0;
+}
+
+.kgv-heading--medium {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.kgv-heading--small {
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+}
+
+.kgv-subline {
+  color: var(--kgv-text-muted);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.75;
+  margin: 1.25rem 0 0;
+  max-width: 42rem;
+}
+
+.kgv-text-muted {
+  color: var(--kgv-text-muted);
+}
+
+.kgv-text-soft {
+  color: var(--kgv-text-soft);
+}
+
+.kgv-link {
+  color: var(--kgv-primary);
+  font-weight: 800;
+  text-decoration: none;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25rem;
+}
+
+.kgv-link:hover {
+  color: var(--kgv-primary-hover);
+  text-decoration: underline;
+}
+
+.kgv-list {
+  display: grid;
+  gap: 0.5rem;
+  margin-block: 0;
+  padding-left: 1.25rem;
+}
