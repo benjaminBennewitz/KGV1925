@@ -15,25 +15,15 @@ Eine helle, moderne und barrierearme Vereinswebsite mit lokal eingebundenen Asse
 
 ---
 
-## Projektüberblick
-
-Die Website des **Kleingartenverein am Steinberg e.V. 1925** soll weit mehr sein als eine klassische Vereinspräsenz. Sie verbindet Vereinsleben, News, Termine, Service und Gartenwissen in einer ruhigen, hochwertigen Oberfläche, die zur visuellen Richtung des Entwurfs passt.
-
-Im Mittelpunkt stehen:
-
-- eine freundliche und repräsentative Außenwirkung
-- gute Lesbarkeit für alle Generationen
-- lokale Verarbeitung ohne unnötige Drittanbieter-Dienste
-- hohe Wartbarkeit und nachvollziehbare Struktur
-- Accessibility, SEO und Performance von Beginn an
-
-## Designvorschau
-
-Die README orientiert sich visuell am aktuellen Startseiten-Entwurf. Das vollständige Website-Design selbst wird natürlich im Frontend umgesetzt, aber die Dokumentation greift dieselbe Richtung bereits auf.
-
-<div align="center">
-  <img src="src/assets/img/Entwurf/Entwurf-Startseite.png" alt="Entwurf der KGV1925 Startseite im Bright Botanical Heritage Designsystem" width="960">
-</div>
+<table>
+  <tr>
+    <td bgcolor="#EEF5EF">
+      <h2>Projektüberblick</h2>
+      <p>Die Website des <strong>Kleingartenverein am Steinberg e.V. 1925</strong> soll weit mehr sein als eine klassische Vereinspräsenz. Sie verbindet Vereinsleben, News, Termine, Service und Gartenwissen in einer ruhigen, hochwertigen Oberfläche.</p>
+      <p>Im Mittelpunkt stehen gute Lesbarkeit, klare Navigation, lokale Verarbeitung, Barrierefreiheit und eine langfristig wartbare technische Grundlage.</p>
+    </td>
+  </tr>
+</table>
 
 ## Aktueller Projektstand
 
@@ -43,13 +33,15 @@ Phase: Angular-Grundlage, SSR-Setup, Asset-Struktur und Designsystem
 Priorität: App Shell, Startseite, Header, Footer und Basis-Komponenten
 ```
 
-Das visuelle Fundament liegt in `DESIGNSYSTEM.md` vor und bildet die Grundlage für die kommenden Komponenten und Seitenbereiche.
-
-## Designsystem
-
-Das aktuelle Designsystem heißt **Bright Botanical Heritage**.
-
-Es verbindet Tradition, Natürlichkeit und moderne digitale Klarheit. Die Gestaltung soll hochwertig, weich und hell wirken, ohne beliebig, kitschig oder verspielt zu werden. Die Richtung orientiert sich am vorliegenden Entwurf mit cremefarbenen Flächen, salbeigrünen Primäraktionen, lavendelfarbenen Akzenten und großzügigen Content-Karten.
+<table>
+  <tr>
+    <td bgcolor="#F6F3EE">
+      <h2>Designsystem</h2>
+      <p>Das aktuelle Designsystem heißt <strong>Bright Botanical Heritage</strong>.</p>
+      <p>Es verbindet Tradition, Natürlichkeit und moderne digitale Klarheit. Die Gestaltung soll hochwertig, weich und hell wirken, ohne beliebig, kitschig oder verspielt zu werden.</p>
+    </td>
+  </tr>
+</table>
 
 ### Gestalterische Leitlinien
 
@@ -66,94 +58,106 @@ Es verbindet Tradition, Natürlichkeit und moderne digitale Klarheit. Die Gestal
   <img src="src/assets/img/lavendel-2_aquarell.webp" alt="Lavendel-Aquarell als ruhiges Gestaltungselement des Designsystems" width="196">
 </div>
 
-## Farbwelt
+<table>
+  <tr>
+    <td bgcolor="#F3EFF9">
+      <h2>Farbwelt</h2>
+      <p>Die Farbpalette orientiert sich am aktuellen Entwurf: helle Cremeflächen, Salbeigrün als tragende Vereinsfarbe, Lavendel als weicher Akzent und Sandtöne für saisonale Hinweise.</p>
+    </td>
+  </tr>
+</table>
 
-Die README zeigt die wichtigsten Farben des Designsystems jetzt auch optisch. So liegt die Dokumentation näher am tatsächlichen Entwurf.
+### Hauptfarben
 
 <table>
   <tr>
-    <th>Farbrolle</th>
     <th>Vorschau</th>
-    <th>Hex</th>
+    <th>Token</th>
+    <th>Wert</th>
     <th>Verwendung</th>
   </tr>
   <tr>
-    <td>Hintergrund</td>
-    <td bgcolor="#FBFAF6" width="56">&nbsp;</td>
+    <td bgcolor="#FBFAF6" width="72">&nbsp;</td>
+    <td>Background</td>
     <td><code>#FBFAF6</code></td>
     <td>Grundfläche der Website</td>
   </tr>
   <tr>
+    <td bgcolor="#FFFFFF" width="72">&nbsp;</td>
     <td>Surface</td>
-    <td bgcolor="#FFFFFF" width="56">&nbsp;</td>
     <td><code>#FFFFFF</code></td>
-    <td>Karten, Header, helle UI-Flächen</td>
+    <td>Karten, Header und helle UI-Flächen</td>
   </tr>
   <tr>
+    <td bgcolor="#F6F3EE" width="72">&nbsp;</td>
     <td>Soft Cream</td>
-    <td bgcolor="#F6F3EE" width="56">&nbsp;</td>
     <td><code>#F6F3EE</code></td>
-    <td>weiche Seiten- und Zwischenflächen</td>
+    <td>ruhige Seiten- und Zwischenflächen</td>
   </tr>
   <tr>
+    <td bgcolor="#315C45" width="72">&nbsp;</td>
     <td>Primärgrün</td>
-    <td bgcolor="#315C45" width="56">&nbsp;</td>
     <td><code>#315C45</code></td>
-    <td>Buttons, aktive Navigation, wichtige Aktionen</td>
+    <td>Buttons, aktive Navigation und wichtige Aktionen</td>
   </tr>
   <tr>
+    <td bgcolor="#244936" width="72">&nbsp;</td>
     <td>Primärgrün Hover</td>
-    <td bgcolor="#244936" width="56">&nbsp;</td>
     <td><code>#244936</code></td>
     <td>Hover- und aktive Zustände</td>
   </tr>
   <tr>
+    <td bgcolor="#EEF5EF" width="72">&nbsp;</td>
     <td>Salbei hell</td>
-    <td bgcolor="#EEF5EF" width="56">&nbsp;</td>
     <td><code>#EEF5EF</code></td>
-    <td>sekundäre Flächen und Natur-Highlights</td>
+    <td>sekundäre Naturflächen</td>
   </tr>
   <tr>
+    <td bgcolor="#DFEADE" width="72">&nbsp;</td>
     <td>Salbei kräftig</td>
-    <td bgcolor="#DFEADE" width="56">&nbsp;</td>
     <td><code>#DFEADE</code></td>
-    <td>stärkere Vereins- und Themenflächen</td>
+    <td>stärkere Themenflächen</td>
   </tr>
   <tr>
+    <td bgcolor="#F3EFF9" width="72">&nbsp;</td>
     <td>Lavendel hell</td>
-    <td bgcolor="#F3EFF9" width="56">&nbsp;</td>
     <td><code>#F3EFF9</code></td>
-    <td>freundliche Akzentflächen und Hinweise</td>
+    <td>freundliche Akzentflächen</td>
   </tr>
   <tr>
+    <td bgcolor="#E8DFF5" width="72">&nbsp;</td>
     <td>Lavendel kräftig</td>
-    <td bgcolor="#E8DFF5" width="56">&nbsp;</td>
     <td><code>#E8DFF5</code></td>
-    <td>Buttons, Teaser und Service-Akzente</td>
+    <td>Service-Akzente und Teaser</td>
   </tr>
   <tr>
-    <td>Text dunkel</td>
-    <td bgcolor="#18211B" width="56">&nbsp;</td>
-    <td><code>#18211B</code></td>
-    <td>Hauptüberschriften und starker Fließtext</td>
-  </tr>
-  <tr>
-    <td>Text sekundär</td>
-    <td bgcolor="#48534B" width="56">&nbsp;</td>
-    <td><code>#48534B</code></td>
-    <td>sekundäre Texte und Beschreibungen</td>
-  </tr>
-  <tr>
-    <td>Sand-Akzent</td>
-    <td bgcolor="#D8BC7A" width="56">&nbsp;</td>
+    <td bgcolor="#D8BC7A" width="72">&nbsp;</td>
+    <td>Sand</td>
     <td><code>#D8BC7A</code></td>
-    <td>saisonale Highlights und dezente Akzente</td>
+    <td>saisonale Hinweise und dezente Highlights</td>
   </tr>
+</table>
+
+### Kontrast- und Zustandsfarben
+
+| Token | Wert | Verwendung |
+| --- | --- | --- |
+| `text-main` | `#18211B` | Haupttext und Überschriften |
+| `text-muted` | `#48534B` | sekundärer Text |
+| `text-soft` | `#667267` | dezente Zusatzinformationen |
+| `focus` | `#6F55A0` | sichtbarer Tastaturfokus |
+| `success` | `#2F6F4E` | Erfolgsmeldungen |
+| `warning` | `#8A6500` | Warnhinweise |
+| `error` | `#B42318` | Fehlermeldungen |
+| `border` | `#D8DED6` | Standardrahmen |
+| `border-soft` | `#E8ECE5` | dezente Trenner |
+
+<table>
   <tr>
-    <td>Fokus</td>
-    <td bgcolor="#6F55A0" width="56">&nbsp;</td>
-    <td><code>#6F55A0</code></td>
-    <td>sichtbare Tastaturfokus-Zustände</td>
+    <td bgcolor="#EEF5EF">
+      <h2>Visuelle Richtung</h2>
+      <p><strong>Cremeflächen, Salbeigrün und Lavendel-Akzente</strong> bilden die gestalterische Basis. Botanische Illustrationen werden sparsam eingesetzt, damit Inhalte, Formulare und wichtige Hinweise immer im Vordergrund bleiben.</p>
+    </td>
   </tr>
 </table>
 
@@ -180,16 +184,23 @@ Alle Schriften und Icons werden lokal ausgeliefert.
 | Standard-Schatten | `0 18px 48px rgba(24, 33, 27, 0.08)` |
 | Hover-Schatten | `0 24px 64px rgba(24, 33, 27, 0.12)` |
 
-## Projektziele
+<table>
+  <tr>
+    <td bgcolor="#F6F3EE">
+      <h2>Projektziele</h2>
+      <p>Die Website soll Vereinsinformationen verständlich bündeln, Besucher ansprechen, Mitglieder informieren und spätere Erweiterungen wie einen geschützten Mitgliederbereich sauber vorbereiten.</p>
+    </td>
+  </tr>
+</table>
 
 <table>
   <tr>
-    <td><strong>Aktuelles</strong><br>News, Hinweise und Vereinsinformationen sichtbar machen</td>
-    <td><strong>Termine</strong><br>Veranstaltungen und Kalender übersichtlich darstellen</td>
+    <td bgcolor="#FFFFFF"><strong>Aktuelles</strong><br>News, Hinweise und Vereinsinformationen sichtbar machen</td>
+    <td bgcolor="#F3EFF9"><strong>Termine</strong><br>Veranstaltungen und Kalender übersichtlich darstellen</td>
   </tr>
   <tr>
-    <td><strong>Gartenwissen</strong><br>Tipps, Inhalte und Inspirationen zugänglich machen</td>
-    <td><strong>Service</strong><br>Formulare, Downloads und Vereinshaus-Anfragen bereitstellen</td>
+    <td bgcolor="#EEF5EF"><strong>Gartenwissen</strong><br>Tipps, Inhalte und Inspirationen zugänglich machen</td>
+    <td bgcolor="#F6F3EE"><strong>Service</strong><br>Formulare, Downloads und Vereinshaus-Anfragen bereitstellen</td>
   </tr>
 </table>
 
@@ -233,9 +244,14 @@ Startseite
 
 Der Mitgliederbereich hat zunächst geringe Priorität und wird später erweitert.
 
-## Asset-Struktur
-
-Die README-Verknüpfungen wurden an die tatsächlich im Projekt vorhandenen Dateien angepasst.
+<table>
+  <tr>
+    <td bgcolor="#F3EFF9">
+      <h2>Asset-Struktur</h2>
+      <p>Die README-Verknüpfungen sind an die tatsächlich im Projekt vorhandenen Dateien angepasst. Damit die Bilder auf GitHub sichtbar sind, darf <code>src/assets</code> nicht vollständig durch <code>.gitignore</code> ausgeschlossen werden.</p>
+    </td>
+  </tr>
+</table>
 
 ```txt
 public/
@@ -266,7 +282,6 @@ src/assets/
 | Logo | `src/assets/img/KGV1925_Logo.webp` |
 | Lavendel oben | `src/assets/img/lavendel-1_aquarell.webp` |
 | Lavendel Mitte | `src/assets/img/lavendel-2_aquarell.webp` |
-| Entwurfsvorschau | `src/assets/img/Entwurf/Entwurf-Startseite.png` |
 | Lavendel unten | `src/assets/img/lavendel-4_aquarell.webp` |
 
 ## Entwicklung starten
@@ -330,9 +345,14 @@ npm run serve:ssr:kgv1925
 - keine unnötigen Drittanbieter-Dienste
 - nach abgeschlossenen Kernfeatures wird direkt committet
 
-## Accessibility
-
-Barrierefreiheit wird direkt mitentwickelt.
+<table>
+  <tr>
+    <td bgcolor="#EEF5EF">
+      <h2>Accessibility</h2>
+      <p>Barrierefreiheit wird direkt mitentwickelt. Ziel sind klare Kontraste, sichtbare Fokuszustände, verständliche Linktexte und eine gute Bedienbarkeit auf kleinen Viewports.</p>
+    </td>
+  </tr>
+</table>
 
 Wichtige Grundlagen:
 
@@ -347,9 +367,14 @@ Wichtige Grundlagen:
 - keine Informationen ausschließlich über Farbe
 - Formulare mit sichtbaren Labels und verständlichen Fehlermeldungen
 
-## Performance
-
-Die Website soll leichtgewichtig bleiben.
+<table>
+  <tr>
+    <td bgcolor="#F6F3EE">
+      <h2>Performance</h2>
+      <p>Die Website soll leichtgewichtig bleiben. Lokale Fonts, optimierte Bilder, sparsame Animationen und eine klare SCSS-Struktur sind deshalb Teil der technischen Basis.</p>
+    </td>
+  </tr>
+</table>
 
 Dazu gehören:
 
