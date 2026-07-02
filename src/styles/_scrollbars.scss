@@ -1,0 +1,128 @@
+/*###############################
+###
+###     _scrollbars.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ==========================================================================
+   INHALTSVERZEICHNIS
+
+   01   Globale Scrollbar
+   02   Webkit Scrollbar
+   03   Hover und Active States
+   04   Utility Scrollbar
+   05   Accessibility Overrides
+   ========================================================================== */
+
+/* ==========================================================================
+   01   Globale Scrollbar
+   ========================================================================== */
+
+html {
+  scrollbar-color: rgba(49, 92, 69, 0.72) rgba(238, 245, 239, 0.72);
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+/* ==========================================================================
+   02   Webkit Scrollbar
+   ========================================================================== */
+
+*::-webkit-scrollbar {
+  height: 0.625rem;
+  width: 0.625rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(238, 245, 239, 0.72);
+  border-radius: var(--kgv-radius-round);
+}
+
+*::-webkit-scrollbar-thumb {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(49, 92, 69, 0.92) 0%,
+      rgba(47, 111, 78, 0.86) 100%
+    );
+  border: 0.156rem solid rgba(251, 250, 246, 0.92);
+  border-radius: var(--kgv-radius-round);
+  min-height: 3rem;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ==========================================================================
+   03   Hover und Active States
+   ========================================================================== */
+
+*::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(
+      180deg,
+      var(--kgv-primary-hover) 0%,
+      var(--kgv-primary) 100%
+    );
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: var(--kgv-primary-active);
+}
+
+/* ==========================================================================
+   04   Utility Scrollbar
+   ========================================================================== */
+
+.kgv-scrollbar {
+  scrollbar-color: rgba(49, 92, 69, 0.72) rgba(238, 245, 239, 0.72);
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.kgv-scrollbar--soft {
+  scrollbar-color: rgba(143, 123, 184, 0.72) rgba(243, 239, 249, 0.8);
+}
+
+.kgv-scrollbar--soft::-webkit-scrollbar-track {
+  background: rgba(243, 239, 249, 0.8);
+}
+
+.kgv-scrollbar--soft::-webkit-scrollbar-thumb {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(143, 123, 184, 0.86) 0%,
+      rgba(117, 97, 159, 0.82) 100%
+    );
+}
+
+/* ==========================================================================
+   05   Accessibility Overrides
+   ========================================================================== */
+
+html[data-kgv-contrast='hoch'] {
+  scrollbar-color: var(--kgv-primary-active) var(--kgv-surface);
+}
+
+html[data-kgv-contrast='hoch'] *::-webkit-scrollbar-track {
+  background: var(--kgv-surface);
+}
+
+html[data-kgv-contrast='hoch'] *::-webkit-scrollbar-thumb {
+  background: var(--kgv-primary-active);
+  border-color: var(--kgv-surface);
+}
