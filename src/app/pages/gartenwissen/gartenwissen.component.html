@@ -1,9 +1,142 @@
 <!-- src/app/pages/gartenwissen/gartenwissen.component.html -->
 
-<section class="kgv-section kgv-section--narrow placeholder-page kgv-card" aria-labelledby="gartenwissen-titel">
-  <span class="placeholder-page__icon material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
-  <p class="kgv-eyebrow">KGV1925</p>
-  <h1 id="gartenwissen-titel" class="kgv-heading">Gartenwissen</h1>
-  <p class="kgv-subline">Tipps, Anleitungen und Inspiration für naturnahes Gärtnern.</p>
-  <a class="kgv-button" routerLink="/">Zur Startseite</a>
+<section class="gartenwissen" aria-labelledby="gartenwissen-titel">
+  <div class="gartenwissen-hero">
+    <div class="gartenwissen-hero__inner kgv-section">
+      <div class="gartenwissen-hero__content">
+        <p class="kgv-eyebrow">Gartenwissen</p>
+        <h1 id="gartenwissen-titel" class="kgv-heading">Praktische Tipps für gesunde Gärten.</h1>
+        <p class="kgv-subline">Hier finden Mitglieder und Gartenfreunde kompaktes Wissen zu Pflege, Boden, Bewässerung, Pflanzenschutz und naturnahem Gärtnern.</p>
+        <div class="gartenwissen-hero__actions" aria-label="Schnelleinstiege">
+          <a class="kgv-button" href="#wissen-liste">Wissen entdecken</a>
+          <a class="kgv-button kgv-button--secondary" routerLink="/termine">Termine ansehen</a>
+        </div>
+      </div>
+
+      <aside class="saison-card kgv-card" aria-label="Saisonfokus">
+        <img class="saison-card__lavendel" src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
+        <p class="kgv-eyebrow">Saisonfokus</p>
+        <h2>Juli im Garten</h2>
+        <p>Jetzt zählen gute Wasserversorgung, luftige Pflanzenbestände und regelmäßige Kontrollen an Obst, Gemüse und Kübelpflanzen.</p>
+        <div class="saison-card__meta">
+          <span>Gießen</span>
+          <span>Ernten</span>
+          <span>Nützlinge</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="kgv-section gartenwissen__content">
+    <section class="monatscheck" aria-labelledby="monatscheck-titel">
+      <div class="monatscheck__header">
+        <p class="kgv-eyebrow">Monatscheck</p>
+        <h2 id="monatscheck-titel" class="kgv-heading kgv-heading--small">Das ist aktuell wichtig.</h2>
+      </div>
+
+      <div class="monatscheck__grid">
+        @for (punkt of monatscheck; track punkt.titel) {
+          <article class="check-card kgv-card kgv-card--interactive">
+            <span class="check-card__icon material-symbols-outlined" aria-hidden="true">{{ punkt.icon }}</span>
+            <h3>{{ punkt.titel }}</h3>
+            <p>{{ punkt.text }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="wissen-liste" class="wissen-browser" aria-labelledby="wissen-browser-titel">
+      <div class="wissen-browser__header">
+        <div>
+          <p class="kgv-eyebrow">Wissenssammlung</p>
+          <h2 id="wissen-browser-titel" class="kgv-heading kgv-heading--medium">Themen schnell finden.</h2>
+        </div>
+        <label class="wissen-search">
+          <span class="material-symbols-outlined" aria-hidden="true">search</span>
+          <span class="sr-only">Gartenwissen durchsuchen</span>
+          <input type="search" [value]="suchbegriff" maxlength="50" autocomplete="off" placeholder="Suchen nach Thema oder Pflanze" (input)="aktualisiereSuche($event)">
+        </label>
+      </div>
+
+      <div class="wissen-filter" aria-label="Wissen nach Kategorie filtern">
+        @for (kategorie of kategorien; track kategorie) {
+          <button type="button" class="wissen-filter__button" [class.wissen-filter__button--active]="aktiveKategorie === kategorie" (click)="setzeKategorie(kategorie)">
+            {{ kategorie }}
+          </button>
+        }
+      </div>
+
+      <div class="wissen-layout">
+        <div class="wissen-grid" aria-live="polite">
+          @for (beitrag of gefilterteBeitraege; track beitrag.slug) {
+            <button type="button" class="wissen-card kgv-card kgv-card--interactive" [class.wissen-card--active]="istAusgewaehlt(beitrag)" (click)="zeigeBeitrag(beitrag)">
+              <span class="wissen-card__icon material-symbols-outlined" aria-hidden="true">{{ beitrag.icon }}</span>
+              <span class="wissen-card__category">{{ beitrag.kategorie }}</span>
+              <h3>{{ beitrag.titel }}</h3>
+              <p>{{ beitrag.kurztext }}</p>
+              <span class="wissen-card__meta">{{ beitrag.saison }} · {{ beitrag.aufwand }}</span>
+            </button>
+          } @empty {
+            <div class="wissen-empty kgv-card">
+              <span class="material-symbols-outlined" aria-hidden="true">search_off</span>
+              <h3>Keine passenden Gartentipps gefunden.</h3>
+              <p>Eine allgemeinere Suche oder eine andere Kategorie zeigt weitere Themen.</p>
+            </div>
+          }
+        </div>
+
+        <article class="wissen-detail kgv-card" aria-labelledby="wissen-detail-titel">
+          <div class="wissen-detail__media">
+            <img [src]="ausgewaehlterBeitrag.bild" [alt]="ausgewaehlterBeitrag.bildAlt">
+            <span class="wissen-detail__badge">{{ ausgewaehlterBeitrag.kategorie }}</span>
+          </div>
+          <div class="wissen-detail__body">
+            <p class="kgv-eyebrow">Ausgewählter Tipp</p>
+            <h2 id="wissen-detail-titel">{{ ausgewaehlterBeitrag.titel }}</h2>
+            <p class="wissen-detail__lead">{{ ausgewaehlterBeitrag.merksatz }}</p>
+
+            <div class="wissen-detail__facts" aria-label="Eckdaten">
+              <span><strong>Saison</strong>{{ ausgewaehlterBeitrag.saison }}</span>
+              <span><strong>Aufwand</strong>{{ ausgewaehlterBeitrag.aufwand }}</span>
+              <span><strong>Dauer</strong>{{ ausgewaehlterBeitrag.dauer }}</span>
+            </div>
+
+            <div class="wissen-detail__columns">
+              <div>
+                <h3>So gehst du vor</h3>
+                <ol>
+                  @for (schritt of ausgewaehlterBeitrag.schritte; track schritt) {
+                    <li>{{ schritt }}</li>
+                  }
+                </ol>
+              </div>
+              <div>
+                <h3>Wichtig</h3>
+                <ul>
+                  @for (hinweis of ausgewaehlterBeitrag.hinweise; track hinweis) {
+                    <li>{{ hinweis }}</li>
+                  }
+                </ul>
+              </div>
+            </div>
+
+            <div class="wissen-detail__tags" aria-label="Schlagworte">
+              @for (tag of ausgewaehlterBeitrag.tags; track tag) {
+                <span class="kgv-pill kgv-pill--lavender">{{ tag }}</span>
+              }
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="gartenwissen-note kgv-card" aria-labelledby="gartenwissen-note-titel">
+      <div>
+        <p class="kgv-eyebrow">Gemeinsam gärtnern</p>
+        <h2 id="gartenwissen-note-titel" class="kgv-heading kgv-heading--small">Wissen wächst durch Erfahrung.</h2>
+        <p>Wer gute Erfahrungen mit Sorten, Pflege oder naturnahen Lösungen gemacht hat, kann diese Hinweise gerne im Verein teilen. So entsteht Schritt für Schritt eine Wissenssammlung aus der Anlage.</p>
+      </div>
+      <a class="kgv-button kgv-button--lavender" routerLink="/kontakt">Hinweis einreichen</a>
+    </section>
+  </div>
 </section>

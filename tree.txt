@@ -78,6 +78,7 @@ KGV1925/
 │   │   │   │       └── scroll-to-top.component.ts
 │   │   │   ├── data/
 │   │   │   │   ├── blog-beitraege.data.ts
+│   │   │   │   ├── gartenwissen.data.ts
 │   │   │   │   ├── navigation.data.ts
 │   │   │   │   ├── termine.data.ts
 │   │   │   │   └── verein.data.ts
