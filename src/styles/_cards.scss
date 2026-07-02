@@ -54,13 +54,21 @@
 }
 
 .kgv-card--interactive {
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  outline: 0 solid rgba(77, 111, 62, 0);
+  transition: border-color 220ms ease, box-shadow 220ms ease, outline-color 220ms ease, transform 220ms ease;
 }
 
 .kgv-card--interactive:hover {
-  border-color: var(--kgv-border);
-  box-shadow: var(--kgv-shadow-strong);
-  transform: translateY(-2px);
+  border-color: rgba(77, 111, 62, 0.34);
+  box-shadow: 0 1.15rem 2.8rem rgba(31, 42, 32, 0.14);
+  outline-color: rgba(77, 111, 62, 0.08);
+  transform: translateY(-4px);
+}
+
+.kgv-card--interactive:focus-within {
+  border-color: rgba(77, 111, 62, 0.42);
+  box-shadow: 0 1.15rem 2.8rem rgba(31, 42, 32, 0.14);
+  outline-color: rgba(77, 111, 62, 0.1);
 }
 
 .kgv-card__inner {

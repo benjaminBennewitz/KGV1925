@@ -1,23 +1,124 @@
 <!-- src/app/pages/aktuelles/aktuelles.component.html -->
 
-<section class="kgv-section aktuelles" aria-labelledby="aktuelles-titel">
-  <div class="aktuelles__header">
-    <p class="kgv-eyebrow">Aktuelles</p>
-    <h1 id="aktuelles-titel" class="kgv-heading">Neuigkeiten aus dem Verein.</h1>
-    <p class="kgv-subline">Die Übersichtskomponente sammelt Blogkarten, Hinweise und spätere Kategorien. Die einzelnen Beiträge nutzen ein gemeinsames dynamisches Template.</p>
-  </div>
+<div class="kgv-page aktuelles-page">
+  <section class="aktuelles-hero kgv-section kgv-section--wide" aria-labelledby="aktuelles-titel">
+    <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--eins" src="assets/img/lavendel-1_aquarell.webp" alt="" aria-hidden="true">
+    <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--zwei" src="assets/img/lavendel-3_aquarell.webp" alt="" aria-hidden="true">
 
-  <div class="blog-grid">
-    @for (beitrag of beitraege; track beitrag.slug) {
-      <article class="blog-card kgv-card">
-        <img [src]="beitrag.bild" alt="">
-        <div class="blog-card__content">
-          <span>{{ beitrag.kategorie }} · {{ beitrag.datum }}</span>
-          <h2><a [routerLink]="['/aktuelles', beitrag.slug]">{{ beitrag.titel }}</a></h2>
-          <p>{{ beitrag.kurztext }}</p>
-          <a class="blog-card__link" [routerLink]="['/aktuelles', beitrag.slug]">Beitrag lesen <span aria-hidden="true">→</span></a>
-        </div>
-      </article>
-    }
-  </div>
-</section>
+    <div class="aktuelles-hero__content">
+      <p class="kgv-eyebrow">Aktuelles</p>
+      <h1 id="aktuelles-titel" class="kgv-heading">Neuigkeiten, Termine und Hinweise aus dem Verein.</h1>
+      <p class="kgv-subline">Hier sammeln wir wichtige Nachrichten aus dem Vereinsleben: Veranstaltungen, Wettbewerbe, Hinweise für Mitglieder und Rückblicke auf gemeinsame Aktionen.</p>
+
+      <div class="aktuelles-hero__actions">
+        <a class="kgv-button" routerLink="/termine">
+          <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>
+          <span>Termine ansehen</span>
+        </a>
+        <a class="kgv-button kgv-button--secondary" routerLink="/kontakt">
+          <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+          <span>Kontakt aufnehmen</span>
+        </a>
+      </div>
+    </div>
+
+    <aside class="aktuelles-hero__panel kgv-card" aria-label="Aktuelle Kurztermine">
+      @for (info of heroKurzinfos; track info.label) {
+        <span class="aktuelles-hero__fact">
+          <strong>{{ info.wert }}</strong>
+          <small>{{ info.label }}</small>
+        </span>
+      }
+    </aside>
+  </section>
+
+  <section class="kgv-section kgv-section--wide spotlight-section" aria-labelledby="hauptmeldung-titel">
+    <article class="spotlight-card kgv-card">
+      <a class="spotlight-card__image" [routerLink]="['/aktuelles', hauptbeitrag.slug]" [attr.aria-label]="hauptbeitrag.titel + ' öffnen'">
+        <img [src]="hauptbeitrag.bild" [alt]="hauptbeitrag.bildAlt">
+      </a>
+
+      <div class="spotlight-card__content">
+        <p class="kgv-eyebrow">Hauptmeldung</p>
+        <h2 id="hauptmeldung-titel"><a [routerLink]="['/aktuelles', hauptbeitrag.slug]">{{ hauptbeitrag.titel }}</a></h2>
+        <p>{{ hauptbeitrag.kurztext }}</p>
+
+        <dl class="meta-grid" aria-label="Eckdaten zur Hauptmeldung">
+          <div>
+            <dt>Datum</dt>
+            <dd>{{ hauptbeitrag.datum }}</dd>
+          </div>
+          <div>
+            <dt>Zeit</dt>
+            <dd>{{ hauptbeitrag.zeit }}</dd>
+          </div>
+          <div>
+            <dt>Ort</dt>
+            <dd>{{ hauptbeitrag.ort }}</dd>
+          </div>
+        </dl>
+
+        <a class="kgv-button kgv-button--small" [routerLink]="['/aktuelles', hauptbeitrag.slug]">
+          Beitrag öffnen
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <section class="kgv-section kgv-section--wide news-section" aria-labelledby="weitere-meldungen-titel">
+    <div class="section-head">
+      <p class="kgv-eyebrow">Übersicht</p>
+      <h2 id="weitere-meldungen-titel">Weitere Meldungen.</h2>
+      <p>Hier stehen die nächsten Termine, wichtige Hinweise und aktuelle Informationen aus unserem Vereinsleben gebündelt an einem Ort.</p>
+    </div>
+
+    <div class="news-grid">
+      @for (beitrag of weitereBeitraege; track beitrag.slug) {
+        <article class="news-card kgv-card kgv-card--interactive" [class.news-card--lavendel]="beitrag.akzent === 'lavendel'" [class.news-card--sand]="beitrag.akzent === 'sand'" [class.news-card--plan]="beitrag.slug === 'gemeinschaftsarbeit-2026'">
+          <a class="news-card__image" [routerLink]="['/aktuelles', beitrag.slug]" [attr.aria-label]="beitrag.titel + ' öffnen'">
+            <img [src]="beitrag.bild" [alt]="beitrag.bildAlt">
+          </a>
+
+          <div class="news-card__content">
+            <span class="news-card__meta">{{ beitrag.kategorie }} · {{ beitrag.datum }}</span>
+            <h3><a [routerLink]="['/aktuelles', beitrag.slug]">{{ beitrag.titel }}</a></h3>
+            <p>{{ beitrag.kurztext }}</p>
+
+            @if (beitrag.details?.length) {
+              <ul class="news-card__details" aria-label="Eckdaten">
+                @for (detail of beitrag.details; track detail) {
+                  <li>{{ detail }}</li>
+                }
+              </ul>
+            }
+
+            <div class="news-card__actions">
+              <a class="news-card__link" [routerLink]="['/aktuelles', beitrag.slug]">Beitrag lesen <span aria-hidden="true">→</span></a>
+
+              @if (beitrag.downloadUrl && beitrag.downloadLabel) {
+                <a class="news-card__download" [href]="beitrag.downloadUrl" [attr.download]="beitrag.downloadDateiname || null">
+                  <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                  PDF
+                </a>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="kgv-section kgv-section--wide lavender-note" aria-label="Hinweis zu neuen Meldungen">
+    <img src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
+    <div>
+      <p class="kgv-eyebrow">Hinweise einreichen</p>
+      <h2>Neue Meldung für die Website?</h2>
+      <p>Termine, Aushänge und wichtige Informationen können über den Vorstand oder die Website-Pflege für die Veröffentlichung vorbereitet werden.</p>
+    </div>
+    <a class="kgv-button kgv-button--secondary" routerLink="/kontakt">
+      Kontaktseite öffnen
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+    </a>
+  </section>
+</div>

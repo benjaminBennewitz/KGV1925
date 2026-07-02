@@ -22,6 +22,7 @@
    01   Beitrag Layout
    02   Header
    03   Content
+   04   Responsive
    ========================================================================== */
 
 /* ==========================================================================
@@ -31,6 +32,7 @@
 .blog-detail {
   display: grid;
   gap: 1.5rem;
+  padding-top: clamp(1rem, 2vw, 1.5rem);
 }
 
 .blog-detail__back {
@@ -39,15 +41,48 @@
   text-decoration: none;
 }
 
+.blog-detail__back:hover {
+  color: var(--kgv-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
 .blog-detail__image {
   background: var(--kgv-surface-sage);
   border: 1px solid var(--kgv-border-soft);
   border-radius: 1.5rem;
   box-shadow: var(--kgv-shadow-soft);
-  max-height: 22rem;
+  max-height: 34rem;
   object-fit: contain;
-  padding: 2rem;
+  padding: clamp(0.8rem, 2vw, 1.5rem);
   width: 100%;
+}
+
+/* ==========================================================================
+   03   Content
+   ========================================================================== */
+
+.blog-detail__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.blog-detail__facts li {
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-primary);
+  font-weight: 850;
+  line-height: 1.25;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 0.45rem 0.75rem;
+  white-space: normal;
 }
 
 .blog-detail__content {
@@ -59,5 +94,20 @@
 .blog-detail__content p {
   color: var(--kgv-text-muted);
   font-size: 1.05rem;
+  line-height: 1.75;
   margin: 0;
+}
+
+.blog-detail__download {
+  justify-self: start;
+}
+
+/* ==========================================================================
+   04   Responsive
+   ========================================================================== */
+
+@media (max-width: 620px) {
+  .blog-detail__image {
+    max-height: 28rem;
+  }
 }

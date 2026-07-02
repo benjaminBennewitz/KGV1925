@@ -79,7 +79,8 @@ KGV1925/
 │   │   │   ├── data/
 │   │   │   │   ├── blog-beitraege.data.ts
 │   │   │   │   ├── navigation.data.ts
-│   │   │   │   └── termine.data.ts
+│   │   │   │   ├── termine.data.ts
+│   │   │   │   └── verein.data.ts
 │   │   │   └── services/
 │   │   │       └── reveal.service.ts
 │   │   ├── app.config.server.ts
@@ -91,6 +92,9 @@ KGV1925/
 │   │   ├── app.spec.ts
 │   │   └── app.ts
 │   ├── assets/
+│   │   ├── downloads/
+│   │   │   ├── gemeinschaftsarbeit-2026.pdf
+│   │   │   └── Hausordnung-kgv1925__Juli-2026.pdf
 │   │   ├── fonts/
 │   │   │   ├── license/
 │   │   │   │   ├── OFL.txt
@@ -99,12 +103,17 @@ KGV1925/
 │   │   │   ├── inter-variable.ttf
 │   │   │   └── material-symbols-outlined-latin-fill-normal.woff2
 │   │   └── img/
+│   │       ├── aktuelles/
+│   │       │   ├── gartenwettbewerb-2026.webp
+│   │       │   ├── gemeinschaftsarbeit-uebersicht.webp
+│   │       │   ├── laubenabend-2026.webp
+│   │       │   ├── sommerfest-2026.webp
+│   │       │   └── vorstandssitzung-2026-07-07.webp
 │   │       ├── Entwurf/
 │   │       │   └── Entwurf-Startseite.png
 │   │       ├── hero-vereinsgarten-mock.webp
 │   │       ├── KGV1925_Logo.webp
 │   │       ├── KGV1925_Logo_Marke.webp
-│   │       ├── KGV1925_Logo-Marke.webp
 │   │       ├── lavendel-1_aquarell.webp
 │   │       ├── lavendel-2_aquarell.webp
 │   │       ├── lavendel-3_aquarell.webp
@@ -119,6 +128,7 @@ KGV1925/
 │   │   ├── _forms.scss
 │   │   ├── _icons.scss
 │   │   ├── _layout.scss
+│   │   ├── _scrollbars.scss
 │   │   ├── _tokens.scss
 │   │   └── _typography.scss
 │   ├── index.html
