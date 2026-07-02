@@ -118,8 +118,8 @@ export const ANLAGEN_INFOS: AnlagenInfo[] = [
     text: 'Rücksichtnahme, gepflegte Wege, Ruhezeiten und ein respektvoller Umgang bilden die Grundlage für ein gutes Miteinander in der Anlage.',
     hinweis: 'Die vollständige Haus- und Gartenordnung steht als PDF zum Download bereit.',
     downloadLabel: 'Hausordnung als PDF herunterladen',
-    downloadUrl: 'assets/downloads/hausordnung-kgv1925.pdf',
-    downloadDateiname: 'hausordnung-kgv1925.pdf',
+    downloadUrl: 'assets/downloads/Hausordnung-kgv1925__Juli-2026.pdf',
+    downloadDateiname: 'Hausordnung-kgv1925__Juli-2026.pdf',
   },
   {
     icon: 'priority_high',
