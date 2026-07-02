@@ -1,17 +1,354 @@
 <!-- src/app/pages/verein/verein.component.html -->
 
-<section class="kgv-section kgv-section--narrow page-card" aria-labelledby="verein-titel">
-  <p class="kgv-eyebrow">Unser Verein</p>
-  <h1 id="verein-titel" class="kgv-heading">Gemeinschaft mit gewachsenen Wurzeln.</h1>
-  <p class="kgv-subline">Diese Seite bündelt später Geschichte, Vorstand, Anlage, Mitgliedschaft und alles, was den Kleingartenverein am Steinberg ausmacht.</p>
+<div class="kgv-page verein-page">
+  <section class="verein-hero kgv-section kgv-section--wide" aria-labelledby="verein-titel">
+    <div class="verein-hero__content">
+      <p class="kgv-eyebrow">Unser Verein</p>
+      <h1 id="verein-titel" class="kgv-heading">Gemeinschaft, Verantwortung und 48 grüne Rückzugsorte.</h1>
+      <p class="kgv-subline">Hier entsteht die zentrale Übersicht für Vorstand, Anlage und Parzellen. Die Seite verbindet Ansprechpartner, wichtige Anlageninfos, Lageplan und Gartenstatus in einem klaren, modularen Aufbau.</p>
 
-  <div class="topic-grid">
-    @for (thema of themen; track thema) {
-      <article class="kgv-card">
-        <span class="material-symbols-outlined" aria-hidden="true">eco</span>
-        <h2>{{ thema }}</h2>
-        <p>Inhalt folgt im nächsten Ausbauschritt.</p>
+      <div class="verein-hero__badges" aria-label="Schwerpunkte der Vereinsseite">
+        <span>
+          <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+          Vorstand
+        </span>
+        <span>
+          <span class="material-symbols-outlined" aria-hidden="true">map</span>
+          Lageplan
+        </span>
+        <span>
+          <span class="material-symbols-outlined" aria-hidden="true">cottage</span>
+          Parzellen
+        </span>
+      </div>
+    </div>
+
+    <aside class="verein-hero__panel kgv-card" aria-label="Kurzüberblick zum Verein">
+      <div class="verein-hero__panel-head">
+        <span class="verein-hero__icon material-symbols-outlined" aria-hidden="true">park</span>
+        <p>Auf einen Blick</p>
+      </div>
+
+      <div class="verein-hero__facts">
+        <span>
+          <strong>9</strong>
+          <small>Vorstandsmitglieder</small>
+        </span>
+        <span>
+          <strong>48</strong>
+          <small>Parzellen</small>
+        </span>
+        <span>
+          <strong>1925</strong>
+          <small>Gegründet</small>
+        </span>
+      </div>
+    </aside>
+  </section>
+
+  <section class="kgv-section kgv-section--wide board-section" aria-labelledby="vorstand-titel">
+    <div class="section-head">
+      <p class="kgv-eyebrow">Vorstand</p>
+      <h2 id="vorstand-titel">Ansprechpartner im Verein.</h2>
+      <p>Der geschäftsführende Vorstand bildet den Kern der Vereinsorganisation. Unterstützt wird er durch sechs Beisitzende, die verschiedene Aufgaben rund um Anlage, Gemeinschaft und Vereinsleben begleiten.</p>
+    </div>
+
+    <div class="board-layout">
+      <div class="board-group" aria-labelledby="geschaeftsfuehrender-vorstand">
+        <div class="board-group__title">
+          <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+          <h3 id="geschaeftsfuehrender-vorstand">Geschäftsführender Vorstand</h3>
+        </div>
+
+        <div class="executive-grid">
+          @for (mitglied of geschaeftsfuehrenderVorstand; track mitglied.position) {
+            <article class="person-card person-card--executive kgv-card kgv-card--interactive">
+              <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
+              <div class="person-card__content">
+                <dl class="person-card__meta">
+                  <div>
+                    <dt>Position</dt>
+                    <dd>{{ mitglied.position }}</dd>
+                  </div>
+                  <div>
+                    <dt>Vor-/Nachname</dt>
+                    <dd>{{ ermittleVorstandsname(mitglied) }}</dd>
+                  </div>
+                </dl>
+                <h4>{{ ermittleVorstandsname(mitglied) }}</h4>
+                <p>{{ mitglied.taetigkeitsbeschreibung }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+
+      <div class="board-group" aria-labelledby="beisitzende-vorstand">
+        <div class="board-group__title">
+          <span class="material-symbols-outlined" aria-hidden="true">groups</span>
+          <h3 id="beisitzende-vorstand">Weitere Beisitzende</h3>
+        </div>
+
+        <div class="assessor-grid">
+          @for (mitglied of beisitzende; track $index) {
+            <article class="person-card kgv-card kgv-card--interactive">
+              <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
+              <div class="person-card__content">
+                <dl class="person-card__meta">
+                  <div>
+                    <dt>Position</dt>
+                    <dd>{{ mitglied.position }}</dd>
+                  </div>
+                  <div>
+                    <dt>Vor-/Nachname</dt>
+                    <dd>{{ ermittleVorstandsname(mitglied) }}</dd>
+                  </div>
+                </dl>
+                <h4>{{ ermittleVorstandsname(mitglied) }}</h4>
+                <p>{{ mitglied.taetigkeitsbeschreibung }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="kgv-section kgv-section--wide info-section" aria-labelledby="anlage-infos-titel">
+    <div class="info-section__head section-head">
+      <p class="kgv-eyebrow">Anlage</p>
+      <h2 id="anlage-infos-titel">Wichtige Infos für Mitglieder und Gäste.</h2>
+      <p>Dieser Bereich bündelt die grundlegenden Hinweise zur Anlage. Die Inhalte sind als redaktioneller Entwurf angelegt und können später mit echten Zeiten, Downloads und verbindlichen Regeln ersetzt werden.</p>
+    </div>
+
+    <div class="info-grid">
+      @for (info of anlagenInfos; track info.titel) {
+        <article class="info-card kgv-card kgv-card--interactive">
+          <span class="info-card__icon material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
+          <div>
+            <h3>{{ info.titel }}</h3>
+            <p>{{ info.text }}</p>
+            <small>{{ info.hinweis }}</small>
+            @if (info.downloadUrl && info.downloadLabel) {
+              <a class="info-card__download" [href]="info.downloadUrl" [attr.download]="info.downloadDateiname || null">
+                <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                {{ info.downloadLabel }}
+              </a>
+            }
+          </div>
+        </article>
+      }
+
+      <article class="rental-callout kgv-card">
+        <span class="rental-callout__icon material-symbols-outlined" aria-hidden="true">celebration</span>
+        <div>
+          <p class="kgv-eyebrow">Vereinshaus</p>
+          <h3>Feiern oder Treffen planen?</h3>
+          <p>Für private Feiern, Versammlungen oder kleine Veranstaltungen kann direkt auf die Vereinshausvermietung verwiesen werden.</p>
+          <a class="kgv-button kgv-button--small" routerLink="/vereinshausvermietung">
+            Zur Vereinshausvermietung
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+          </a>
+        </div>
       </article>
-    }
-  </div>
-</section>
+    </div>
+  </section>
+
+  <section class="kgv-section kgv-section--wide map-section" aria-labelledby="lageplan-titel">
+    <div class="map-panel kgv-card">
+      <div class="map-panel__content">
+        <div class="section-head">
+          <p class="kgv-eyebrow">Lageplan</p>
+          <h2 id="lageplan-titel">Schematischer Überblick der Anlage.</h2>
+          <p>Der Lageplan ist näher an der Skizze aufgebaut: oben eine lange Parzellenreihe, darunter eine kurze Querreihe und anschließend vier längere Gartenstreifen mit Vereinshaus im mittleren Bereich.</p>
+        </div>
+
+        <div class="map-legend" aria-label="Legende zum Lageplan">
+          <span>
+            <i class="map-legend__dot map-legend__dot--leased" aria-hidden="true"></i>
+            Verpachtet
+          </span>
+          <span>
+            <i class="map-legend__dot map-legend__dot--free" aria-hidden="true"></i>
+            Frei
+          </span>
+          <span>
+            <span class="material-symbols-outlined" aria-hidden="true">home_work</span>
+            Vereinshaus
+          </span>
+        </div>
+      </div>
+
+      <div class="map-visuals">
+        <div class="site-map site-map--sketch" aria-label="Schematischer Lageplan nach Skizzenaufbau mit 48 Parzellen">
+          <div class="site-map__row site-map__row--north" aria-label="Nördliche Parzellenreihe 42 bis 48">
+            @for (garten of lageplanObereReihe; track garten.nummer) {
+              <button class="site-map__plot" type="button" [class.site-map__plot--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
+                {{ formatiereGartennummer(garten.nummer) }}
+              </button>
+            }
+          </div>
+
+          <div class="site-map__row site-map__row--cross" aria-label="Kurze Querreihe der Parzellen 38 bis 41">
+            @for (garten of lageplanQuerreihe; track garten.nummer) {
+              <button class="site-map__plot" type="button" [class.site-map__plot--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
+                {{ formatiereGartennummer(garten.nummer) }}
+              </button>
+            }
+          </div>
+
+          <div class="site-map__blocks" aria-label="Lange Gartenstreifen der Anlage">
+            <div class="site-map__block site-map__block--west" aria-label="Westlicher Gartenstreifen mit Parzellen 27 bis 37">
+              @for (garten of lageplanWestBlock; track garten.nummer) {
+                <button class="site-map__plot" type="button" [class.site-map__plot--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
+                  {{ formatiereGartennummer(garten.nummer) }}
+                </button>
+              }
+            </div>
+
+            <div class="site-map__block site-map__block--middle" aria-label="Mittlerer Gartenstreifen mit Parzellen 21 bis 26">
+              @for (garten of lageplanMittelBlock; track garten.nummer) {
+                <button class="site-map__plot" type="button" [class.site-map__plot--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
+                  {{ formatiereGartennummer(garten.nummer) }}
+                </button>
+              }
+            </div>
+
+            <div class="site-map__block site-map__block--house" aria-label="Mittlerer Gartenstreifen mit Vereinshaus und Parzellen 13 bis 20">
+              @for (garten of lageplanHausBlock; track garten.nummer) {
+                <button class="site-map__plot" type="button" [class.site-map__plot--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
+                  {{ formatiereGartennummer(garten.nummer) }}
+                </button>
+              }
+
+              <a class="site-map__house" routerLink="/vereinshausvermietung" aria-label="Zur Vereinshausvermietung wechseln">
+                <span class="material-symbols-outlined" aria-hidden="true">home_work</span>
+                Vereinshaus
+              </a>
+            </div>
+
+            <div class="site-map__block site-map__block--east" aria-label="Östlicher Gartenstreifen mit Parzellen 01 bis 12">
+              @for (garten of lageplanOstBlock; track garten.nummer) {
+                <button class="site-map__plot" type="button" [class.site-map__plot--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
+                  {{ formatiereGartennummer(garten.nummer) }}
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <article class="map-placeholder kgv-card" aria-label="Platzhalter für einen späteren topografischen Lageplan">
+          <span class="map-placeholder__icon material-symbols-outlined" aria-hidden="true">travel_explore</span>
+          <div>
+            <p class="kgv-eyebrow">Full-View Lageplan</p>
+            <h3>Topografischer Lageplan folgt.</h3>
+            <p>Hier kann später ein echter Anlagenplan, ein exportiertes SVG, ein Luftbild oder ein klickbarer Full-View Lageplan eingebunden werden.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="kgv-section kgv-section--wide garden-section" aria-labelledby="gaerten-titel">
+    <div class="garden-panel kgv-card">
+      <div class="garden-panel__header">
+        <div class="section-head">
+          <p class="kgv-eyebrow">Gartenanlage</p>
+          <h2 id="gaerten-titel">Unsere 48 Parzellen.</h2>
+          <p>Die Parzellenübersicht zeigt alle Gärten als Kartenraster mit Bild, Gartennummer und aktuellem Status. Per Klick öffnet sich ein Detailfenster mit weiteren Informationen zur ausgewählten Parzelle.</p>
+        </div>
+
+        <div class="garden-stats" aria-label="Parzellenstatus">
+          <span>
+            <strong>{{ gaerten.length }}</strong>
+            <small>Gesamt</small>
+          </span>
+          <span>
+            <strong>{{ verpachteteGaerten }}</strong>
+            <small>Verpachtet</small>
+          </span>
+          <span>
+            <strong>{{ freieGaerten }}</strong>
+            <small>Frei</small>
+          </span>
+        </div>
+      </div>
+
+      <div class="garden-filter" aria-label="Gärten filtern">
+        @for (filter of gartenFilter; track filter) {
+          <button class="garden-filter__button" type="button" [class.garden-filter__button--active]="aktiveGartenFilter === filter" [attr.aria-pressed]="aktiveGartenFilter === filter" (click)="setzeGartenFilter(filter)">
+            {{ ermittleFilterText(filter) }}
+          </button>
+        }
+      </div>
+
+      <div class="garden-grid">
+        @for (garten of gefilterteGaerten; track garten.nummer) {
+          <button class="garden-card kgv-card kgv-card--interactive" type="button" [class.garden-card--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
+            <img [src]="garten.bild" [alt]="garten.alt" loading="lazy">
+            <span class="garden-card__content">
+              <span class="garden-card__number">Parzelle {{ formatiereGartennummer(garten.nummer) }}</span>
+              <span class="garden-card__title">{{ garten.titel }}</span>
+              <span class="garden-card__status" [class.garden-card__status--free]="garten.status === 'frei'">
+                <span class="material-symbols-outlined" aria-hidden="true">{{ ermittleStatusIcon(garten.status) }}</span>
+                {{ ermittleStatusText(garten.status) }}
+              </span>
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  @if (ausgewaehlterGarten; as garten) {
+    <div class="garden-modal" role="presentation" (click)="schliesseGartenModal()">
+      <section class="garden-modal__panel kgv-card" role="dialog" aria-modal="true" aria-labelledby="garten-modal-titel" (click)="$event.stopPropagation()">
+        <button class="garden-modal__close" type="button" aria-label="Gartendetails schließen" (click)="schliesseGartenModal()">
+          <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        </button>
+
+        <div class="garden-modal__media">
+          <img [src]="garten.bild" [alt]="garten.alt">
+          <span class="garden-modal__status" [class.garden-modal__status--free]="garten.status === 'frei'">
+            <span class="material-symbols-outlined" aria-hidden="true">{{ ermittleStatusIcon(garten.status) }}</span>
+            {{ ermittleStatusText(garten.status) }}
+          </span>
+        </div>
+
+        <div class="garden-modal__content">
+          <p class="kgv-eyebrow">Parzelle {{ formatiereGartennummer(garten.nummer) }}</p>
+          <h2 id="garten-modal-titel">{{ garten.titel }}</h2>
+          <p>{{ garten.beschreibung }}</p>
+
+          <dl class="garden-modal__details">
+            <div>
+              <dt>Größe</dt>
+              <dd>{{ garten.groesse }}</dd>
+            </div>
+            <div>
+              <dt>Lage</dt>
+              <dd>{{ garten.lage }}</dd>
+            </div>
+            <div>
+              <dt>Statushinweis</dt>
+              <dd>{{ garten.statusHinweis }}</dd>
+            </div>
+          </dl>
+
+          <div class="garden-modal__features" aria-label="Merkmale der Parzelle">
+            @for (merkmal of garten.merkmale; track merkmal) {
+              <span>{{ merkmal }}</span>
+            }
+          </div>
+
+          @if (garten.status === 'frei') {
+            <a class="kgv-button" routerLink="/kontakt" (click)="schliesseGartenModal()">
+              Interesse anfragen
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
+          }
+        </div>
+      </section>
+    </div>
+  }
+</div>
