@@ -9,6 +9,79 @@ KGV1925/
 │   └── favicon.ico
 ├── src/
 │   ├── app/
+│   │   ├── pages/
+│   │   │   ├── aktuelles/
+│   │   │   │   ├── aktuelles.component.html
+│   │   │   │   ├── aktuelles.component.scss
+│   │   │   │   └── aktuelles.component.ts
+│   │   │   ├── blog-beitrag/
+│   │   │   │   ├── blog-beitrag.component.html
+│   │   │   │   ├── blog-beitrag.component.scss
+│   │   │   │   └── blog-beitrag.component.ts
+│   │   │   ├── galerie/
+│   │   │   │   ├── galerie.component.html
+│   │   │   │   ├── galerie.component.scss
+│   │   │   │   └── galerie.component.ts
+│   │   │   ├── gartenwissen/
+│   │   │   │   ├── gartenwissen.component.html
+│   │   │   │   ├── gartenwissen.component.scss
+│   │   │   │   └── gartenwissen.component.ts
+│   │   │   ├── kontakt/
+│   │   │   │   ├── kontakt.component.html
+│   │   │   │   ├── kontakt.component.scss
+│   │   │   │   └── kontakt.component.ts
+│   │   │   ├── mitgliederbereich/
+│   │   │   │   ├── mitgliederbereich.component.html
+│   │   │   │   ├── mitgliederbereich.component.scss
+│   │   │   │   └── mitgliederbereich.component.ts
+│   │   │   ├── nicht-gefunden/
+│   │   │   │   ├── nicht-gefunden.component.html
+│   │   │   │   ├── nicht-gefunden.component.scss
+│   │   │   │   └── nicht-gefunden.component.ts
+│   │   │   ├── service/
+│   │   │   │   ├── service.component.html
+│   │   │   │   ├── service.component.scss
+│   │   │   │   └── service.component.ts
+│   │   │   ├── startseite/
+│   │   │   │   ├── startseite.component.html
+│   │   │   │   ├── startseite.component.scss
+│   │   │   │   └── startseite.component.ts
+│   │   │   ├── termine/
+│   │   │   │   ├── termine.component.html
+│   │   │   │   ├── termine.component.scss
+│   │   │   │   └── termine.component.ts
+│   │   │   ├── verein/
+│   │   │   │   ├── verein.component.html
+│   │   │   │   ├── verein.component.scss
+│   │   │   │   └── verein.component.ts
+│   │   │   └── vereinshausvermietung/
+│   │   │       ├── vereinshausvermietung.component.html
+│   │   │       ├── vereinshausvermietung.component.scss
+│   │   │       └── vereinshausvermietung.component.ts
+│   │   ├── shared/
+│   │   │   ├── components/
+│   │   │   │   ├── accessibility-mode/
+│   │   │   │   │   ├── accessibility-mode.component.html
+│   │   │   │   │   ├── accessibility-mode.component.scss
+│   │   │   │   │   └── accessibility-mode.component.ts
+│   │   │   │   ├── footer/
+│   │   │   │   │   ├── footer.component.html
+│   │   │   │   │   ├── footer.component.scss
+│   │   │   │   │   └── footer.component.ts
+│   │   │   │   ├── header/
+│   │   │   │   │   ├── header.component.html
+│   │   │   │   │   ├── header.component.scss
+│   │   │   │   │   └── header.component.ts
+│   │   │   │   └── scroll-to-top/
+│   │   │   │       ├── scroll-to-top.component.html
+│   │   │   │       ├── scroll-to-top.component.scss
+│   │   │   │       └── scroll-to-top.component.ts
+│   │   │   ├── data/
+│   │   │   │   ├── blog-beitraege.data.ts
+│   │   │   │   ├── navigation.data.ts
+│   │   │   │   └── termine.data.ts
+│   │   │   └── services/
+│   │   │       └── reveal.service.ts
 │   │   ├── app.config.server.ts
 │   │   ├── app.config.ts
 │   │   ├── app.html
@@ -28,11 +101,26 @@ KGV1925/
 │   │   └── img/
 │   │       ├── Entwurf/
 │   │       │   └── Entwurf-Startseite.png
+│   │       ├── hero-vereinsgarten-mock.webp
 │   │       ├── KGV1925_Logo.webp
+│   │       ├── KGV1925_Logo_Marke.webp
+│   │       ├── KGV1925_Logo-Marke.webp
 │   │       ├── lavendel-1_aquarell.webp
 │   │       ├── lavendel-2_aquarell.webp
 │   │       ├── lavendel-3_aquarell.webp
 │   │       └── lavendel-4_aquarell.webp
+│   ├── styles/
+│   │   ├── _accessibility.scss
+│   │   ├── _animations.scss
+│   │   ├── _base.scss
+│   │   ├── _buttons.scss
+│   │   ├── _cards.scss
+│   │   ├── _fonts.scss
+│   │   ├── _forms.scss
+│   │   ├── _icons.scss
+│   │   ├── _layout.scss
+│   │   ├── _tokens.scss
+│   │   └── _typography.scss
 │   ├── index.html
 │   ├── main.server.ts
 │   ├── main.ts
@@ -43,7 +131,6 @@ KGV1925/
 ├── .prettierrc
 ├── angular.json
 ├── DESIGNSYSTEM.md
-├── make-tree copy.ps1
 ├── make-tree.ps1
 ├── package.json
 ├── package-lock.json

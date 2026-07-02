@@ -29,7 +29,7 @@ export class RevealService {
   private readonly beobachteteElemente = new WeakSet<HTMLElement>();
 
   /**
-   * Aktiviert das Reveal-System nach dem ersten Browser-Render.
+   * Aktiviert das Reveal-System nach dem Browser-Start.
    */
   public initialisiere(): void {
     if (!this.istBrowser()) {
@@ -38,6 +38,8 @@ export class RevealService {
 
     this.document.documentElement.classList.add('kgv-reveal-ready');
     this.aktualisiere();
+    this.planeNachgelagerteAktualisierung(90);
+    this.planeNachgelagerteAktualisierung(220);
   }
 
   /**
@@ -67,6 +69,21 @@ export class RevealService {
   }
 
   /**
+   * Plant zusätzliche Updates nach dem initialen Routenrendering.
+   */
+  private planeNachgelagerteAktualisierung(verzoegerungMs: number): void {
+    const fenster = this.document.defaultView;
+
+    if (!fenster) {
+      return;
+    }
+
+    fenster.setTimeout(() => {
+      this.aktualisiere();
+    }, verzoegerungMs);
+  }
+
+  /**
    * Verbindet alle noch nicht erfassten Reveal-Elemente mit dem Observer.
    */
   private aktualisiereRevealElemente(): void {
@@ -92,6 +109,7 @@ export class RevealService {
       this.bereiteElementVor(element);
       observer.observe(element);
       this.beobachteteElemente.add(element);
+      this.zeigeSichtbaresElement(element, observer);
     });
   }
 
@@ -129,10 +147,6 @@ export class RevealService {
   private ermittleRichtung(element: HTMLElement): string {
     if (element.matches('.hero__visual, .event-card')) {
       return 'right';
-    }
-
-    if (element.matches('.site-footer__wordmark')) {
-      return 'soft';
     }
 
     return 'up';
@@ -198,6 +212,45 @@ export class RevealService {
     );
 
     return this.observer;
+  }
+
+  /**
+   * Zeigt bereits sichtbare Elemente direkt im nächsten Frame an.
+   */
+  private zeigeSichtbaresElement(element: HTMLElement, observer: IntersectionObserver): void {
+    if (!this.istElementImViewport(element)) {
+      return;
+    }
+
+    const fenster = this.document.defaultView;
+
+    if (!fenster) {
+      element.classList.add('is-kgv-revealed');
+      observer.unobserve(element);
+      return;
+    }
+
+    fenster.requestAnimationFrame(() => {
+      element.classList.add('is-kgv-revealed');
+      observer.unobserve(element);
+    });
+  }
+
+  /**
+   * Prüft, ob ein Element schon im sichtbaren Browserbereich liegt.
+   */
+  private istElementImViewport(element: HTMLElement): boolean {
+    const fenster = this.document.defaultView;
+
+    if (!fenster) {
+      return false;
+    }
+
+    const box = element.getBoundingClientRect();
+    const viewportHoehe = fenster.innerHeight || this.document.documentElement.clientHeight;
+    const viewportBreite = fenster.innerWidth || this.document.documentElement.clientWidth;
+
+    return box.bottom >= 0 && box.right >= 0 && box.top <= viewportHoehe * 0.96 && box.left <= viewportBreite;
   }
 
   /**

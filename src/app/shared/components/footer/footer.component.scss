@@ -103,7 +103,7 @@
   gap: clamp(1.5rem, 3vw, 3rem);
   grid-template-columns: minmax(18rem, 1.35fr) repeat(3, minmax(8rem, 0.7fr));
   margin: 0;
-  padding: clamp(2rem, 4vw, 4rem);
+  padding: clamp(2rem, 4vw, 4rem) clamp(5.25rem, 7vw, 7.5rem) clamp(2rem, 4vw, 4rem) clamp(2rem, 4vw, 4rem);
   position: relative;
   z-index: 1;
 }
@@ -296,16 +296,20 @@
   color: var(--kgv-text-soft);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--kgv-space-sm) var(--kgv-space-xl);
+  font-size: clamp(0.72rem, 0.9vw, 0.82rem);
+  gap: 0.45rem var(--kgv-space-xl);
   justify-content: space-between;
+  line-height: 1.45;
   margin: 0;
-  padding: var(--kgv-space-md) clamp(1.25rem, 4vw, 4rem) clamp(1.25rem, 3vw, 2rem);
+  padding: var(--kgv-space-sm) clamp(5.25rem, 7vw, 7.5rem) clamp(1rem, 2vw, 1.35rem) clamp(1.25rem, 4vw, 4rem);
   position: relative;
   z-index: 1;
 }
 
 .site-footer__bottom strong {
   color: var(--kgv-primary);
+  font-size: 0.96em;
+  font-weight: 800;
 }
 
 .site-footer__bottom sup {
@@ -359,6 +363,10 @@
 
 @media (max-width: 420px) {
   .site-footer__content {
-    padding: var(--kgv-space-xl) var(--kgv-space-md);
+    padding: var(--kgv-space-xl) clamp(4.75rem, 18vw, 5.75rem) var(--kgv-space-xl) var(--kgv-space-md);
+  }
+
+  .site-footer__bottom {
+    padding-right: clamp(4.75rem, 18vw, 5.75rem);
   }
 }
