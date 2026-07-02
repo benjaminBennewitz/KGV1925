@@ -1,21 +1,93 @@
 <!-- src/app/pages/service/service.component.html -->
 
 <div class="kgv-page service-page">
-  <section class="kgv-section kgv-section--narrow service-hero kgv-card" aria-labelledby="service-titel">
-    <span class="service-hero__icon material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
-    <p class="kgv-eyebrow">KGV1925</p>
-    <h1 id="service-titel" class="kgv-heading">Service</h1>
-    <p class="kgv-subline">Formulare, Downloads, Vereinshausvermietung und spätere Online-Anfragen an einem zentralen Ort.</p>
+  <section class="service-hero" aria-labelledby="service-titel">
+    <div class="service-hero__inner kgv-section">
+      <div class="service-hero__content">
+        <p class="kgv-eyebrow">Service</p>
+        <h1 id="service-titel" class="kgv-heading">Alles Wichtige auf einen Blick.</h1>
+        <p class="kgv-subline">Hier finden Mitglieder und Gäste schnelle Wege zu Downloads, Ansprechpartnern, Vereinshausvermietung und aktuellen Unterlagen des Vereins.</p>
+        <div class="service-hero__actions" aria-label="Schnelleinstiege">
+          <button class="kgv-button" type="button" (click)="scrollZuDownloads()">Downloads öffnen</button>
+          <a class="kgv-button kgv-button--secondary" routerLink="/kontakt">Kontakt aufnehmen</a>
+        </div>
+      </div>
+
+      <aside class="service-hero-card kgv-card" aria-label="Service kompakt">
+        <img class="service-hero-card__lavendel" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
+        <span class="service-hero-card__icon material-symbols-outlined" aria-hidden="true">folder_open</span>
+        <p class="kgv-eyebrow">Dokumente</p>
+        <h2>Unterlagen schnell finden</h2>
+        <p>Hausordnung, Satzung, Gartenordnung und aktuelle Planungen sind im Downloadbereich gebündelt und nach Thema durchsuchbar.</p>
+        <div class="service-hero-card__meta" aria-label="Dokumentenarten">
+          <span>PDF</span>
+          <span>Verein</span>
+          <span>Anlage</span>
+        </div>
+      </aside>
+    </div>
   </section>
 
   <section class="kgv-section service-grid" aria-label="Servicebereiche">
     @for (karte of serviceKarten; track karte.titel) {
-      <article class="service-card kgv-card">
-        <span class="material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+      <article class="service-card kgv-card kgv-card--interactive">
+        <span class="service-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
         <h2>{{ karte.titel }}</h2>
         <p>{{ karte.text }}</p>
-        <a [routerLink]="karte.pfad">{{ karte.linkText }} <span aria-hidden="true">→</span></a>
+        @if (karte.istAnker) {
+          <button class="service-card__link" type="button" (click)="scrollZuDownloads()">{{ karte.linkText }} <span aria-hidden="true">→</span></button>
+        } @else {
+          <a class="service-card__link" [routerLink]="karte.pfad">{{ karte.linkText }} <span aria-hidden="true">→</span></a>
+        }
       </article>
     }
+  </section>
+
+  <section id="downloads" class="kgv-section download-section" tabindex="-1" aria-labelledby="downloads-titel">
+    <div class="download-section__header">
+      <div>
+        <p class="kgv-eyebrow">Downloads</p>
+        <h2 id="downloads-titel" class="kgv-heading kgv-heading--medium">Dokumente und Unterlagen.</h2>
+        <p>Die wichtigsten Unterlagen für Vereinsleben, Anlage und Gemeinschaftsarbeit sind hier gesammelt.</p>
+      </div>
+      <label class="download-search">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+        <input type="search" [value]="suchbegriff" maxlength="50" autocomplete="off" aria-label="Downloads durchsuchen" placeholder="Downloads durchsuchen" (input)="aktualisiereSuche($event)">
+      </label>
+    </div>
+
+    <div class="download-grid" aria-live="polite">
+      @for (download of gefilterteDownloads; track download.titel) {
+        <article class="download-card kgv-card kgv-card--interactive">
+          <div class="download-card__media">
+            <img [src]="download.bild" [alt]="download.bildAlt">
+            <span>{{ download.kategorie }}</span>
+          </div>
+          <div class="download-card__body">
+            <div class="download-card__meta" aria-label="Dokumentdaten">
+              <span>{{ download.datum }}</span>
+              <span>{{ download.groesse }}</span>
+            </div>
+            <h3>{{ download.titel }}</h3>
+            <p>{{ download.auszug }}</p>
+            <div class="download-card__tags" aria-label="Schlagworte">
+              @for (tag of download.tags.slice(0, 3); track tag) {
+                <span class="kgv-pill">{{ tag }}</span>
+              }
+            </div>
+            <a class="download-card__link" [href]="download.downloadUrl" [attr.download]="download.downloadDateiname">
+              <span class="material-symbols-outlined" aria-hidden="true">download</span>
+              PDF herunterladen
+            </a>
+          </div>
+        </article>
+      } @empty {
+        <div class="download-empty kgv-card">
+          <span class="material-symbols-outlined" aria-hidden="true">search_off</span>
+          <h3>Kein Dokument gefunden.</h3>
+          <p>Eine kürzere Suche zeigt wieder mehr Unterlagen.</p>
+        </div>
+      }
+    </div>
   </section>
 </div>

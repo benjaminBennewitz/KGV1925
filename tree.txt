@@ -80,6 +80,7 @@ KGV1925/
 │   │   │   │   ├── blog-beitraege.data.ts
 │   │   │   │   ├── gartenwissen.data.ts
 │   │   │   │   ├── navigation.data.ts
+│   │   │   │   ├── service.data.ts
 │   │   │   │   ├── termine.data.ts
 │   │   │   │   └── verein.data.ts
 │   │   │   └── services/
@@ -99,8 +100,10 @@ KGV1925/
 │   │   │   │   ├── rechnung-kgv-2026-001.pdf
 │   │   │   │   ├── rechnung-kgv-2026-014.pdf
 │   │   │   │   └── rechnung-kgv-2026-029.pdf
+│   │   │   ├── Gartenordnung-der-Stadt-Moenchengladbach-2024.pdf
 │   │   │   ├── gemeinschaftsarbeit-2026.pdf
-│   │   │   └── Hausordnung-kgv1925__Juli-2026.pdf
+│   │   │   ├── Hausordnung-kgv1925__Juli-2026.pdf
+│   │   │   └── Kreisverband_Satzung-2021.pdf
 │   │   ├── fonts/
 │   │   │   ├── license/
 │   │   │   │   ├── OFL.txt
@@ -117,6 +120,11 @@ KGV1925/
 │   │       │   └── vorstandssitzung-2026-07-07.webp
 │   │       ├── Entwurf/
 │   │       │   └── Entwurf-Startseite.png
+│   │       ├── service/
+│   │       │   ├── download-gartenordnung.webp
+│   │       │   ├── download-gemeinschaftsarbeit.webp
+│   │       │   ├── download-hausordnung.webp
+│   │       │   └── download-satzung.webp
 │   │       ├── hero-vereinsgarten-mock.webp
 │   │       ├── KGV1925_Logo.webp
 │   │       ├── KGV1925_Logo_Marke.webp

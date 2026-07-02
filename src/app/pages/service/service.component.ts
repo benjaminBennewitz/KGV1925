@@ -2,14 +2,7 @@
 
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
-interface ServiceKarte {
-  icon: string;
-  titel: string;
-  text: string;
-  pfad: string;
-  linkText: string;
-}
+import { SERVICE_DOWNLOADS, SERVICE_KARTEN, ServiceDownload } from '../../shared/data/service.data';
 
 @Component({
   selector: 'app-service',
@@ -19,27 +12,46 @@ interface ServiceKarte {
 })
 export class ServiceComponent {
   protected readonly icon = 'inventory_2';
-  protected readonly serviceKarten: ServiceKarte[] = [
-    {
-      icon: 'cottage',
-      titel: 'Vereinshausvermietung',
-      text: 'Informationen und spätere Online-Anfrage für die Vermietung des Vereinshauses.',
-      pfad: '/vereinshausvermietung',
-      linkText: 'Vermietung öffnen',
-    },
-    {
-      icon: 'description',
-      titel: 'Formulare und Downloads',
-      text: 'Zentraler Bereich für wichtige Unterlagen, Hinweise und spätere Downloads.',
-      pfad: '/service',
-      linkText: 'Bereich ansehen',
-    },
-    {
-      icon: 'contact_support',
-      titel: 'Ansprechpartner',
-      text: 'Schneller Weg zu Kontakt, Vorstand und passenden Zuständigkeiten.',
-      pfad: '/kontakt',
-      linkText: 'Kontakt öffnen',
-    },
-  ];
+  protected readonly serviceKarten = SERVICE_KARTEN;
+  protected readonly downloads = SERVICE_DOWNLOADS;
+  protected suchbegriff = '';
+
+  protected get gefilterteDownloads(): ServiceDownload[] {
+    const suche = this.suchbegriff.trim().toLowerCase();
+
+    if (!suche) {
+      return this.downloads;
+    }
+
+    return this.downloads.filter((download) => {
+      const suchText = `${download.titel} ${download.kategorie} ${download.auszug} ${download.tags.join(' ')}`.toLowerCase();
+
+      return suchText.includes(suche);
+    });
+  }
+
+  /**
+   * Scrollt ohne Routenwechsel zum Downloadbereich.
+   */
+  protected scrollZuDownloads(): void {
+    const downloadBereich = document.getElementById('downloads');
+
+    if (!downloadBereich) {
+      return;
+    }
+
+    downloadBereich.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    downloadBereich.focus({ preventScroll: true });
+  }
+
+  /**
+   * Bereinigt die Suchanfrage auf ungefährliche Zeichen und begrenzt die Eingabelänge.
+   */
+  protected aktualisiereSuche(event: Event): void {
+    const eingabe = event.target as HTMLInputElement;
+    const bereinigterWert = eingabe.value.replace(/[^A-Za-zÄÖÜäöüß0-9\s\-.]/g, '').slice(0, 50);
+
+    this.suchbegriff = bereinigterWert;
+    eingabe.value = bereinigterWert;
+  }
 }
