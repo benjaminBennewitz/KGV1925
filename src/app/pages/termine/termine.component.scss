@@ -19,27 +19,710 @@
 /* ========================================================================== 
    INHALTSVERZEICHNIS
 
-   01   Placeholder Page
+   01   Termine Layout
+   02   Hero
+   03   Kalender
+   04   Monatsliste
+   05   Ausblick
+   06   Responsive
    ========================================================================== */
 
 /* ==========================================================================
-   01   Placeholder Page
+   01   Termine Layout
    ========================================================================== */
 
-.placeholder-page {
-  display: grid;
-  gap: 1rem;
-  justify-items: start;
-  padding: clamp(1.5rem, 4vw, 3rem);
+.termine-page {
+  isolation: isolate;
+  position: relative;
 }
 
-.placeholder-page__icon {
+/* ==========================================================================
+   02   Hero
+   ========================================================================== */
+
+.termine-hero {
+  align-items: stretch;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(201, 184, 232, 0.46), transparent 32%),
+    radial-gradient(circle at 84% 20%, rgba(169, 191, 168, 0.52), transparent 30%),
+    linear-gradient(135deg, #fff9ec 0%, #fbfaf6 42%, #eef5ef 100%);
+  border: 1px solid rgba(216, 222, 214, 0.82);
+  border-radius: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: var(--kgv-shadow-soft);
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+  min-height: clamp(26rem, 40vw, 36rem);
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  position: relative;
+}
+
+.termine-hero::before,
+.termine-hero::after {
+  border-radius: 999px;
+  content: '';
+  pointer-events: none;
+  position: absolute;
+}
+
+.termine-hero::before {
+  background: rgba(255, 255, 255, 0.62);
+  height: 22rem;
+  left: -8rem;
+  top: 42%;
+  width: 22rem;
+}
+
+.termine-hero::after {
+  background: rgba(243, 239, 249, 0.72);
+  bottom: -8rem;
+  height: 26rem;
+  right: 18%;
+  width: 26rem;
+}
+
+.termine-hero__content,
+.termine-hero__panel,
+.termine-hero__lavendel {
+  position: relative;
+  z-index: 1;
+}
+
+.termine-hero__content {
+  align-content: center;
+  display: grid;
+  gap: 1rem;
+  max-width: 48rem;
+}
+
+.termine-hero__content .kgv-heading {
+  max-width: 14ch;
+}
+
+.termine-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.termine-hero__panel {
+  align-self: center;
+  background: rgba(255, 255, 255, 0.86);
+  display: grid;
+  gap: 0.85rem;
+  padding: clamp(1rem, 2.4vw, 1.4rem);
+}
+
+.termine-hero__fact {
+  background: rgba(248, 246, 241, 0.92);
+  border: 1px solid rgba(232, 236, 229, 0.92);
+  border-radius: var(--kgv-radius-lg);
+  display: grid;
+  gap: 0.2rem;
+  padding: 1rem;
+}
+
+.termine-hero__fact:nth-child(2) {
+  background: rgba(243, 239, 249, 0.92);
+}
+
+.termine-hero__fact:nth-child(3) {
+  background: rgba(238, 245, 239, 0.94);
+}
+
+.termine-hero__fact strong {
+  color: var(--kgv-primary);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  line-height: 1;
+}
+
+.termine-hero__fact small {
+  color: var(--kgv-text-muted);
+  font-weight: 850;
+}
+
+.termine-hero__lavendel {
+  pointer-events: none;
+  position: absolute;
+  user-select: none;
+}
+
+.termine-hero__lavendel--eins {
+  bottom: -8rem;
+  left: -2rem;
+  max-width: min(17rem, 34vw);
+  opacity: 0.26;
+  transform: rotate(-8deg);
+}
+
+.termine-hero__lavendel--zwei {
+  max-width: min(21rem, 36vw);
+  opacity: 0.2;
+  right: 2rem;
+  top: -9rem;
+  transform: rotate(12deg);
+}
+
+/* ==========================================================================
+   03   Kalender
+   ========================================================================== */
+
+.kalender-section {
+  display: grid;
+  gap: clamp(0.65rem, 1.2vw, 1rem);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: calc(100svh - var(--kgv-header-height) - 1rem);
+  min-height: 42rem;
+  overflow: hidden;
+}
+
+.kalender-head {
+  align-items: end;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.kalender-head h2,
+.termine-ausblick h2 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.08;
+  margin: 0;
+}
+
+.kalender-head p:not(.kgv-eyebrow) {
+  color: var(--kgv-text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0.35rem 0 0;
+  max-width: 48rem;
+}
+
+.kalender-switch {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
+  box-shadow: var(--kgv-shadow-soft);
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.45rem;
+  padding: 0.35rem;
+}
+
+.kalender-switch strong {
+  color: var(--kgv-primary);
+  font-size: 0.9rem;
+  min-width: 8.5rem;
+  text-align: center;
+}
+
+.kalender-switch__button {
   align-items: center;
   background: var(--kgv-surface-sage);
-  border-radius: 999px;
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
   color: var(--kgv-primary);
+  cursor: pointer;
   display: inline-flex;
-  height: 3.5rem;
+  height: 2.35rem;
   justify-content: center;
-  width: 3.5rem;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+  width: 2.35rem;
+}
+
+.kalender-switch__button:hover:not(:disabled) {
+  background: var(--kgv-primary);
+  color: var(--kgv-text-inverse);
+  transform: translateY(-1px);
+}
+
+.kalender-switch__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.monatsleiste {
+  display: flex;
+  gap: 0.38rem;
+  overflow-x: auto;
+  padding: 0.1rem 0 0.32rem;
+  scrollbar-width: thin;
+}
+
+.monatsleiste__button {
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-text-muted);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font-size: 0.9rem;
+  font-weight: 900;
+  min-width: 3.9rem;
+  padding: 0.54rem 0.72rem;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.monatsleiste__button:hover,
+.monatsleiste__button--active {
+  background: var(--kgv-primary);
+  border-color: var(--kgv-primary);
+  color: var(--kgv-text-inverse);
+  transform: translateY(-1px);
+}
+
+.kalender-layout {
+  align-items: stretch;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(19rem, 0.34fr);
+  min-height: 0;
+}
+
+.kalender-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  overflow: hidden;
+  padding: clamp(0.65rem, 1.6vw, 1rem);
+}
+
+.kalender-wochentage,
+.kalender-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.kalender-wochentage {
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.kalender-wochentage span {
+  color: var(--kgv-secondary-hover);
+  font-size: 0.74rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  padding: 0.35rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.kalender-grid {
+  gap: 0.3rem;
+  grid-auto-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
+.kalender-tag {
+  background: rgba(248, 246, 241, 0.82);
+  border: 1px solid rgba(232, 236, 229, 0.92);
+  border-radius: var(--kgv-radius-md);
+  display: grid;
+  gap: 0.28rem;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0.42rem;
+  position: relative;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.kalender-tag:hover {
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(122, 149, 120, 0.72);
+  box-shadow: 0 0.85rem 1.8rem rgba(31, 42, 32, 0.1);
+  transform: translateY(-2px);
+}
+
+.kalender-tag--weekend {
+  background: rgba(243, 239, 249, 0.44);
+}
+
+.kalender-tag--muted {
+  background: rgba(248, 246, 241, 0.42);
+  color: var(--kgv-text-soft);
+  opacity: 0.54;
+}
+
+.kalender-tag--has-events {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(169, 191, 168, 0.72);
+  box-shadow: 0 0.75rem 1.6rem rgba(31, 42, 32, 0.07);
+}
+
+.kalender-tag--today {
+  border-color: var(--kgv-secondary);
+  box-shadow: 0 0 0 3px rgba(201, 184, 232, 0.24);
+}
+
+.kalender-tag__kopf {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.kalender-tag__kopf span {
+  color: var(--kgv-text-main);
+  font-weight: 950;
+}
+
+.kalender-tag__kopf small {
+  background: var(--kgv-surface-lavender);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-secondary-hover);
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 0.2rem 0.45rem;
+}
+
+.kalender-tag__events {
+  align-content: start;
+  display: grid;
+  gap: 0.22rem;
+  min-width: 0;
+}
+
+.kalender-event {
+  border: 0;
+  border-radius: var(--kgv-radius-sm);
+  color: var(--kgv-primary);
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  font-size: clamp(0.62rem, 0.76vw, 0.72rem);
+  font-weight: 850;
+  line-height: 1.18;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.24rem 0.34rem;
+  text-align: left;
+  text-overflow: ellipsis;
+  transition: filter 180ms ease, transform 180ms ease;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.kalender-event:hover,
+.kalender-event:focus-visible {
+  filter: saturate(1.08);
+  outline: 2px solid rgba(122, 149, 120, 0.34);
+  outline-offset: 2px;
+  transform: translateX(1px);
+}
+
+.kalender-event--salbei {
+  background: var(--kgv-surface-sage);
+}
+
+.kalender-event--lavendel {
+  background: var(--kgv-surface-lavender);
+  color: var(--kgv-secondary-hover);
+}
+
+.kalender-event--sand {
+  background: color-mix(in srgb, var(--kgv-accent-sand) 24%, white);
+  color: #604300;
+}
+
+.kalender-event--nacht {
+  background: linear-gradient(135deg, #2f3f73 0%, #536aa6 100%);
+  color: var(--kgv-text-inverse);
+}
+
+/* ==========================================================================
+   04   Monatsliste
+   ========================================================================== */
+
+.monatsliste {
+  align-self: stretch;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-height: 0;
+  overflow: hidden;
+  padding: clamp(0.85rem, 1.8vw, 1.1rem);
+}
+
+.monatsliste h3 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: 1.7rem;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.monatsliste__eintraege {
+  display: grid;
+  gap: 0.68rem;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.1rem 0.2rem 0.1rem 0;
+  scroll-behavior: smooth;
+}
+
+.monatsliste__leer {
+  background: var(--kgv-surface-soft);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-md);
+  color: var(--kgv-text-muted);
+  line-height: 1.55;
+  margin: 0;
+  padding: 1rem;
+}
+
+.termin-kompakt {
+  border-left: 0.3rem solid var(--kgv-accent-sage);
+  border-radius: var(--kgv-radius-md);
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.9rem;
+  transition: box-shadow 180ms ease, outline-color 180ms ease, transform 180ms ease;
+}
+
+.termin-kompakt:focus {
+  outline: 0;
+}
+
+.termin-kompakt--active {
+  animation: termin-fokus 900ms ease;
+  box-shadow: 0 0 0 3px rgba(122, 149, 120, 0.22), 0 1rem 2rem rgba(31, 42, 32, 0.12);
+  transform: translateX(-2px);
+}
+
+.termin-kompakt--salbei {
+  background: rgba(238, 245, 239, 0.72);
+  border-left-color: var(--kgv-accent-sage);
+}
+
+.termin-kompakt--lavendel {
+  background: rgba(243, 239, 249, 0.76);
+  border-left-color: var(--kgv-accent-lavender);
+}
+
+.termin-kompakt--sand {
+  background: color-mix(in srgb, var(--kgv-accent-sand) 18%, white);
+  border-left-color: var(--kgv-accent-sand);
+}
+
+.termin-kompakt--nacht {
+  background: rgba(47, 63, 115, 0.08);
+  border-left-color: #536aa6;
+}
+
+@keyframes termin-fokus {
+  0% {
+    box-shadow: 0 0 0 0 rgba(122, 149, 120, 0.34), 0 1rem 2rem rgba(31, 42, 32, 0.08);
+  }
+
+  55% {
+    box-shadow: 0 0 0 8px rgba(122, 149, 120, 0), 0 1rem 2rem rgba(31, 42, 32, 0.12);
+  }
+
+  100% {
+    box-shadow: 0 0 0 3px rgba(122, 149, 120, 0.22), 0 1rem 2rem rgba(31, 42, 32, 0.12);
+  }
+}
+
+.termin-kompakt__datum {
+  color: var(--kgv-secondary-hover);
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.termin-kompakt h4 {
+  color: var(--kgv-text-main);
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.termin-kompakt p {
+  color: var(--kgv-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.termin-kompakt dl {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.termin-kompakt div {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.termin-kompakt dt {
+  color: var(--kgv-text-soft);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.termin-kompakt dd {
+  color: var(--kgv-text-main);
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* ==========================================================================
+   05   Ausblick
+   ========================================================================== */
+
+.termine-ausblick {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.ausblick-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ausblick-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 245, 239, 0.58));
+  display: grid;
+  gap: 0.65rem;
+  padding: 1.1rem;
+}
+
+.ausblick-card--lavendel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 239, 249, 0.68));
+}
+
+.ausblick-card--sand {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), color-mix(in srgb, var(--kgv-accent-sand) 16%, white));
+}
+
+.ausblick-card--nacht {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(47, 63, 115, 0.1));
+}
+
+.ausblick-card__kategorie {
+  color: var(--kgv-secondary-hover);
+  font-size: 0.75rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ausblick-card h3 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: 1.35rem;
+  line-height: 1.14;
+  margin: 0;
+}
+
+.ausblick-card p {
+  color: var(--kgv-text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.ausblick-card__meta {
+  color: var(--kgv-primary);
+  font-size: 0.88rem;
+  font-weight: 850;
+  line-height: 1.4;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   06   Responsive
+   ========================================================================== */
+
+@media (max-width: 1120px) {
+  .kalender-section {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .kalender-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .monatsliste {
+    overflow: visible;
+  }
+
+  .monatsliste__eintraege {
+    max-height: 34rem;
+  }
+
+  .ausblick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .termine-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .termine-hero__content .kgv-heading {
+    max-width: 100%;
+  }
+
+  .kalender-head {
+    align-items: start;
+    display: grid;
+  }
+
+  .kalender-switch {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 720px) {
+  .kalender-card {
+    overflow-x: auto;
+  }
+
+  .kalender-wochentage,
+  .kalender-grid {
+    min-width: 46rem;
+  }
+
+  .ausblick-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .termine-hero {
+    border-radius: 1.4rem;
+    padding: 1.25rem;
+  }
+
+  .termine-hero__actions,
+  .termine-hero__actions .kgv-button {
+    width: 100%;
+  }
+
+  .termine-hero__actions .kgv-button {
+    justify-content: center;
+  }
+
+  .kalender-switch {
+    width: 100%;
+  }
+
+  .kalender-switch strong {
+    flex: 1;
+  }
 }

@@ -1,9 +1,142 @@
 <!-- src/app/pages/termine/termine.component.html -->
 
-<section class="kgv-section kgv-section--narrow placeholder-page kgv-card" aria-labelledby="termine-titel">
-  <span class="placeholder-page__icon material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
-  <p class="kgv-eyebrow">KGV1925</p>
-  <h1 id="termine-titel" class="kgv-heading">Termine</h1>
-  <p class="kgv-subline">Alle wichtigen Veranstaltungen im Überblick.</p>
-  <a class="kgv-button" routerLink="/">Zur Startseite</a>
-</section>
+<div class="kgv-page termine-page">
+  <section class="termine-hero kgv-section kgv-section--wide" aria-labelledby="termine-titel">
+    <img class="termine-hero__lavendel termine-hero__lavendel--eins" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
+    <img class="termine-hero__lavendel termine-hero__lavendel--zwei" src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
+
+    <div class="termine-hero__content">
+      <p class="kgv-eyebrow">Termine</p>
+      <h1 id="termine-titel" class="kgv-heading">Das Vereinsjahr in der Monatsansicht.</h1>
+      <p class="kgv-subline">Alle wichtigen Vereins-, Garten- und Gemeinschaftstermine stehen übersichtlich im Kalender. Über die Monatsnavigation lässt sich das Jahr 2026 von Januar bis Dezember durchgehen.</p>
+
+      <div class="termine-hero__actions">
+        <a class="kgv-button" routerLink="/aktuelles">
+          <span class="material-symbols-outlined" aria-hidden="true">campaign</span>
+          <span>Aktuelles ansehen</span>
+        </a>
+        <a class="kgv-button kgv-button--secondary" routerLink="/kontakt">
+          <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+          <span>Termin melden</span>
+        </a>
+      </div>
+    </div>
+
+    <aside class="termine-hero__panel kgv-card" aria-label="Kurzinfos zum Kalender">
+      @for (info of heroKurzinfos; track info.label) {
+        <span class="termine-hero__fact">
+          <strong>{{ info.wert }}</strong>
+          <small>{{ info.label }}</small>
+        </span>
+      }
+    </aside>
+  </section>
+
+  <section class="kgv-section kgv-section--wide kalender-section" aria-labelledby="kalender-titel">
+    <div class="kalender-head">
+      <div>
+        <p class="kgv-eyebrow">Kalender</p>
+        <h2 id="kalender-titel">{{ aktiverMonatName }}</h2>
+        <p>Termine erscheinen direkt im jeweiligen Kalendertag und zusätzlich als kompakte Monatsliste.</p>
+      </div>
+
+      <div class="kalender-switch" aria-label="Monat wechseln">
+        <button type="button" class="kalender-switch__button" (click)="vorherigerMonat()" [disabled]="!kannVorherigerMonat" aria-label="Vorheriger Monat">
+          <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+        </button>
+        <strong>{{ aktiverMonatName }}</strong>
+        <button type="button" class="kalender-switch__button" (click)="naechsterMonat()" [disabled]="!kannNaechsterMonat" aria-label="Nächster Monat">
+          <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="monatsleiste" aria-label="Monate 2026">
+      @for (monat of monate; track monat; let monatIndex = $index) {
+        <button type="button" class="monatsleiste__button" [class.monatsleiste__button--active]="monatIndex === aktiverMonatIndex" (click)="waehleMonat(monatIndex)">
+          {{ monat.slice(0, 3) }}
+        </button>
+      }
+    </div>
+
+    <div class="kalender-layout">
+      <div class="kalender-card kgv-card" aria-label="Monatskalender">
+        <div class="kalender-wochentage" aria-hidden="true">
+          @for (wochentag of wochentage; track wochentag) {
+            <span>{{ wochentag }}</span>
+          }
+        </div>
+
+        <div class="kalender-grid">
+          @for (tag of kalenderTage; track tag.datumISO) {
+            <article class="kalender-tag" [class.kalender-tag--muted]="!tag.istAktuellerMonat" [class.kalender-tag--today]="tag.istHeute" [class.kalender-tag--weekend]="tag.istWochenende" [class.kalender-tag--has-events]="tag.termine.length > 0">
+              <header class="kalender-tag__kopf">
+                <span>{{ tag.tagZahl }}</span>
+                @if (tag.istHeute) {
+                  <small>Heute</small>
+                }
+              </header>
+
+              @if (tag.termine.length) {
+                <div class="kalender-tag__events">
+                  @for (termin of tag.termine; track termin.slug) {
+                    <button type="button" class="kalender-event" [class.kalender-event--salbei]="termin.akzent === 'salbei'" [class.kalender-event--lavendel]="termin.akzent === 'lavendel'" [class.kalender-event--sand]="termin.akzent === 'sand'" [class.kalender-event--nacht]="termin.akzent === 'nacht'" (click)="fokussiereTermin(termin.slug)">
+                      {{ termin.kalenderKurz }}
+                    </button>
+                  }
+                </div>
+              }
+            </article>
+          }
+        </div>
+      </div>
+
+      <aside class="monatsliste kgv-card" aria-labelledby="monatsliste-titel">
+        <p class="kgv-eyebrow">{{ aktiverMonatName }}</p>
+        <h3 id="monatsliste-titel">Termine im Monat</h3>
+
+        @if (termineImAktivenMonat.length) {
+          <div class="monatsliste__eintraege">
+            @for (termin of termineImAktivenMonat; track termin.slug) {
+              <article class="termin-kompakt" [id]="'termin-' + termin.slug" tabindex="-1" [class.termin-kompakt--salbei]="termin.akzent === 'salbei'" [class.termin-kompakt--lavendel]="termin.akzent === 'lavendel'" [class.termin-kompakt--sand]="termin.akzent === 'sand'" [class.termin-kompakt--nacht]="termin.akzent === 'nacht'" [class.termin-kompakt--active]="termin.slug === fokussierterTerminSlug">
+                <span class="termin-kompakt__datum">{{ terminDauer(termin) }}</span>
+                <h4>{{ termin.titel }}</h4>
+                <p>{{ termin.kurztext }}</p>
+                <dl>
+                  <div>
+                    <dt>Zeit</dt>
+                    <dd>{{ termin.zeit }}</dd>
+                  </div>
+                  <div>
+                    <dt>Ort</dt>
+                    <dd>{{ termin.ort }}</dd>
+                  </div>
+                </dl>
+              </article>
+            }
+          </div>
+        } @else {
+          <p class="monatsliste__leer">Für diesen Monat sind aktuell keine Vereinstermine eingetragen.</p>
+        }
+      </aside>
+    </div>
+  </section>
+
+  <section class="kgv-section kgv-section--wide termine-ausblick" aria-labelledby="ausblick-titel">
+    <div>
+      <p class="kgv-eyebrow">Nächste Termine</p>
+      <h2 id="ausblick-titel">Was als Nächstes ansteht.</h2>
+    </div>
+
+    <div class="ausblick-grid">
+      @for (termin of naechsteTermine; track termin.slug) {
+        <article class="ausblick-card kgv-card kgv-card--interactive" [class.ausblick-card--lavendel]="termin.akzent === 'lavendel'" [class.ausblick-card--sand]="termin.akzent === 'sand'" [class.ausblick-card--nacht]="termin.akzent === 'nacht'">
+          <span class="ausblick-card__kategorie">{{ termin.kategorie }}</span>
+          <h3>{{ termin.titel }}</h3>
+          <p>{{ termin.kurztext }}</p>
+          <span class="ausblick-card__meta">{{ termin.datum }} · {{ termin.zeit }}</span>
+        </article>
+      }
+    </div>
+  </section>
+</div>
