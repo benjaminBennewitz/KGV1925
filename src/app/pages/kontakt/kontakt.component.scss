@@ -16,30 +16,311 @@
 ###
 #################################*/
 
-/* ========================================================================== 
-   INHALTSVERZEICHNIS
-
-   01   Placeholder Page
-   ========================================================================== */
-
-/* ==========================================================================
-   01   Placeholder Page
-   ========================================================================== */
-
-.placeholder-page {
-  display: grid;
-  gap: 1rem;
-  justify-items: start;
-  padding: clamp(1.5rem, 4vw, 3rem);
+.kontakt-page {
+  overflow: hidden;
 }
 
-.placeholder-page__icon {
+.kontakt-hero {
+  align-items: center;
+  background: radial-gradient(circle at 12% 18%, rgba(201, 184, 232, 0.36), transparent 34%), radial-gradient(circle at 88% 12%, rgba(169, 191, 168, 0.45), transparent 30%), linear-gradient(135deg, #fbfaf6 0%, #f3f7ef 45%, #f6eff8 100%);
+  border-radius: 0 0 clamp(2rem, 5vw, 4rem) clamp(2rem, 5vw, 4rem);
+  box-sizing: border-box;
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 3rem);
+  grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+  min-height: min(42rem, calc(100vh - var(--kgv-header-height)));
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 4rem);
+  position: relative;
+}
+
+.kontakt-hero__content,
+.kontakt-hero__panel {
+  position: relative;
+  z-index: 2;
+}
+
+.kontakt-hero__content {
+  display: grid;
+  gap: 1rem;
+  max-width: 44rem;
+}
+
+.kontakt-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.6rem;
+}
+
+.kontakt-hero__panel {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.kontakt-hero__panel h2,
+.kontakt-hero__panel p {
+  margin: 0;
+}
+
+.kontakt-hero__panel ul {
+  display: grid;
+  gap: 0.55rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.kontakt-hero__panel li {
+  align-items: center;
+  color: var(--kgv-text-muted);
+  display: flex;
+  gap: 0.55rem;
+}
+
+.kontakt-hero__panel li::before {
+  background: var(--kgv-accent-sand);
+  border-radius: 999px;
+  content: '';
+  height: 0.55rem;
+  width: 0.55rem;
+}
+
+.kontakt-hero__panel-icon {
   align-items: center;
   background: var(--kgv-surface-sage);
   border-radius: 999px;
   color: var(--kgv-primary);
   display: inline-flex;
-  height: 3.5rem;
+  height: 3.2rem;
   justify-content: center;
-  width: 3.5rem;
+  width: 3.2rem;
+}
+
+.kontakt-hero__lavendel {
+  opacity: 0.22;
+  pointer-events: none;
+  position: absolute;
+  user-select: none;
+  width: clamp(8rem, 18vw, 16rem);
+  z-index: 1;
+}
+
+.kontakt-hero__lavendel--links {
+  bottom: -2.4rem;
+  left: -2rem;
+  transform: rotate(-12deg);
+}
+
+.kontakt-hero__lavendel--rechts {
+  right: -1.5rem;
+  top: 4rem;
+  transform: rotate(10deg);
+}
+
+.kontakt-section-head,
+.kontakt-form-section__intro {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: clamp(1.25rem, 3vw, 2rem);
+  max-width: 52rem;
+}
+
+.kontakt-section-head h2,
+.kontakt-section-head p,
+.kontakt-form-section__intro h2,
+.kontakt-form-section__intro p {
+  margin: 0;
+}
+
+.kontakt-grid {
+  display: grid;
+  gap: 1.1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kontakt-card {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+}
+
+.kontakt-card__top {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.kontakt-card__icon {
+  align-items: center;
+  background: var(--kgv-surface-sage);
+  border-radius: 999px;
+  color: var(--kgv-primary);
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
+
+.kontakt-card h3,
+.kontakt-card p {
+  margin: 0;
+}
+
+.kontakt-card p {
+  color: var(--kgv-text-muted);
+}
+
+.kontakt-card__phones {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.kontakt-card__phones a,
+.kontakt-card__textlink {
+  align-items: center;
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-sm);
+  color: var(--kgv-primary);
+  display: inline-flex;
+  font-weight: 800;
+  gap: 0.45rem;
+  padding: 0.65rem 0.75rem;
+  text-decoration: none;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.kontakt-card__phones a:hover,
+.kontakt-card__textlink:hover {
+  background: var(--kgv-surface-lavender);
+  border-color: var(--kgv-secondary);
+  color: var(--kgv-secondary-hover);
+  transform: translateY(-1px);
+}
+
+.kontakt-info-band {
+  background: linear-gradient(135deg, var(--kgv-primary) 0%, #254936 55%, #5f5280 100%);
+  border-radius: var(--kgv-radius-xl);
+  box-sizing: border-box;
+  color: var(--kgv-text-inverse);
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.kontakt-info-band .kgv-eyebrow,
+.kontakt-info-band h2,
+.kontakt-info-band p {
+  color: inherit;
+  margin: 0;
+}
+
+.kontakt-info-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kontakt-info-card {
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--kgv-radius-lg);
+  display: flex;
+  gap: 0.9rem;
+  padding: 1rem;
+}
+
+.kontakt-info-card span {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  flex: 0 0 auto;
+  padding: 0.55rem;
+}
+
+.kontakt-info-card h3,
+.kontakt-info-card p {
+  margin: 0;
+}
+
+.kontakt-info-card p {
+  margin-top: 0.3rem;
+  opacity: 0.88;
+}
+
+.kontakt-form-section {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(16rem, 0.8fr) minmax(0, 1.2fr);
+}
+
+.kontakt-form-section__intro {
+  align-self: start;
+  margin-bottom: 0;
+}
+
+.kontakt-form {
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.kgv-input--invalid {
+  border-color: var(--kgv-error);
+  box-shadow: 0 0 0 4px rgba(180, 35, 24, 0.1);
+}
+
+.kontakt-form__status {
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-sm);
+  color: var(--kgv-success);
+  font-weight: 800;
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+}
+
+.kontakt-form .kgv-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.46;
+  transform: none;
+}
+
+@media (max-width: 1050px) {
+  .kontakt-hero,
+  .kontakt-form-section {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-hero {
+    min-height: auto;
+  }
+
+  .kontakt-grid,
+  .kontakt-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .kontakt-hero,
+  .kontakt-info-band {
+    padding: 1.25rem;
+  }
+
+  .kontakt-grid,
+  .kontakt-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kontakt-hero__actions,
+  .kontakt-hero__actions .kgv-button {
+    width: 100%;
+  }
+
+  .kontakt-card__top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

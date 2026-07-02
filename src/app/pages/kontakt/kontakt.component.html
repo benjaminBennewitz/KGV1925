@@ -1,9 +1,165 @@
 <!-- src/app/pages/kontakt/kontakt.component.html -->
 
-<section class="kgv-section kgv-section--narrow placeholder-page kgv-card" aria-labelledby="kontakt-titel">
-  <span class="placeholder-page__icon material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
-  <p class="kgv-eyebrow">KGV1925</p>
-  <h1 id="kontakt-titel" class="kgv-heading">Kontakt</h1>
-  <p class="kgv-subline">Kontaktmöglichkeiten, Ansprechpartner und Lageinformationen.</p>
-  <a class="kgv-button" routerLink="/">Zur Startseite</a>
-</section>
+<div class="kgv-page kontakt-page">
+  <section class="kontakt-hero kgv-section kgv-section--wide" aria-labelledby="kontakt-titel">
+    <img class="kontakt-hero__lavendel kontakt-hero__lavendel--links" src="assets/img/lavendel-1_aquarell.webp" alt="" aria-hidden="true">
+    <img class="kontakt-hero__lavendel kontakt-hero__lavendel--rechts" src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
+
+    <div class="kontakt-hero__content">
+      <p class="kgv-eyebrow">Kontakt</p>
+      <h1 id="kontakt-titel" class="kgv-heading">Direkt zum richtigen Ansprechpartner.</h1>
+      <p class="kgv-subline">Hier finden Mitglieder, Gäste und Interessierte die wichtigsten Kontaktwege zum Verein, zur Anlage und zur Gartenfachberatung.</p>
+
+      <div class="kontakt-hero__actions" aria-label="Schnelle Kontaktwege">
+        <a class="kgv-button" href="#kontaktformular">
+          <span class="material-symbols-outlined" aria-hidden="true">edit_square</span>
+          Kontaktformular öffnen
+        </a>
+        <a class="kgv-button kgv-button--secondary" routerLink="/vereinshausvermietung">
+          <span class="material-symbols-outlined" aria-hidden="true">home_work</span>
+          Vereinshausvermietung
+        </a>
+      </div>
+    </div>
+
+    <aside class="kontakt-hero__panel kgv-card" aria-label="Kontakt kurz zusammengefasst">
+      <span class="kontakt-hero__panel-icon material-symbols-outlined" aria-hidden="true">support_agent</span>
+      <h2>Schnelle Zuordnung</h2>
+      <p>Anliegen mit Gartennummer, Rückrufnummer und kurzer Beschreibung können schneller an Vorstand oder Gartenfachberatung weitergegeben werden.</p>
+      <ul>
+        <li>Vereins- und Verwaltungsfragen</li>
+        <li>Gärtnerische Rückfragen</li>
+        <li>Hinweise zur Anlage</li>
+      </ul>
+    </aside>
+  </section>
+
+  <section class="kgv-section kgv-section--wide kontakt-overview" aria-labelledby="kontaktwege-titel">
+    <div class="kontakt-section-head">
+      <p class="kgv-eyebrow">Telefon und Ansprechpartner</p>
+      <h2 id="kontaktwege-titel">Kontaktwege im Überblick</h2>
+      <p>Die wichtigsten Anlaufstellen sind nach Aufgabenbereich gegliedert. Für schriftliche Anliegen steht zusätzlich das Kontaktformular bereit.</p>
+    </div>
+
+    <div class="kontakt-grid">
+      @for (person of kontaktpersonen; track person.rolle) {
+        <article class="kontakt-card kgv-card kgv-card--interactive">
+          <div class="kontakt-card__top">
+            <span class="kontakt-card__icon material-symbols-outlined" aria-hidden="true">{{ person.icon }}</span>
+            <span class="kgv-pill">{{ person.rolle }}</span>
+          </div>
+          <h3>{{ person.name }}</h3>
+          <p>{{ person.beschreibung }}</p>
+
+          @if (person.telefonnummern.length) {
+            <div class="kontakt-card__phones" aria-label="Telefonnummern">
+              @for (telefonnummer of person.telefonnummern; track telefonnummer) {
+                <a [href]="telefonHref(telefonnummer)">
+                  <span class="material-symbols-outlined" aria-hidden="true">call</span>
+                  {{ telefonnummer }}
+                </a>
+              }
+            </div>
+          } @else {
+            <a class="kontakt-card__textlink" href="#kontaktformular">Kontakt über Formular</a>
+          }
+
+          <a class="kgv-button kgv-button--small" [href]="person.aktionZiel">
+            {{ person.aktionLabel }}
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+          </a>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="kgv-section kgv-section--wide kontakt-info-band" aria-labelledby="kontaktinfos-titel">
+    <div>
+      <p class="kgv-eyebrow">Anlage und Anliegen</p>
+      <h2 id="kontaktinfos-titel">Gut vorbereitet Kontakt aufnehmen</h2>
+    </div>
+
+    <div class="kontakt-info-grid">
+      @for (info of kontaktInfos; track info.titel) {
+        <article class="kontakt-info-card">
+          <span class="material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
+          <div>
+            <h3>{{ info.titel }}</h3>
+            <p>{{ info.text }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section id="kontaktformular" class="kgv-section kgv-section--wide kontakt-form-section" aria-labelledby="kontaktformular-titel">
+    <div class="kontakt-form-section__intro">
+      <p class="kgv-eyebrow">Formular</p>
+      <h2 id="kontaktformular-titel">Nachricht an den Verein</h2>
+      <p>Bitte trage dein Anliegen möglichst konkret ein. Pflichtfelder werden vor dem Absenden geprüft.</p>
+    </div>
+
+    <form class="kontakt-form kgv-form kgv-card" (ngSubmit)="kontaktSenden()" aria-label="Kontaktformular">
+      <div class="kgv-form-row">
+        <label class="kgv-field">
+          <span class="kgv-label">Name</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('name')" type="text" name="name" autocomplete="name" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="kontaktFormular.name" (ngModelChange)="kontaktFeldAktualisieren('name', $event)" required>
+          @if (feldHinweise.name) {
+            <span class="kgv-error-text" role="alert">{{ feldHinweise.name }}</span>
+          }
+        </label>
+
+        <label class="kgv-field">
+          <span class="kgv-label">E-Mail</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('email')" type="email" name="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" [ngModel]="kontaktFormular.email" (ngModelChange)="kontaktFeldAktualisieren('email', $event)" required>
+          @if (feldHinweise.email) {
+            <span class="kgv-error-text" role="alert">{{ feldHinweise.email }}</span>
+          }
+        </label>
+      </div>
+
+      <div class="kgv-form-row">
+        <label class="kgv-field">
+          <span class="kgv-label">Telefon</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('telefon')" type="tel" name="telefon" inputmode="tel" autocomplete="tel" maxlength="30" pattern="[0-9 +()\/-]{6,30}" [ngModel]="kontaktFormular.telefon" (ngModelChange)="kontaktFeldAktualisieren('telefon', $event)">
+          @if (feldHinweise.telefon) {
+            <span class="kgv-error-text" role="alert">{{ feldHinweise.telefon }}</span>
+          }
+        </label>
+
+        <label class="kgv-field">
+          <span class="kgv-label">Gartennummer</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('gartennummer')" type="text" name="gartennummer" inputmode="numeric" maxlength="2" pattern="(0?[1-9]|[1-4][0-9]|50)" [ngModel]="kontaktFormular.gartennummer" (ngModelChange)="kontaktFeldAktualisieren('gartennummer', $event)">
+          @if (feldHinweise.gartennummer) {
+            <span class="kgv-error-text" role="alert">{{ feldHinweise.gartennummer }}</span>
+          }
+        </label>
+      </div>
+
+      <label class="kgv-field">
+        <span class="kgv-label">Betreff</span>
+        <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('betreff')" type="text" name="betreff" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="kontaktFormular.betreff" (ngModelChange)="kontaktFeldAktualisieren('betreff', $event)" required>
+        @if (feldHinweise.betreff) {
+          <span class="kgv-error-text" role="alert">{{ feldHinweise.betreff }}</span>
+        }
+      </label>
+
+      <label class="kgv-field">
+        <span class="kgv-label">Nachricht</span>
+        <textarea class="kgv-textarea" [class.kgv-input--invalid]="hatFeldHinweis('nachricht')" name="nachricht" maxlength="800" [ngModel]="kontaktFormular.nachricht" (ngModelChange)="kontaktFeldAktualisieren('nachricht', $event)" required></textarea>
+        @if (feldHinweise.nachricht) {
+          <span class="kgv-error-text" role="alert">{{ feldHinweise.nachricht }}</span>
+        }
+      </label>
+
+      @if (formularStatus) {
+        <p class="kontakt-form__status" role="status">{{ formularStatus }}</p>
+      }
+
+      <button class="kgv-button kgv-button--large" type="submit" [disabled]="!istKontaktFormularGueltig()">
+        <span class="material-symbols-outlined" aria-hidden="true">send</span>
+        Nachricht vorbereiten
+      </button>
+    </form>
+  </section>
+</div>
