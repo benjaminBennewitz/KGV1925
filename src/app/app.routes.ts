@@ -54,6 +54,21 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/kontakt/kontakt.component').then((modul) => modul.KontaktComponent),
   },
   {
+    path: 'mitgliederbereich/rechnungen',
+    title: 'Rechnungen | Mitgliederbereich | KGV1925',
+    loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
+  },
+  {
+    path: 'mitgliederbereich/zaehlerstaende',
+    title: 'Zählerstände | Mitgliederbereich | KGV1925',
+    loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
+  },
+  {
+    path: 'mitgliederbereich/admin',
+    title: 'Adminbereich | Mitgliederbereich | KGV1925',
+    loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
+  },
+  {
     path: 'mitgliederbereich',
     title: 'Mitgliederbereich | KGV1925',
     loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),

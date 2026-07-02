@@ -1,8 +1,9 @@
 /* src/app/shared/components/header/header.component.ts */
 
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { HAUPTNAVIGATION } from '../../data/navigation.data';
+import { MitgliederSessionService } from '../../services/mitglieder-session.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ import { HAUPTNAVIGATION } from '../../data/navigation.data';
 export class HeaderComponent {
   protected readonly navigation = HAUPTNAVIGATION;
   protected readonly istMenueOffen = signal(false);
+  protected readonly mitgliederSession = inject(MitgliederSessionService);
 
   /**
    * Öffnet oder schließt die mobile Navigation.
@@ -26,5 +28,13 @@ export class HeaderComponent {
    */
   protected schliesseMenue(): void {
     this.istMenueOffen.set(false);
+  }
+
+  /**
+   * Meldet die aktive Sitzung direkt über den Header ab.
+   */
+  protected abmelden(): void {
+    this.mitgliederSession.abmelden();
+    this.schliesseMenue();
   }
 }

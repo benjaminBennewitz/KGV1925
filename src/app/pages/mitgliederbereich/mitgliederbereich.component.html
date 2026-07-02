@@ -1,9 +1,400 @@
 <!-- src/app/pages/mitgliederbereich/mitgliederbereich.component.html -->
 
-<section class="kgv-section kgv-section--narrow placeholder-page kgv-card" aria-labelledby="mitgliederbereich-titel">
-  <span class="placeholder-page__icon material-symbols-outlined" aria-hidden="true">{{ icon }}</span>
-  <p class="kgv-eyebrow">KGV1925</p>
-  <h1 id="mitgliederbereich-titel" class="kgv-heading">Mitgliederbereich</h1>
-  <p class="kgv-subline">Der geschützte Bereich wird später für Mitgliederfunktionen vorbereitet.</p>
-  <a class="kgv-button" routerLink="/">Zur Startseite</a>
-</section>
+<div class="kgv-page mitglieder-page" [class.mitglieder-page--logged-in]="angemeldetesMitglied">
+  @if (!angemeldetesMitglied) {
+    <section class="mitglieder-hero kgv-section kgv-section--wide" aria-labelledby="mitgliederbereich-titel">
+      <img class="mitglieder-hero__lavendel mitglieder-hero__lavendel--links" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
+      <img class="mitglieder-hero__lavendel mitglieder-hero__lavendel--rechts" src="assets/img/lavendel-3_aquarell.webp" alt="" aria-hidden="true">
+
+      <div class="mitglieder-hero__content">
+        <p class="kgv-eyebrow">Mitgliederbereich</p>
+        <h1 id="mitgliederbereich-titel" class="kgv-heading">Ein geschützter Bereich für Rechnungen und Zählerstände.</h1>
+        <p class="kgv-subline">Mitglieder melden sich mit Benutzername, Gartennummer und Passwort an. Danach stehen persönliche Dokumente und die Eingabe der aktuellen Zählerstände bereit.</p>
+      </div>
+
+      <article class="login-card kgv-card" aria-labelledby="login-titel">
+        <div class="login-card__content">
+          <p class="kgv-eyebrow">Login</p>
+          <h2 id="login-titel">Anmelden</h2>
+          <p>Der Zugang kombiniert Benutzername, Gartennummer und Passwort, damit die Mitgliedsdaten eindeutig zugeordnet werden können.</p>
+        </div>
+
+        <form class="login-form kgv-form" (ngSubmit)="anmelden()" aria-label="Login Mitgliederbereich">
+          <label class="kgv-field">
+            <span class="kgv-label">Benutzername</span>
+            <input class="kgv-input" [class.kgv-input--invalid]="hatLoginFeldHinweis('benutzername')" type="text" name="benutzername" autocomplete="username" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="loginDaten.benutzername" (ngModelChange)="loginFeldAktualisieren('benutzername', $event)" required>
+            @if (loginFeldHinweise.benutzername) {
+              <span class="kgv-error-text" role="alert">{{ loginFeldHinweise.benutzername }}</span>
+            }
+          </label>
+
+          <label class="kgv-field">
+            <span class="kgv-label">Gartennummer</span>
+            <input class="kgv-input" [class.kgv-input--invalid]="hatLoginFeldHinweis('gartennummer')" type="text" name="gartennummer" inputmode="numeric" autocomplete="off" maxlength="2" pattern="[0-9]{1,2}" [ngModel]="loginDaten.gartennummer" (ngModelChange)="loginFeldAktualisieren('gartennummer', $event)" required>
+            @if (loginFeldHinweise.gartennummer) {
+              <span class="kgv-error-text" role="alert">{{ loginFeldHinweise.gartennummer }}</span>
+            }
+          </label>
+
+          <label class="kgv-field">
+            <span class="kgv-label">Passwort</span>
+            <input class="kgv-input" [class.kgv-input--invalid]="hatLoginFeldHinweis('passwort')" type="password" name="passwort" autocomplete="current-password" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="loginDaten.passwort" (ngModelChange)="loginFeldAktualisieren('passwort', $event)" required>
+            @if (loginFeldHinweise.passwort) {
+              <span class="kgv-error-text" role="alert">{{ loginFeldHinweise.passwort }}</span>
+            }
+          </label>
+
+          @if (loginFehler) {
+            <p class="kgv-error-text" role="alert">{{ loginFehler }}</p>
+          }
+
+          <button class="kgv-button kgv-button--large" type="submit" [disabled]="!istLoginGueltig()">
+            <span class="material-symbols-outlined" aria-hidden="true">login</span>
+            Einloggen
+          </button>
+        </form>
+
+        <aside class="demo-access" aria-label="Interner Testzugang">
+          <span class="material-symbols-outlined" aria-hidden="true">vpn_key</span>
+          <div>
+            <strong>Testzugang</strong>
+            <p>Mitglied: Benutzername <b>steinberg25</b> · Garten <b>25</b> · Passwort <b>Lavendel2026!</b></p>
+            <p>Admin: Benutzername <b>admin</b> · Garten <b>00</b> · Passwort <b>Vorstand2026!</b></p>
+          </div>
+        </aside>
+      </article>
+    </section>
+  } @else {
+    <section class="kgv-section kgv-section--wide member-shell" aria-label="Angemeldeter Mitgliederbereich">
+      <header class="member-toolbar kgv-card">
+        <div>
+          <p class="kgv-eyebrow">Angemeldet</p>
+          <h2>{{ angemeldetesMitglied.vorname }} {{ angemeldetesMitglied.nachname }}</h2>
+          <p>Garten {{ angemeldetesMitglied.gartennummer }} · {{ angemeldetesMitglied.rolle }}</p>
+        </div>
+
+        <div class="member-toolbar__actions">
+          @if (!istAdmin() && aktuelleAnsicht !== 'uebersicht') {
+            <a class="kgv-button kgv-button--secondary" routerLink="/mitgliederbereich">
+              <span class="material-symbols-outlined" aria-hidden="true">dashboard</span>
+              Übersicht
+            </a>
+          }
+
+          @if (istAdmin() && aktuelleAnsicht !== 'admin') {
+            <a class="kgv-button kgv-button--secondary" routerLink="/mitgliederbereich/admin">
+              <span class="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span>
+              Adminbereich
+            </a>
+          }
+
+          <button class="kgv-button kgv-button--ghost" type="button" (click)="abmelden()">
+            <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+            Abmelden
+          </button>
+        </div>
+      </header>
+
+      @if (loginHinweis) {
+        <p class="status-note" role="status">{{ loginHinweis }}</p>
+      }
+
+      @if (!istAdmin() && aktuelleAnsicht === 'uebersicht') {
+        <section class="dashboard-grid" aria-labelledby="dashboard-titel">
+          <div class="dashboard-head">
+            <p class="kgv-eyebrow">Übersicht</p>
+            <h2 id="dashboard-titel">Was möchtest du öffnen?</h2>
+          </div>
+
+          @for (karte of uebersichtskarten; track karte.titel) {
+            <article class="dashboard-card kgv-card kgv-card--interactive">
+              <span class="dashboard-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+              <span class="kgv-pill">{{ karte.meta }}</span>
+              <h3>{{ karte.titel }}</h3>
+              <p>{{ karte.text }}</p>
+              <a class="kgv-button kgv-button--small" [routerLink]="routeFuerAnsicht(karte.aktion)">
+                Öffnen
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+              </a>
+            </article>
+          }
+        </section>
+      }
+
+      @if (!istAdmin() && aktuelleAnsicht === 'rechnungen') {
+        <section class="member-section" aria-labelledby="rechnungen-titel">
+          <div class="section-head">
+            <p class="kgv-eyebrow">Dokumente</p>
+            <h2 id="rechnungen-titel">Rechnungen</h2>
+            <p>Die Rechnungen sind nach Datum sortiert und können direkt als PDF geöffnet oder heruntergeladen werden.</p>
+          </div>
+
+          <div class="invoice-list">
+            @for (rechnung of rechnungen; track rechnung.nummer) {
+              <article class="invoice-card kgv-card kgv-card--interactive">
+                <div class="invoice-card__icon">
+                  <span class="material-symbols-outlined" aria-hidden="true">picture_as_pdf</span>
+                </div>
+
+                <div class="invoice-card__content">
+                  <span class="invoice-card__meta">{{ rechnung.datum }} · {{ rechnung.nummer }}</span>
+                  <h3>{{ rechnung.name }}</h3>
+                  <p>{{ rechnung.betrag }} · {{ rechnung.status }}</p>
+                </div>
+
+                <a class="kgv-button kgv-button--small" [href]="rechnung.url" [attr.download]="rechnung.dateiname">
+                  PDF öffnen
+                  <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                </a>
+              </article>
+            }
+          </div>
+        </section>
+      }
+
+      @if (!istAdmin() && aktuelleAnsicht === 'zaehlerstaende') {
+        <section class="member-section" aria-labelledby="zaehlerstaende-titel">
+          <div class="section-head">
+            <p class="kgv-eyebrow">Erfassung</p>
+            <h2 id="zaehlerstaende-titel">Zählerstände</h2>
+            <p>Strom und Wasser werden getrennt eingetragen. Jede Eingabe wird direkt für die aktuelle Sitzung übernommen.</p>
+          </div>
+
+          <div class="meter-grid">
+            <article class="meter-card kgv-card">
+              <div class="meter-card__head">
+                <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+                <div>
+                  <h3>Stromzählerstand</h3>
+                  <p>Letzter Wert: {{ gespeicherteZaehlerstaende.strom }} kWh</p>
+                </div>
+              </div>
+
+              <form class="kgv-form" (ngSubmit)="zaehlerstandSenden('strom')">
+                <label class="kgv-field">
+                  <span class="kgv-label">Aktueller Stromzählerstand</span>
+                  <input class="kgv-input" [class.kgv-input--invalid]="zaehlerFehler.strom" type="text" name="stromzaehler" inputmode="decimal" maxlength="9" pattern="[0-9]+([,.][0-9]{1,2})?" [ngModel]="zaehlerstaendeEingabe.strom" (ngModelChange)="zaehlerFeldAktualisieren('strom', $event)" required>
+                </label>
+
+                @if (zaehlerFehler.strom) {
+                  <p class="kgv-error-text" role="alert">{{ zaehlerFehler.strom }}</p>
+                }
+
+                @if (zaehlerBestaetigung.strom) {
+                  <p class="form-status" role="status">{{ zaehlerBestaetigung.strom }}</p>
+                }
+
+                <button class="kgv-button" type="submit" [disabled]="!istZaehlerstandGueltig('strom')">Stromzählerstand senden</button>
+              </form>
+            </article>
+
+            <article class="meter-card kgv-card meter-card--water">
+              <div class="meter-card__head">
+                <span class="material-symbols-outlined" aria-hidden="true">water_drop</span>
+                <div>
+                  <h3>Wasserzählerstand</h3>
+                  <p>Letzter Wert: {{ gespeicherteZaehlerstaende.wasser }} m³</p>
+                </div>
+              </div>
+
+              <form class="kgv-form" (ngSubmit)="zaehlerstandSenden('wasser')">
+                <label class="kgv-field">
+                  <span class="kgv-label">Aktueller Wasserzählerstand</span>
+                  <input class="kgv-input" [class.kgv-input--invalid]="zaehlerFehler.wasser" type="text" name="wasserzaehler" inputmode="decimal" maxlength="9" pattern="[0-9]+([,.][0-9]{1,2})?" [ngModel]="zaehlerstaendeEingabe.wasser" (ngModelChange)="zaehlerFeldAktualisieren('wasser', $event)" required>
+                </label>
+
+                @if (zaehlerFehler.wasser) {
+                  <p class="kgv-error-text" role="alert">{{ zaehlerFehler.wasser }}</p>
+                }
+
+                @if (zaehlerBestaetigung.wasser) {
+                  <p class="form-status" role="status">{{ zaehlerBestaetigung.wasser }}</p>
+                }
+
+                <button class="kgv-button" type="submit" [disabled]="!istZaehlerstandGueltig('wasser')">Wasserzählerstand senden</button>
+              </form>
+            </article>
+          </div>
+        </section>
+      }
+
+      @if (istAdmin() && aktuelleAnsicht === 'admin') {
+        <section class="admin-section" aria-labelledby="admin-titel">
+          <div class="section-head">
+            <p class="kgv-eyebrow">Adminbereich</p>
+            <h2 id="admin-titel">Gärten, Rechnungen und Zählerstände</h2>
+            <p>Der Vorstand sieht neue Zählerstandsmeldungen, wählt einzelne Gärten aus und verwaltet Rechnungen direkt in der Gartenübersicht.</p>
+          </div>
+
+          <div class="admin-stats" aria-label="Admin Schnellübersicht">
+            <article class="admin-stat-card kgv-card">
+              <span class="material-symbols-outlined" aria-hidden="true">notifications_active</span>
+              <strong>{{ neueZaehlerstaende().length }}</strong>
+              <p>neue Zählerstandsmeldungen</p>
+            </article>
+
+            <article class="admin-stat-card kgv-card admin-stat-card--lavender">
+              <span class="material-symbols-outlined" aria-hidden="true">yard</span>
+              <strong>{{ adminGaerten.length }}</strong>
+              <p>Gärten in der Übersicht</p>
+            </article>
+          </div>
+
+          <div class="admin-layout">
+            <aside class="admin-garden-list kgv-card" aria-label="Gartenliste für den Vorstand">
+              <div class="admin-garden-list__head">
+                <h3>Gärten</h3>
+                <span>{{ adminGaerten.length }} Einträge</span>
+              </div>
+
+              <div class="admin-garden-list__items">
+                @for (garten of adminGaerten; track garten.gartennummer) {
+                  <button class="admin-garden-card" [class.admin-garden-card--active]="ausgewaehlterGarten?.gartennummer === garten.gartennummer" type="button" (click)="adminGartenAuswaehlen(garten)">
+                    <strong>Garten {{ garten.gartennummer }}</strong>
+                    <span>{{ garten.name }}</span>
+                    @if (adminGartenBenachrichtigung(garten.gartennummer) > 0) {
+                      <em>{{ adminGartenBenachrichtigung(garten.gartennummer) }} neu</em>
+                    }
+                  </button>
+                }
+              </div>
+            </aside>
+
+            @if (ausgewaehlterGarten; as garten) {
+              <article class="admin-detail kgv-card" aria-label="Zusammenfassung ausgewählter Garten">
+                <header class="admin-detail__head">
+                  <div>
+                    <p class="kgv-eyebrow">Ausgewählter Garten</p>
+                    <h3>Garten {{ garten.gartennummer }} · {{ garten.name }}</h3>
+                    <p>{{ garten.lage }}</p>
+                  </div>
+
+                  @if (adminGartenBenachrichtigung(garten.gartennummer) > 0) {
+                    <span class="admin-new-pill">{{ adminGartenBenachrichtigung(garten.gartennummer) }} neue Meldung(en)</span>
+                  }
+                </header>
+
+                <div class="admin-detail-grid">
+                  <section class="admin-panel" aria-labelledby="admin-rechnungen-titel">
+                    <h4 id="admin-rechnungen-titel">Bisherige Rechnungen</h4>
+                    <div class="admin-invoice-list">
+                      @for (rechnung of rechnungenFuerGarten(garten.gartennummer); track rechnung.nummer) {
+                        <a class="admin-invoice-item" [href]="rechnung.url" [attr.download]="rechnung.dateiname">
+                          <span>{{ rechnung.datum }}</span>
+                          <strong>{{ rechnung.name }}</strong>
+                          <small>{{ rechnung.betrag }} · {{ rechnung.status }}</small>
+                        </a>
+                      }
+                    </div>
+                  </section>
+
+                  <section class="admin-panel admin-panel--upload" aria-labelledby="admin-upload-titel">
+                    <h4 id="admin-upload-titel">Neue Rechnung hochladen</h4>
+                    <form class="admin-upload-form kgv-form" (ngSubmit)="rechnungHochladen()">
+                      <label class="kgv-field">
+                        <span class="kgv-label">Rechnungsdatum</span>
+                        <input class="kgv-input" type="date" name="rechnungDatum" [ngModel]="rechnungUpload.datum" (ngModelChange)="rechnungUploadFeldAktualisieren('datum', $event)" required>
+                      </label>
+
+                      <label class="kgv-field">
+                        <span class="kgv-label">Bezeichnung</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="rechnungUploadHinweise.name" type="text" name="rechnungName" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="rechnungUpload.name" (ngModelChange)="rechnungUploadFeldAktualisieren('name', $event)" required>
+                        @if (rechnungUploadHinweise.name) {
+                          <span class="kgv-error-text" role="alert">{{ rechnungUploadHinweise.name }}</span>
+                        }
+                      </label>
+
+                      <label class="kgv-field">
+                        <span class="kgv-label">Betrag</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="rechnungUploadHinweise.betrag" type="text" name="rechnungBetrag" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="rechnungUpload.betrag" (ngModelChange)="rechnungUploadFeldAktualisieren('betrag', $event)" required>
+                        @if (rechnungUploadHinweise.betrag) {
+                          <span class="kgv-error-text" role="alert">{{ rechnungUploadHinweise.betrag }}</span>
+                        }
+                      </label>
+
+                      <div class="kgv-field">
+                        <span class="kgv-label">PDF-Datei</span>
+                        <div class="file-upload">
+                          <input id="rechnungDatei" class="file-upload__input" type="file" name="rechnungDatei" accept="application/pdf" (change)="rechnungDateiAuswaehlen($event)" required>
+                          <label class="file-upload__button" for="rechnungDatei">
+                            <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
+                            PDF auswählen
+                          </label>
+                          <span class="file-upload__name">{{ ausgewaehlteRechnungDatei || 'Keine Datei ausgewählt' }}</span>
+                        </div>
+                      </div>
+
+                      @if (uploadFehler) {
+                        <p class="kgv-error-text" role="alert">{{ uploadFehler }}</p>
+                      }
+
+                      @if (uploadBestaetigung) {
+                        <p class="form-status" role="status">{{ uploadBestaetigung }}</p>
+                      }
+
+                      <button class="kgv-button kgv-button--small" type="submit" [disabled]="!istRechnungUploadGueltig()">
+                        Rechnung übernehmen
+                        <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
+                      </button>
+                    </form>
+                  </section>
+
+                  <section class="admin-panel" aria-labelledby="admin-letzte-zaehler-titel">
+                    <h4 id="admin-letzte-zaehler-titel">Letzte Zählerstände</h4>
+                    <div class="admin-meter-values">
+                      <article>
+                        <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+                        <div>
+                          <strong>{{ letzteZaehlerstaendeFuerGarten(garten).strom }} kWh</strong>
+                          <p>Strom</p>
+                        </div>
+                      </article>
+
+                      <article>
+                        <span class="material-symbols-outlined" aria-hidden="true">water_drop</span>
+                        <div>
+                          <strong>{{ letzteZaehlerstaendeFuerGarten(garten).wasser }} m³</strong>
+                          <p>Wasser</p>
+                        </div>
+                      </article>
+                    </div>
+                  </section>
+
+                  <section class="admin-panel" aria-labelledby="admin-neue-zaehler-titel">
+                    <h4 id="admin-neue-zaehler-titel">Neu eingetroffene Zählerstände</h4>
+                    @if (neueZaehlerEingaengeFuerGarten(garten.gartennummer).length > 0) {
+                      <div class="admin-new-meter-list">
+                        @for (eintrag of neueZaehlerEingaengeFuerGarten(garten.gartennummer); track eintrag.id) {
+                          <article>
+                            <span>{{ eintrag.datum }}</span>
+                            <strong>{{ eintrag.typ === 'strom' ? 'Strom' : 'Wasser' }} · {{ eintrag.wert }} {{ eintrag.typ === 'strom' ? 'kWh' : 'm³' }}</strong>
+                            <p>{{ eintrag.name }}</p>
+                          </article>
+                        }
+                      </div>
+                    } @else {
+                      <p class="admin-empty">Für diesen Garten liegen keine neuen Zählerstandsmeldungen vor.</p>
+                    }
+                  </section>
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+      }
+    </section>
+  }
+
+  <section class="kgv-section kgv-section--wide member-note kgv-card" aria-label="Kontakt zum Mitgliederbereich">
+    <img src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
+    <div>
+      <p class="kgv-eyebrow">Fragen zum Zugang</p>
+      <h2>Zugangsdaten oder Dokumente unklar?</h2>
+      <p>Bei Fragen zum Mitgliederbereich hilft der Vorstand weiter. Anliegen können direkt über die Kontaktseite eingereicht werden.</p>
+    </div>
+    <a class="kgv-button kgv-button--secondary" routerLink="/kontakt">
+      Kontakt öffnen
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+    </a>
+  </section>
+</div>

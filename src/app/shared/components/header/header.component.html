@@ -22,8 +22,17 @@
     }
   </nav>
 
-  <a class="member-link" routerLink="/mitgliederbereich">
-    <span class="material-symbols-outlined" aria-hidden="true">person</span>
-    <span>Mitgliederbereich</span>
-  </a>
+  <div class="member-actions">
+    <a class="member-link" routerLink="/mitgliederbereich">
+      <span class="material-symbols-outlined" aria-hidden="true">person</span>
+      <span>Mitgliederbereich</span>
+    </a>
+
+    @if (mitgliederSession.session()) {
+      <button class="member-logout" type="button" (click)="abmelden()">
+        <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+        <span>Logout</span>
+      </button>
+    }
+  </div>
 </header>

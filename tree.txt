@@ -82,6 +82,7 @@ KGV1925/
 │   │   │   │   ├── termine.data.ts
 │   │   │   │   └── verein.data.ts
 │   │   │   └── services/
+│   │   │       ├── mitglieder-session.service.ts
 │   │   │       └── reveal.service.ts
 │   │   ├── app.config.server.ts
 │   │   ├── app.config.ts
@@ -93,6 +94,10 @@ KGV1925/
 │   │   └── app.ts
 │   ├── assets/
 │   │   ├── downloads/
+│   │   │   ├── rechnungen/
+│   │   │   │   ├── rechnung-kgv-2026-001.pdf
+│   │   │   │   ├── rechnung-kgv-2026-014.pdf
+│   │   │   │   └── rechnung-kgv-2026-029.pdf
 │   │   │   ├── gemeinschaftsarbeit-2026.pdf
 │   │   │   └── Hausordnung-kgv1925__Juli-2026.pdf
 │   │   ├── fonts/
