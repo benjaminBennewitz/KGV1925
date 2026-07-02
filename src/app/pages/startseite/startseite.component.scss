@@ -26,7 +26,8 @@
    05   Quicklinks
    06   News Panel
    07   Stats
-   08   Responsive
+   08   Anlagenhinweise
+   09   Responsive
    ========================================================================== */
 
 /* ==========================================================================
@@ -466,8 +467,150 @@
   font-weight: 700;
 }
 
+
+
 /* ==========================================================================
-   08   Responsive
+   08   Anlagenhinweise
+   ========================================================================== */
+
+.site-notice {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(216, 188, 122, 0.22), transparent 18rem),
+    radial-gradient(circle at 94% 12%, rgba(201, 184, 232, 0.2), transparent 16rem),
+    linear-gradient(135deg, rgba(255, 249, 236, 0.96), rgba(238, 245, 239, 0.9));
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-xl);
+  box-shadow: var(--kgv-shadow-soft);
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  overflow: hidden;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  position: relative;
+}
+
+.site-notice::before {
+  background: rgba(49, 92, 69, 0.08);
+  border-radius: var(--kgv-radius-round);
+  content: '';
+  height: 13rem;
+  pointer-events: none;
+  position: absolute;
+  right: -4rem;
+  top: -5rem;
+  width: 13rem;
+}
+
+.site-notice__intro {
+  max-width: 48rem;
+  position: relative;
+  z-index: 1;
+}
+
+.site-notice__intro h2 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 650;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.site-notice__intro p:not(.kgv-eyebrow) {
+  color: var(--kgv-text-muted);
+  margin: 0.55rem 0 0;
+}
+
+.site-notice__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+  z-index: 1;
+}
+
+.site-notice__card {
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: var(--kgv-radius-lg);
+  box-shadow: var(--kgv-shadow-soft);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: auto 1fr;
+  padding: clamp(1rem, 2.4vw, 1.35rem);
+}
+
+.site-notice__icon {
+  align-items: center;
+  background: var(--kgv-surface-sage);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-primary);
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
+
+.site-notice__card:nth-child(even) .site-notice__icon {
+  background: var(--kgv-surface-lavender);
+  color: var(--kgv-secondary);
+}
+
+.site-notice__card h3 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.site-notice__card p {
+  color: var(--kgv-text-muted);
+  margin: 0.5rem 0 0;
+}
+
+.site-notice__card ul {
+  display: grid;
+  gap: 0.42rem;
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+}
+
+.site-notice__card li {
+  align-items: start;
+  color: var(--kgv-text-main);
+  display: grid;
+  font-weight: 800;
+  gap: 0.45rem;
+  grid-template-columns: auto 1fr;
+}
+
+.site-notice__card li::before {
+  background: var(--kgv-primary);
+  border-radius: var(--kgv-radius-round);
+  content: '';
+  height: 0.42rem;
+  margin-top: 0.55rem;
+  width: 0.42rem;
+}
+
+.site-notice__card a {
+  color: var(--kgv-primary);
+  display: inline-flex;
+  font-weight: 900;
+  margin-top: 1rem;
+  text-decoration: none;
+}
+
+.site-notice__card a:hover,
+.site-notice__card a:focus-visible {
+  color: var(--kgv-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+/* ==========================================================================
+   09   Responsive
    ========================================================================== */
 
 @media (max-width: 1120px) {
@@ -483,7 +626,8 @@
     right: 1rem;
   }
 
-  .feature-grid {
+  .feature-grid,
+  .site-notice__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -545,7 +689,12 @@
 
 @media (max-width: 620px) {
   .feature-grid,
-  .stats {
+  .stats,
+  .site-notice__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site-notice__card {
     grid-template-columns: 1fr;
   }
 

@@ -101,4 +101,32 @@
       </article>
     }
   </section>
+
+  <section class="site-notice kgv-section" aria-labelledby="anlage-hinweise-titel">
+    <div class="site-notice__intro">
+      <p class="kgv-eyebrow">Bitte beachten</p>
+      <h2 id="anlage-hinweise-titel">Wichtige Hinweise beim Betreten der Anlage.</h2>
+      <p>Für ein gutes Miteinander gelten auf der Anlage klare Regeln zu Öffnungszeiten, Rücksichtnahme und Nutzung der Wege.</p>
+    </div>
+
+    <div class="site-notice__grid">
+      @for (hinweis of anlagenHinweise; track hinweis.titel) {
+        <article class="site-notice__card">
+          <span class="site-notice__icon material-symbols-outlined" aria-hidden="true">{{ hinweis.icon }}</span>
+          <div>
+            <h3>{{ hinweis.titel }}</h3>
+            <p>{{ hinweis.text }}</p>
+            <ul>
+              @for (punkt of hinweis.punkte; track punkt) {
+                <li>{{ punkt }}</li>
+              }
+            </ul>
+            @if (hinweis.linkText && hinweis.pfad) {
+              <a [routerLink]="hinweis.pfad">{{ hinweis.linkText }} <span aria-hidden="true">→</span></a>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </section>
 </div>

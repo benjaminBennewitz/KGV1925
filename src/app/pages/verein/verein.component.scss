@@ -48,11 +48,12 @@
   align-items: stretch;
   background:
     url('/assets/img/lavendel-3_aquarell.webp') right clamp(1rem, 4vw, 3rem) bottom -1.2rem / min(19rem, 43vw) auto no-repeat,
-    radial-gradient(circle at 6% 12%, rgba(169, 191, 168, 0.38), transparent 17rem),
-    radial-gradient(circle at 42% 0%, rgba(216, 188, 122, 0.24), transparent 19rem),
-    radial-gradient(circle at 96% 78%, rgba(201, 184, 232, 0.32), transparent 21rem),
-    linear-gradient(135deg, rgba(255, 249, 236, 0.98) 0%, rgba(248, 246, 241, 0.94) 38%, rgba(238, 245, 239, 0.92) 68%, rgba(243, 239, 249, 0.9) 100%);
-  border: 1px solid var(--kgv-border-soft);
+    radial-gradient(circle at 6% 12%, rgba(169, 191, 168, 0.46), transparent 17rem),
+    radial-gradient(circle at 38% 0%, rgba(216, 188, 122, 0.34), transparent 20rem),
+    radial-gradient(circle at 18% 86%, rgba(216, 188, 122, 0.22), transparent 13rem),
+    radial-gradient(circle at 96% 78%, rgba(201, 184, 232, 0.38), transparent 21rem),
+    linear-gradient(135deg, rgba(255, 249, 236, 0.98) 0%, rgba(238, 245, 239, 0.96) 42%, rgba(243, 239, 249, 0.94) 74%, rgba(255, 248, 230, 0.92) 100%);
+  border: 1px solid color-mix(in srgb, var(--kgv-primary) 18%, white);
   border-radius: var(--kgv-radius-xl);
   box-shadow: var(--kgv-shadow-soft);
   display: grid;
@@ -72,7 +73,7 @@
 }
 
 .verein-hero::before {
-  background: rgba(216, 188, 122, 0.24);
+  background: linear-gradient(135deg, rgba(216, 188, 122, 0.34), rgba(201, 184, 232, 0.22));
   height: 12rem;
   left: 48%;
   top: -5rem;
@@ -80,7 +81,7 @@
 }
 
 .verein-hero::after {
-  background: rgba(49, 92, 69, 0.08);
+  background: linear-gradient(135deg, rgba(49, 92, 69, 0.12), rgba(169, 191, 168, 0.22));
   bottom: -4rem;
   height: 14rem;
   right: 14%;
@@ -123,6 +124,16 @@
 
 .verein-hero__badges .material-symbols-outlined {
   font-size: 1.05rem;
+}
+
+.verein-hero__badges span:nth-child(2) {
+  background: rgba(238, 245, 239, 0.82);
+  color: var(--kgv-primary-hover);
+}
+
+.verein-hero__badges span:nth-child(3) {
+  background: rgba(243, 239, 249, 0.82);
+  color: var(--kgv-secondary-hover);
 }
 
 .verein-hero__panel {
@@ -393,6 +404,32 @@
 .rental-callout p:not(.kgv-eyebrow) {
   color: var(--kgv-text-muted);
   margin: 0;
+}
+
+.info-card__list {
+  display: grid;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0.85rem 0 0;
+  padding: 0;
+}
+
+.info-card__list li {
+  align-items: start;
+  color: var(--kgv-text-main);
+  display: grid;
+  font-weight: 800;
+  gap: 0.45rem;
+  grid-template-columns: auto 1fr;
+}
+
+.info-card__list li::before {
+  background: var(--kgv-primary);
+  border-radius: var(--kgv-radius-round);
+  content: '';
+  height: 0.42rem;
+  margin-top: 0.55rem;
+  width: 0.42rem;
 }
 
 .info-card small {
@@ -702,6 +739,22 @@
   display: grid;
   gap: 1.5rem;
   grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.garden-panel__contact {
+  color: var(--kgv-primary);
+  display: inline-flex;
+  font-weight: 900;
+  justify-self: start;
+  margin-top: 0.85rem;
+  text-decoration: none;
+}
+
+.garden-panel__contact:hover,
+.garden-panel__contact:focus-visible {
+  color: var(--kgv-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
 }
 
 .garden-stats {

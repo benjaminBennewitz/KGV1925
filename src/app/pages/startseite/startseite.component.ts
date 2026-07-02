@@ -5,6 +5,15 @@ import { RouterLink } from '@angular/router';
 import { BLOG_BEITRAEGE } from '../../shared/data/blog-beitraege.data';
 import { TERMINE } from '../../shared/data/termine.data';
 
+interface StartseitenAnlagenHinweis {
+  icon: string;
+  titel: string;
+  text: string;
+  punkte: string[];
+  linkText?: string;
+  pfad?: string;
+}
+
 @Component({
   selector: 'app-startseite',
   imports: [RouterLink],
@@ -65,6 +74,30 @@ export class StartseiteComponent {
       pfad: '/service',
     },
   ];
+
+  protected readonly anlagenHinweise: StartseitenAnlagenHinweis[] = [
+    {
+      icon: 'schedule',
+      titel: 'Öffnungszeiten beachten',
+      text: 'Die Anlage ist für Mitglieder jederzeit rund um die Uhr nutzbar. Für Gäste und Besucher gelten die ausgewiesenen Zeiten.',
+      punkte: ['Gartensaison: 9 Uhr bis Sonnenuntergang, spätestens 22 Uhr', 'Herbst, Winter und Frühjahr: 9 bis 19 Uhr'],
+      linkText: 'Infos zur Anlage',
+      pfad: '/verein',
+    },
+    {
+      icon: 'pets',
+      titel: 'Hunde an die Leine',
+      text: 'Hunde sind auf der gesamten Anlage an der Leine zu führen. So bleiben Wege, Gärten und Begegnungen für alle entspannt.',
+      punkte: ['Rücksicht auf Mitglieder und Gäste', 'Wege und Gemeinschaftsflächen freihalten'],
+    },
+    {
+      icon: 'do_not_step',
+      titel: 'Ruhe und Wege respektieren',
+      text: 'Fahrrad- und Rollerfahren ist auf den Wegen nicht erlaubt. Die Mittagsruhe gilt nach städtischer Regelung von 13 bis 15 Uhr.',
+      punkte: ['Mittagsruhe: 13 bis 15 Uhr', 'Kein Fahrrad- oder Rollerfahren auf den Wegen'],
+    },
+  ];
+
   protected readonly kennzahlen = [
     {
       icon: 'campaign',
