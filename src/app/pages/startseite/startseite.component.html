@@ -1,14 +1,14 @@
 <!-- src/app/pages/startseite/startseite.component.html -->
 
 <div class="kgv-page startseite">
-  <section class="hero" aria-labelledby="startseite-titel">
+  <section class="hero" data-kgv-reveal-static aria-labelledby="startseite-titel">
     <div class="hero__inner">
       <div class="hero__content">
         <p class="kgv-eyebrow">Gemeinschaft. Natur. Zuhause.</p>
         <h1 id="startseite-titel" class="kgv-heading">Seit 1925 verwurzelt in unserer Gemeinschaft.</h1>
         <p class="kgv-subline">Unser Kleingartenverein am Steinberg e.V. 1925 steht für traditionelle Gartenkultur, gelebte Nachbarschaft und eine grüne Zukunft.</p>
 
-        <div class="hero__actions">
+        <div class="hero__actions" data-kgv-reveal="soft">
           <a class="kgv-button" routerLink="/verein">
             <span class="material-symbols-outlined" aria-hidden="true">eco</span>
             <span>Über unseren Verein</span>
@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <figure class="hero__visual">
+      <figure class="hero__visual" data-kgv-reveal="right">
         <img [src]="heroBild.pfad" [alt]="heroBild.alt">
         <figcaption class="event-card">
           <span class="event-card__icon material-symbols-outlined" aria-hidden="true">calendar_month</span>

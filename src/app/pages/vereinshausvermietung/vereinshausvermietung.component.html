@@ -1,15 +1,15 @@
 <!-- src/app/pages/vereinshausvermietung/vereinshausvermietung.component.html -->
 
 <div class="kgv-page vermietung">
-  <section class="kgv-section vermietung__hero" aria-labelledby="vermietung-titel">
+  <section class="kgv-section vermietung__hero" data-kgv-reveal-static aria-labelledby="vermietung-titel">
     <div class="vermietung__content">
       <p class="kgv-eyebrow">Vereinshaus</p>
       <h1 id="vermietung-titel" class="kgv-heading">Vereinshausvermietung vorbereiten</h1>
-      <p class="kgv-subline">Diese Seite sammelt später alle Informationen zur Vermietung, Anfrage und Abstimmung rund um das Vereinshaus.</p>
-      <div class="vermietung__actions">
-        <a class="kgv-button" routerLink="/kontakt">
+      <p class="kgv-subline">Diese Seite bündelt Informationen zur Vermietung, freie und belegte Termine sowie die wichtigsten Angaben für eine Anfrage rund um das Vereinshaus.</p>
+      <div class="vermietung__actions" data-kgv-reveal="soft">
+        <a class="kgv-button" href="#mietanfrage">
           <span class="material-symbols-outlined" aria-hidden="true">mail</span>
-          <span>Kontakt aufnehmen</span>
+          <span>Mietanfrage stellen</span>
         </a>
         <a class="kgv-button kgv-button--secondary" routerLink="/service">
           <span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
@@ -17,9 +17,9 @@
         </a>
       </div>
     </div>
-    <figure class="vermietung__visual kgv-card">
+    <figure class="vermietung__visual kgv-card" data-kgv-reveal="right">
       <span class="material-symbols-outlined" aria-hidden="true">cottage</span>
-      <figcaption>Online-Formular und Verfügbarkeitsprüfung folgen in einem späteren Schritt.</figcaption>
+      <figcaption>Der Kalender ist monats- und jahresübergreifend nutzbar. Freie Tage können direkt ins Mietformular übernommen werden.</figcaption>
     </figure>
   </section>
 
@@ -33,11 +33,101 @@
     }
   </section>
 
+  <section class="kgv-section vermietung-kalender" aria-labelledby="vermietung-kalender-titel">
+    <div class="vermietung-kalender__head">
+      <div>
+        <p class="kgv-eyebrow">Verfügbarkeit</p>
+        <h2 id="vermietung-kalender-titel">{{ aktiverMonatName }}</h2>
+        <p>Belegte Tage sind direkt im Kalender markiert. Vermietungen werden aus Datenschutzgründen nur als vermietet angezeigt; interne Vereinstermine bleiben benannt.</p>
+      </div>
+
+      <div class="vermietung-kalender__switch" aria-label="Monat wechseln">
+        <button type="button" (click)="vorherigerMonat()" [disabled]="!kannVorherigerMonat" aria-label="Vorheriger Monat">
+          <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+        </button>
+        <strong>{{ aktiverMonatName }}</strong>
+        <button type="button" (click)="naechsterMonat()" [disabled]="!kannNaechsterMonat" aria-label="Nächster Monat">
+          <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="vermietung-kalender__monate" [attr.aria-label]="'Monate im Jahr ' + aktivesJahr">
+      @for (monatIndex of monatsAuswahl; track monatIndex) {
+        <button type="button" [class.vermietung-kalender__monat--active]="monatIndex === aktiverMonatIndex" (click)="waehleMonat(monatIndex)">
+          {{ monate[monatIndex].slice(0, 3) }}
+        </button>
+      }
+    </div>
+
+    <div class="vermietung-kalender__legend" aria-label="Legende zur Verfügbarkeit">
+      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--free" aria-hidden="true"></i>Frei</span>
+      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--booked" aria-hidden="true"></i>Vermietet</span>
+      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--internal" aria-hidden="true"></i>Verein</span>
+      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--weekend" aria-hidden="true"></i>Wochenende</span>
+    </div>
+
+    <div class="vermietung-kalender__layout">
+      <div class="vermietung-kalender__card kgv-card" aria-label="Monatskalender Vereinshausvermietung">
+        <div class="vermietung-kalender__wochentage" aria-hidden="true">
+          @for (wochentag of wochentage; track wochentag) {
+            <span>{{ wochentag }}</span>
+          }
+        </div>
+
+        <div class="vermietung-kalender__grid">
+          @for (tag of kalenderTage; track tag.datumISO) {
+            <article class="vermietung-kalender__tag" [class.vermietung-kalender__tag--muted]="!tag.istAktuellerMonat" [class.vermietung-kalender__tag--today]="tag.istHeute" [class.vermietung-kalender__tag--weekend]="tag.istWochenende" [class.vermietung-kalender__tag--booked]="tag.belegung?.art === 'vermietung'" [class.vermietung-kalender__tag--internal]="tag.belegung?.art === 'intern'">
+              <header class="vermietung-kalender__tag-head">
+                <span>{{ tag.tagZahl }}</span>
+                @if (tag.istHeute) {
+                  <small>Heute</small>
+                }
+              </header>
+
+              @if (tag.belegung; as belegung) {
+                <button class="vermietung-kalender__event" type="button" [class.vermietung-kalender__event--internal]="belegung.art === 'intern'" (click)="fokussiereBelegung(belegung)">
+                  {{ belegung.kalenderKurz }}
+                </button>
+              } @else if (tag.istAktuellerMonat) {
+                <div class="vermietung-kalender__free-wrap">
+                  <span class="vermietung-kalender__free">Frei</span>
+                  <button class="vermietung-kalender__rent" type="button" (click)="waehleMietdatum(tag.datumISO)">Mieten</button>
+                </div>
+              }
+            </article>
+          }
+        </div>
+      </div>
+
+      <aside class="vermietung-kalender__liste kgv-card" aria-labelledby="belegte-termine-titel">
+        <p class="kgv-eyebrow">{{ aktiverMonatName }}</p>
+        <h3 id="belegte-termine-titel">Belegte Termine</h3>
+
+        <div class="vermietung-kalender__eintraege">
+          @for (belegung of belegungenImAktivenMonat; track belegung.datumISO) {
+            <article class="vermietung-kalender__eintrag" [id]="'mietbelegung-' + belegung.datumISO" tabindex="-1" [class.vermietung-kalender__eintrag--active]="belegung.datumISO === fokussierteBelegung" [class.vermietung-kalender__eintrag--internal]="belegung.art === 'intern'">
+              <span>{{ formatiereDatum(belegung.datumISO) }} · {{ belegung.typ }}</span>
+              <h4>{{ belegung.titel }}</h4>
+              <p>{{ belegung.kurztext }}</p>
+              <dl>
+                <div>
+                  <dt>Zeit</dt>
+                  <dd>{{ belegung.zeit }}</dd>
+                </div>
+              </dl>
+            </article>
+          }
+        </div>
+      </aside>
+    </div>
+  </section>
+
   <section class="kgv-section vermietung__panel kgv-card" aria-labelledby="anfrage-vorbereiten">
     <div>
       <p class="kgv-eyebrow">Mietanfrage</p>
-      <h2 id="anfrage-vorbereiten">Welche Angaben später benötigt werden</h2>
-      <p>Das spätere Formular sollte bewusst schlank bleiben, aber genug Informationen liefern, damit der Verein die Anfrage schnell einschätzen kann.</p>
+      <h2 id="anfrage-vorbereiten">Welche Angaben benötigt werden</h2>
+      <p>Das Formular soll bewusst schlank bleiben, aber genug Informationen liefern, damit der Verein die Anfrage schnell einschätzen kann.</p>
     </div>
     <ul>
       @for (eintrag of vorbereitungsListe; track eintrag) {
@@ -47,5 +137,102 @@
         </li>
       }
     </ul>
+  </section>
+
+  <section id="mietanfrage" class="kgv-section vermietung-form-section" aria-labelledby="mietanfrage-titel">
+    <div class="vermietung-form-section__intro">
+      <p class="kgv-eyebrow">Formular</p>
+      <h2 id="mietanfrage-titel">Mietanfrage vorbereiten</h2>
+      <p>Wähle im Kalender einen freien Tag aus. Der Wunschtermin wird dann automatisch in das Formular übernommen.</p>
+    </div>
+
+    <form class="vermietung-form kgv-form kgv-card" (ngSubmit)="mietAnfrageSenden()" aria-label="Mietformular Vereinshaus">
+      @if (mietAnfrage.wunschdatum) {
+        <label class="kgv-field vermietung-form__date">
+          <span class="kgv-label">Wunschtermin</span>
+          <span class="vermietung-form__date-row">
+            <input class="kgv-input" type="text" name="wunschdatum" [ngModel]="formatiereDatum(mietAnfrage.wunschdatum)" readonly>
+            <button class="vermietung-form__remove" type="button" (click)="entferneMietdatum()">Entfernen</button>
+          </span>
+          <span class="kgv-help-text">Der Termin wurde aus dem Kalender übernommen.</span>
+        </label>
+      } @else {
+        <div class="vermietung-form__missing" role="status">
+          <span class="material-symbols-outlined" aria-hidden="true">event</span>
+          Bitte zuerst einen freien Tag im Kalender über „Mieten“ auswählen.
+        </div>
+      }
+
+      <div class="kgv-form-row">
+        <label class="kgv-field">
+          <span class="kgv-label">Name</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('name')" type="text" name="name" autocomplete="name" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="mietAnfrage.name" (ngModelChange)="mietFeldAktualisieren('name', $event)" required>
+          @if (mietFeldHinweise.name) {
+            <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.name }}</span>
+          }
+        </label>
+
+        <label class="kgv-field">
+          <span class="kgv-label">E-Mail</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('email')" type="email" name="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" [ngModel]="mietAnfrage.email" (ngModelChange)="mietFeldAktualisieren('email', $event)" required>
+          @if (mietFeldHinweise.email) {
+            <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.email }}</span>
+          }
+        </label>
+      </div>
+
+      <div class="kgv-form-row">
+        <label class="kgv-field">
+          <span class="kgv-label">Telefon</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('telefon')" type="tel" name="telefon" inputmode="tel" autocomplete="tel" maxlength="30" pattern="[0-9 +()\/-]{6,30}" [ngModel]="mietAnfrage.telefon" (ngModelChange)="mietFeldAktualisieren('telefon', $event)">
+          @if (mietFeldHinweise.telefon) {
+            <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.telefon }}</span>
+          }
+        </label>
+
+        <label class="kgv-field">
+          <span class="kgv-label">Gästezahl</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('gaeste')" type="text" name="gaeste" inputmode="numeric" maxlength="2" pattern="([1-9]|[1-7][0-9]|80)" [ngModel]="mietAnfrage.gaeste" (ngModelChange)="mietFeldAktualisieren('gaeste', $event)" required>
+          @if (mietFeldHinweise.gaeste) {
+            <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.gaeste }}</span>
+          }
+        </label>
+      </div>
+
+      <div class="kgv-form-row">
+        <label class="kgv-field">
+          <span class="kgv-label">Gewünschter Zeitraum</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('zeitraum')" type="text" name="zeitraum" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" placeholder="z. B. 15:00 bis 22:00 Uhr" [ngModel]="mietAnfrage.zeitraum" (ngModelChange)="mietFeldAktualisieren('zeitraum', $event)" required>
+          @if (mietFeldHinweise.zeitraum) {
+            <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.zeitraum }}</span>
+          }
+        </label>
+
+        <label class="kgv-field">
+          <span class="kgv-label">Anlass</span>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('anlass')" type="text" name="anlass" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="mietAnfrage.anlass" (ngModelChange)="mietFeldAktualisieren('anlass', $event)" required>
+          @if (mietFeldHinweise.anlass) {
+            <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.anlass }}</span>
+          }
+        </label>
+      </div>
+
+      <label class="kgv-field">
+        <span class="kgv-label">Nachricht</span>
+        <textarea class="kgv-textarea" [class.kgv-input--invalid]="hatMietFeldHinweis('nachricht')" name="nachricht" maxlength="800" [ngModel]="mietAnfrage.nachricht" (ngModelChange)="mietFeldAktualisieren('nachricht', $event)" required></textarea>
+        @if (mietFeldHinweise.nachricht) {
+          <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.nachricht }}</span>
+        }
+      </label>
+
+      @if (mietFormularStatus) {
+        <p class="vermietung-form__status" role="status">{{ mietFormularStatus }}</p>
+      }
+
+      <button class="kgv-button kgv-button--large" type="submit" [disabled]="!istMietFormularGueltig()">
+        <span class="material-symbols-outlined" aria-hidden="true">send</span>
+        Mietanfrage vorbereiten
+      </button>
+    </form>
   </section>
 </div>

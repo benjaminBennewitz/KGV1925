@@ -202,16 +202,21 @@
 }
 
 .kontakt-info-band {
-  background: linear-gradient(135deg, var(--kgv-primary) 0%, #254936 55%, #5f5280 100%);
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
   border-radius: var(--kgv-radius-xl);
   box-sizing: border-box;
-  color: var(--kgv-text-inverse);
+  color: var(--kgv-text-main);
   display: grid;
   gap: 1.25rem;
   padding: clamp(1.5rem, 4vw, 2.5rem);
 }
 
-.kontakt-info-band .kgv-eyebrow,
+.kontakt-info-band .kgv-eyebrow {
+  color: var(--kgv-primary);
+  margin: 0;
+}
+
 .kontakt-info-band h2,
 .kontakt-info-band p {
   color: inherit;
@@ -226,8 +231,8 @@
 
 .kontakt-info-card {
   align-items: flex-start;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--kgv-border-soft);
   border-radius: var(--kgv-radius-lg);
   display: flex;
   gap: 0.9rem;
@@ -235,20 +240,22 @@
 }
 
 .kontakt-info-card span {
-  background: rgba(255, 255, 255, 0.18);
+  background: var(--kgv-surface);
   border-radius: 999px;
+  color: var(--kgv-primary);
   flex: 0 0 auto;
   padding: 0.55rem;
 }
 
 .kontakt-info-card h3,
 .kontakt-info-card p {
+  color: var(--kgv-text-main);
   margin: 0;
 }
 
 .kontakt-info-card p {
+  color: var(--kgv-text-muted);
   margin-top: 0.3rem;
-  opacity: 0.88;
 }
 
 .kontakt-form-section {
@@ -264,6 +271,47 @@
 
 .kontakt-form {
   padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.kontakt-form__recipient {
+  background: linear-gradient(135deg, var(--kgv-surface-lavender), var(--kgv-surface));
+  border: 1px solid var(--kgv-surface-lavender-strong);
+  border-radius: var(--kgv-radius-md);
+  padding: 0.9rem;
+}
+
+.kontakt-form__recipient-row {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.kontakt-form__recipient input[readonly] {
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--kgv-secondary-hover);
+  font-weight: 850;
+}
+
+.kontakt-form__recipient-remove {
+  appearance: none;
+  background: var(--kgv-surface);
+  border: 1px solid var(--kgv-secondary);
+  border-radius: var(--kgv-radius-sm);
+  color: var(--kgv-secondary-hover);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+  min-height: 2.9rem;
+  padding: 0.65rem 0.9rem;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.kontakt-form__recipient-remove:hover,
+.kontakt-form__recipient-remove:focus-visible {
+  background: var(--kgv-secondary-hover);
+  border-color: var(--kgv-secondary-hover);
+  color: var(--kgv-text-inverse);
+  transform: translateY(-1px);
 }
 
 .kgv-input--invalid {
@@ -317,6 +365,10 @@
   .kontakt-hero__actions,
   .kontakt-hero__actions .kgv-button {
     width: 100%;
+  }
+
+  .kontakt-form__recipient-row {
+    grid-template-columns: 1fr;
   }
 
   .kontakt-card__top {

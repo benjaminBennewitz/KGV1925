@@ -39,6 +39,7 @@
     radial-gradient(circle at 82% 10%, rgba(169, 191, 168, 0.28), transparent 26rem),
     linear-gradient(180deg, var(--kgv-background-warm) 0%, var(--kgv-background) 42%, var(--kgv-background-soft) 100%);
   overflow: hidden;
+  padding-bottom: 64px;
 }
 
 .gartenwissen__content {
@@ -510,7 +511,7 @@
   display: flex;
   gap: 1.5rem;
   justify-content: space-between;
-  padding: clamp(1.25rem, 4vw, 2rem);
+  padding: clamp(1.25rem, 4vw, 2rem) clamp(1.25rem, 4vw, 2rem) clamp(2.35rem, 5vw, 3.4rem);
 }
 
 .gartenwissen-note p:not(.kgv-eyebrow) {

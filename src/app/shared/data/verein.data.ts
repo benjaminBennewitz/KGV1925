@@ -24,18 +24,102 @@ export interface AnlagenInfo {
   downloadDateiname?: string;
 }
 
+export interface DetailBild {
+  pfad: string;
+  alt: string;
+}
+
 export interface GartenParzelle {
   nummer: number;
   titel: string;
   status: GartenStatus;
   bild: string;
   alt: string;
+  bilder: DetailBild[];
   groesse: string;
   lage: string;
   beschreibung: string;
   statusHinweis: string;
   merkmale: string[];
 }
+
+export interface VereinshausDetail {
+  titel: string;
+  eyebrow: string;
+  icon: string;
+  bilder: DetailBild[];
+  beschreibung: string;
+  groesse: string;
+  lage: string;
+  nutzung: string;
+  hinweis: string;
+  merkmale: string[];
+}
+
+const GARTEN_DETAIL_BILDER: DetailBild[] = [
+  {
+    pfad: 'assets/img/hero-vereinsgarten-mock.webp',
+    alt: 'Grüner Weg durch die Kleingartenanlage am Steinberg',
+  },
+  {
+    pfad: 'assets/img/aktuelles/gartenwettbewerb-2026.webp',
+    alt: 'Gepflegte Gartenparzelle mit Beetflächen und Sommerbepflanzung',
+  },
+  {
+    pfad: 'assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
+    alt: 'Gemeinschaftsfläche mit Werkzeugen und gepflegten Wegen',
+  },
+  {
+    pfad: 'assets/img/aktuelles/sommerfest-2026.webp',
+    alt: 'Einladender Außenbereich der Gartenanlage im Sommer',
+  },
+  {
+    pfad: 'assets/img/aktuelles/laubenabend-2026.webp',
+    alt: 'Stimmungsvolle Laubenansicht innerhalb der Kleingartenanlage',
+  },
+  {
+    pfad: 'assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
+    alt: 'Vereinsnaher Blick auf Treffpunkt und Organisation der Anlage',
+  },
+];
+
+export const VEREINSHAUS_DETAIL: VereinshausDetail = {
+  titel: 'Vereinshaus am Steinberg',
+  eyebrow: 'Detailansicht Vereinshaus',
+  icon: 'home_work',
+  bilder: [
+    {
+      pfad: 'assets/img/aktuelles/sommerfest-2026.webp',
+      alt: 'Vereinshaus und Außenbereich während einer sommerlichen Veranstaltung',
+    },
+    {
+      pfad: 'assets/img/hero-vereinsgarten-mock.webp',
+      alt: 'Weg durch die Gartenanlage in Richtung Vereinshaus',
+    },
+    {
+      pfad: 'assets/img/aktuelles/laubenabend-2026.webp',
+      alt: 'Stimmungsvolle Abendansicht rund um das Vereinshaus',
+    },
+    {
+      pfad: 'assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
+      alt: 'Gemeinschaftsbereich rund um Vereinsarbeit und Anlage',
+    },
+    {
+      pfad: 'assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
+      alt: 'Vereinsorganisation und Treffpunkt im Umfeld des Vereinshauses',
+    },
+    {
+      pfad: 'assets/img/aktuelles/gartenwettbewerb-2026.webp',
+      alt: 'Gepflegte Anlage als Rahmen für kleinere Feiern und Treffen',
+    },
+  ],
+  beschreibung: 'Das Vereinshaus ist der zentrale Treffpunkt für Vereinsleben, Versammlungen, kleinere private Feiern und gemeinschaftliche Veranstaltungen.',
+  groesse: 'geeignet für kleine bis mittlere Anlässe',
+  lage: 'mittlerer Anlagenbereich am Hauptweg',
+  nutzung: 'private Feiern, Vorstandstermine, Vereinsabende und Abstimmungen',
+  hinweis: 'Freie Termine können über die Vereinshausvermietung angefragt werden.',
+  merkmale: ['Zentraler Treffpunkt', 'Direkter Anlagenbezug', 'Anfrage über Kalender möglich', 'Für Mitglieder und Gäste planbar'],
+};
 
 export const VORSTANDSMITGLIEDER: Vorstandsmitglied[] = [
   {
@@ -143,6 +227,7 @@ export const GARTEN_PARZELLEN: GartenParzelle[] = Array.from({ length: 48 }, (_,
     status,
     bild: 'assets/img/hero-vereinsgarten-mock.webp',
     alt: `Blick in die Gartenanlage für Garten ${gartennummer}`,
+    bilder: GARTEN_DETAIL_BILDER,
     groesse: 'ca. 250 m²',
     lage,
     beschreibung: status === 'frei' ? 'Diese Parzelle ist aktuell als frei geführt. Interessierte können sich über die Kontaktseite beim Verein melden.' : 'Diese Parzelle ist aktuell verpachtet und Teil der bestehenden Gartenanlage.',

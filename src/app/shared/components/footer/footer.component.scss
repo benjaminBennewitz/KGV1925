@@ -44,8 +44,9 @@
 
 .site-footer__frame {
   background:
-    radial-gradient(circle at 82% 18%, rgba(169, 191, 168, 0.24), transparent 18rem),
-    linear-gradient(135deg, var(--kgv-primary-active), #063819 70%, #042a12);
+    radial-gradient(circle at 82% 18%, rgba(201, 184, 232, 0.24), transparent 18rem),
+    radial-gradient(circle at 12% 24%, rgba(216, 188, 122, 0.18), transparent 16rem),
+    linear-gradient(135deg, var(--kgv-primary-active), #063819 68%, #2f2850);
   box-shadow: var(--kgv-shadow-strong);
   color: var(--kgv-text-inverse);
   display: grid;
@@ -172,8 +173,8 @@
 }
 
 .site-footer__contact-row {
-  background: var(--kgv-background-soft);
-  border: 1px solid var(--kgv-border-soft);
+  background: linear-gradient(135deg, var(--kgv-surface-lavender), var(--kgv-background-soft));
+  border: 1px solid rgba(143, 123, 184, 0.32);
   border-radius: var(--kgv-radius-md);
   display: grid;
   gap: var(--kgv-space-xs);
@@ -198,7 +199,7 @@
 
 .site-footer__contact-row button {
   align-items: center;
-  background: var(--kgv-primary);
+  background: var(--kgv-secondary-hover);
   border: 0;
   border-radius: var(--kgv-radius-sm);
   color: var(--kgv-text-inverse);
@@ -214,7 +215,7 @@
 }
 
 .site-footer__contact-row button:hover {
-  background: var(--kgv-primary-hover);
+  background: var(--kgv-secondary);
   box-shadow: var(--kgv-shadow-button);
   transform: translateY(-1px);
 }
@@ -233,10 +234,10 @@
 
 .site-footer__social {
   align-items: center;
-  background: var(--kgv-surface-sage);
-  border: 1px solid var(--kgv-border-soft);
+  background: var(--kgv-surface-lavender);
+  border: 1px solid var(--kgv-surface-lavender-strong);
   border-radius: var(--kgv-radius-round);
-  color: var(--kgv-primary);
+  color: var(--kgv-secondary-hover);
   display: inline-flex;
   font-size: 0.78rem;
   font-weight: 900;
@@ -307,9 +308,20 @@
 }
 
 .site-footer__bottom strong {
-  color: var(--kgv-primary);
+  color: var(--kgv-secondary-hover);
   font-size: 0.96em;
   font-weight: 800;
+}
+
+.site-footer__designer {
+  color: var(--kgv-secondary-hover);
+}
+
+.site-footer__designer > span {
+  color: var(--kgv-secondary-hover);
+  font-family: var(--kgv-font-display);
+  font-size: 0.96em;
+  font-weight: 850;
 }
 
 .site-footer__bottom sup {

@@ -2,7 +2,7 @@
 
 <div class="kgv-page mitglieder-page" [class.mitglieder-page--logged-in]="angemeldetesMitglied">
   @if (!angemeldetesMitglied) {
-    <section class="mitglieder-hero kgv-section kgv-section--wide" aria-labelledby="mitgliederbereich-titel">
+    <section class="mitglieder-hero kgv-section kgv-section--wide" data-kgv-reveal-static aria-labelledby="mitgliederbereich-titel">
       <img class="mitglieder-hero__lavendel mitglieder-hero__lavendel--links" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
       <img class="mitglieder-hero__lavendel mitglieder-hero__lavendel--rechts" src="assets/img/lavendel-3_aquarell.webp" alt="" aria-hidden="true">
 
@@ -12,7 +12,7 @@
         <p class="kgv-subline">Mitglieder melden sich mit Benutzername, Gartennummer und Passwort an. Danach stehen persönliche Dokumente und die Eingabe der aktuellen Zählerstände bereit.</p>
       </div>
 
-      <article class="login-card kgv-card" aria-labelledby="login-titel">
+      <article class="login-card kgv-card" data-kgv-reveal="right" aria-labelledby="login-titel">
         <div class="login-card__content">
           <p class="kgv-eyebrow">Login</p>
           <h2 id="login-titel">Anmelden</h2>

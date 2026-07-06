@@ -44,10 +44,23 @@
 
 .app-main__route {
   display: block;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 220ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .app-main__route > * {
   display: block;
+}
+
+html.kgv-route-switching .app-main__route {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0.8rem, 0);
+}
+
+html.kgv-route-switching--instant .app-main__route {
+  transition: none !important;
 }
 
 .kgv-page {
@@ -58,7 +71,7 @@
    02   Reveal Basics
    ========================================================================== */
 
-.kgv-reveal-ready [data-kgv-reveal] {
+.kgv-reveal-ready .is-kgv-reveal-pending:not(.is-kgv-revealed):not(.site-footer):not(.site-footer *):not([data-kgv-reveal-static]):not([data-kgv-reveal-ignore]):not([data-kgv-reveal-ignore] *) {
   opacity: 0;
   transform: translate3d(0, var(--kgv-reveal-y, 2.75rem), 0);
   transition: opacity 680ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -66,10 +79,26 @@
   will-change: opacity, transform, filter;
 }
 
-.kgv-reveal-ready [data-kgv-reveal].is-kgv-revealed {
+.kgv-reveal-ready .is-kgv-revealed {
   filter: none;
   opacity: 1;
   transform: translate3d(0, 0, 0);
+  transition: opacity 680ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--kgv-reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+
+  @starting-style {
+    opacity: 0;
+    transform: translate3d(0, var(--kgv-reveal-y, 2.75rem), 0);
+  }
+}
+
+.kgv-reveal-ready [data-kgv-reveal-static] {
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto !important;
 }
 
 /* ========================================================================== 
@@ -80,17 +109,39 @@
   --kgv-reveal-y: 2.75rem;
 }
 
-.kgv-reveal-ready [data-kgv-reveal='left'] {
+.kgv-reveal-ready .is-kgv-reveal-pending[data-kgv-reveal='left'] {
   transform: translate3d(-2rem, 0, 0);
 }
 
-.kgv-reveal-ready [data-kgv-reveal='right'] {
+.kgv-reveal-ready .is-kgv-revealed[data-kgv-reveal='left'] {
+  @starting-style {
+    opacity: 0;
+    transform: translate3d(-2rem, 0, 0);
+  }
+}
+
+.kgv-reveal-ready .is-kgv-reveal-pending[data-kgv-reveal='right'] {
   transform: translate3d(2rem, 0, 0);
 }
 
-.kgv-reveal-ready [data-kgv-reveal='soft'] {
+.kgv-reveal-ready .is-kgv-revealed[data-kgv-reveal='right'] {
+  @starting-style {
+    opacity: 0;
+    transform: translate3d(2rem, 0, 0);
+  }
+}
+
+.kgv-reveal-ready .is-kgv-reveal-pending[data-kgv-reveal='soft'] {
   filter: blur(6px);
   transform: translate3d(0, 0.9rem, 0) scale(0.985);
+}
+
+.kgv-reveal-ready .is-kgv-revealed[data-kgv-reveal='soft'] {
+  @starting-style {
+    filter: blur(6px);
+    opacity: 0;
+    transform: translate3d(0, 0.9rem, 0) scale(0.985);
+  }
 }
 
 /* ========================================================================== 
@@ -104,6 +155,15 @@ html[data-kgv-comfort='ruhig'] .kgv-page {
   animation: none !important;
 }
 
+html[data-kgv-motion='reduziert'] .app-main__route,
+html[data-kgv-motion='aus'] .app-main__route,
+html[data-kgv-comfort='ruhig'] .app-main__route {
+  transition: none !important;
+}
+
+html[data-kgv-motion='reduziert'] .is-kgv-reveal-pending,
+html[data-kgv-motion='aus'] .is-kgv-reveal-pending,
+html[data-kgv-comfort='ruhig'] .is-kgv-reveal-pending,
 html[data-kgv-motion='reduziert'] [data-kgv-reveal],
 html[data-kgv-motion='aus'] [data-kgv-reveal],
 html[data-kgv-comfort='ruhig'] [data-kgv-reveal] {
@@ -118,6 +178,11 @@ html[data-kgv-comfort='ruhig'] [data-kgv-reveal] {
     animation: none !important;
   }
 
+  .app-main__route {
+    transition: none !important;
+  }
+
+  .kgv-reveal-ready .is-kgv-reveal-pending,
   .kgv-reveal-ready [data-kgv-reveal] {
     filter: none !important;
     opacity: 1 !important;

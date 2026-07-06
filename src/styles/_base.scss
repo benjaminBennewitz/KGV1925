@@ -43,7 +43,7 @@
 
 html {
   min-width: 320px;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   text-size-adjust: 100%;
 }
 
@@ -94,6 +94,11 @@ body.kgv-reduced-motion *::after {
   animation-iteration-count: 1 !important;
   scroll-behavior: auto !important;
   transition-duration: 0.01ms !important;
+}
+
+html.kgv-route-switching,
+html.kgv-route-switching * {
+  scroll-behavior: auto !important;
 }
 
 a {

@@ -508,7 +508,10 @@
   color: #604300;
 }
 
-.rental-callout .kgv-button {
+.rental-callout__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
   margin-top: 1rem;
 }
 
@@ -685,13 +688,16 @@
 
 .site-map__house {
   align-items: center;
+  appearance: none;
   background:
     radial-gradient(circle at 100% 0%, rgba(216, 188, 122, 0.26), transparent 7rem),
     var(--kgv-surface-sage);
   border: 1px solid rgba(49, 92, 69, 0.24);
   border-radius: var(--kgv-radius-sm);
   color: var(--kgv-primary);
+  cursor: pointer;
   display: inline-flex;
+  font: inherit;
   font-size: 0.74rem;
   font-weight: 900;
   gap: 0.32rem;
@@ -976,6 +982,7 @@
 }
 
 .garden-modal__media {
+  background: var(--kgv-surface-sage);
   min-height: 100%;
   position: relative;
 }
@@ -1003,6 +1010,84 @@
 .garden-modal__status--free {
   background: var(--kgv-surface-sage);
   color: var(--kgv-primary);
+}
+
+.garden-modal__status--house {
+  background: color-mix(in srgb, var(--kgv-accent-sand) 28%, white);
+  color: #604300;
+}
+
+.garden-modal__gallery-nav {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
+  bottom: 1rem;
+  box-shadow: var(--kgv-shadow-soft);
+  display: inline-flex;
+  gap: 0.45rem;
+  left: 1rem;
+  padding: 0.3rem;
+  position: absolute;
+  z-index: 2;
+}
+
+.garden-modal__gallery-nav button {
+  align-items: center;
+  appearance: none;
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-primary);
+  cursor: pointer;
+  display: inline-flex;
+  height: 2.2rem;
+  justify-content: center;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+  width: 2.2rem;
+}
+
+.garden-modal__gallery-nav button:hover,
+.garden-modal__gallery-nav button:focus-visible {
+  background: var(--kgv-primary);
+  color: var(--kgv-text-inverse);
+  transform: translateY(-1px);
+}
+
+.garden-modal__gallery-nav > span {
+  color: var(--kgv-text-main);
+  font-size: 0.78rem;
+  font-weight: 900;
+  min-width: 3.1rem;
+  text-align: center;
+}
+
+.garden-modal__thumbs {
+  bottom: 1.3rem;
+  display: flex;
+  gap: 0.34rem;
+  position: absolute;
+  right: 1rem;
+  z-index: 2;
+}
+
+.garden-modal__thumbs button {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: var(--kgv-radius-round);
+  cursor: pointer;
+  height: 0.72rem;
+  padding: 0;
+  transition: background-color 180ms ease, transform 180ms ease, width 180ms ease;
+  width: 0.72rem;
+}
+
+.garden-modal__thumbs button:hover,
+.garden-modal__thumb--active {
+  background: var(--kgv-secondary);
+  transform: translateY(-1px);
+  width: 1.65rem;
 }
 
 .garden-modal__content {
@@ -1115,6 +1200,11 @@
   .garden-modal__media {
     min-height: 16rem;
   }
+
+  .garden-modal__media img {
+    aspect-ratio: 16 / 10;
+    display: block;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1178,5 +1268,15 @@
 
   .site-map__blocks {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .garden-modal__gallery-nav,
+  .garden-modal__thumbs {
+    left: 1rem;
+    right: auto;
+  }
+
+  .garden-modal__thumbs {
+    bottom: 4rem;
   }
 }

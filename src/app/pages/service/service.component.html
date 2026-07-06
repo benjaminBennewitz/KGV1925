@@ -1,19 +1,19 @@
 <!-- src/app/pages/service/service.component.html -->
 
 <div class="kgv-page service-page">
-  <section class="service-hero" aria-labelledby="service-titel">
+  <section class="service-hero" data-kgv-reveal-static aria-labelledby="service-titel">
     <div class="service-hero__inner kgv-section">
       <div class="service-hero__content">
         <p class="kgv-eyebrow">Service</p>
         <h1 id="service-titel" class="kgv-heading">Alles Wichtige auf einen Blick.</h1>
         <p class="kgv-subline">Hier finden Mitglieder und Gäste schnelle Wege zu Downloads, Ansprechpartnern, Vereinshausvermietung und aktuellen Unterlagen des Vereins.</p>
-        <div class="service-hero__actions" aria-label="Schnelleinstiege">
+        <div class="service-hero__actions" data-kgv-reveal="soft" aria-label="Schnelleinstiege">
           <button class="kgv-button" type="button" (click)="scrollZuDownloads()">Downloads öffnen</button>
           <a class="kgv-button kgv-button--secondary" routerLink="/kontakt">Kontakt aufnehmen</a>
         </div>
       </div>
 
-      <aside class="service-hero-card kgv-card" aria-label="Service kompakt">
+      <aside class="service-hero-card kgv-card" data-kgv-reveal="right" aria-label="Service kompakt">
         <img class="service-hero-card__lavendel" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
         <span class="service-hero-card__icon material-symbols-outlined" aria-hidden="true">folder_open</span>
         <p class="kgv-eyebrow">Dokumente</p>

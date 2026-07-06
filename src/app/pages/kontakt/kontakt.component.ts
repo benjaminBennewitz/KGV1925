@@ -1,12 +1,14 @@
 /* src/app/pages/kontakt/kontakt.component.ts */
 
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
-type KontaktFeld = keyof KontaktFormular;
+type KontaktFeld = Exclude<keyof KontaktFormular, 'zuHaenden'>;
 
 interface KontaktFormular {
+  zuHaenden: string;
   name: string;
   email: string;
   telefon: string;
@@ -22,7 +24,7 @@ interface Kontaktperson {
   icon: string;
   telefonnummern: string[];
   aktionLabel: string;
-  aktionZiel: string;
+  formularKontakt: boolean;
 }
 
 interface KontaktInfo {
@@ -37,7 +39,9 @@ interface KontaktInfo {
   templateUrl: './kontakt.component.html',
   styleUrl: './kontakt.component.scss',
 })
-export class KontaktComponent {
+export class KontaktComponent implements OnInit {
+  private readonly dokument = inject(DOCUMENT);
+  private readonly route = inject(ActivatedRoute);
   private readonly textMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}$/;
   private readonly textErsetzen = /[^A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]/g;
   private readonly nachrichtMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:\n\r]{10,800}$/;
@@ -55,8 +59,8 @@ export class KontaktComponent {
       beschreibung: 'Ansprechpartner für übergeordnete Vereinsthemen, Vereinsleitung und offizielle Anliegen.',
       icon: 'verified_user',
       telefonnummern: [],
-      aktionLabel: 'Anfrage an den Vorstand',
-      aktionZiel: '#kontaktformular',
+      aktionLabel: 'Anfrage an Bülent Kaplan',
+      formularKontakt: true,
     },
     {
       rolle: '2. Vorsitz',
@@ -64,8 +68,8 @@ export class KontaktComponent {
       beschreibung: 'Ansprechpartner für organisatorische Abstimmungen, laufende Vereinsthemen und Vertretung des Vorsitzes.',
       icon: 'diversity_3',
       telefonnummern: [],
-      aktionLabel: 'Anfrage an den Vorstand',
-      aktionZiel: '#kontaktformular',
+      aktionLabel: 'Anfrage an Lars Andersen',
+      formularKontakt: true,
     },
     {
       rolle: 'Gartenfachberater',
@@ -74,7 +78,7 @@ export class KontaktComponent {
       icon: 'local_florist',
       telefonnummern: ['0173-2836684', '02161-5777173'],
       aktionLabel: 'Telefonisch kontaktieren',
-      aktionZiel: 'tel:01732836684',
+      formularKontakt: false,
     },
   ];
 
@@ -96,14 +100,7 @@ export class KontaktComponent {
     },
   ];
 
-  protected kontaktFormular: KontaktFormular = {
-    name: '',
-    email: '',
-    telefon: '',
-    gartennummer: '',
-    betreff: '',
-    nachricht: '',
-  };
+  protected kontaktFormular: KontaktFormular = this.erstelleLeeresKontaktFormular();
 
   protected feldHinweise: Record<KontaktFeld, string> = {
     name: '',
@@ -116,10 +113,56 @@ export class KontaktComponent {
 
   protected formularStatus = '';
 
+  /**
+   * Übernimmt optionale Vorbelegungen aus der URL, falls Kontaktlinks gezielt auf eine Person verweisen.
+   */
+  public ngOnInit(): void {
+    this.route.queryParamMap.subscribe((parameter) => {
+      const zuHaenden = parameter.get('zhd');
+
+      if (!zuHaenden) {
+        return;
+      }
+
+      this.setzeFormularEmpfaenger(zuHaenden, false);
+    });
+  }
+
+  /**
+   * Erstellt einen bereinigten Telefon-Link.
+   */
   protected telefonHref(telefonnummer: string): string {
     return `tel:${telefonnummer.replace(/[^0-9+]/g, '')}`;
   }
 
+  /**
+   * Füllt das dynamische z.Hd.-Feld für eine ausgewählte Kontaktperson.
+   */
+  protected waehleKontaktperson(person: Kontaktperson): void {
+    this.setzeFormularEmpfaenger(person.name, true);
+
+    if (!this.kontaktFormular.betreff.trim()) {
+      this.kontaktFormular = {
+        ...this.kontaktFormular,
+        betreff: `Anfrage an ${person.name}`,
+      };
+    }
+  }
+
+  /**
+   * Entfernt die gezielte Formular-Zuordnung wieder.
+   */
+  protected entferneFormularEmpfaenger(): void {
+    this.kontaktFormular = {
+      ...this.kontaktFormular,
+      zuHaenden: '',
+    };
+    this.formularStatus = '';
+  }
+
+  /**
+   * Bereinigt und validiert ein Formularfeld während der Eingabe.
+   */
   protected kontaktFeldAktualisieren(feld: KontaktFeld, wert: string): void {
     const bereinigterWert = this.bereinigeKontaktWert(feld, wert);
     this.kontaktFormular = {
@@ -133,10 +176,16 @@ export class KontaktComponent {
     this.formularStatus = '';
   }
 
+  /**
+   * Prüft, ob ein Feld aktuell einen Hinweis ausgeben soll.
+   */
   protected hatFeldHinweis(feld: KontaktFeld): boolean {
     return this.feldHinweise[feld].length > 0;
   }
 
+  /**
+   * Prüft alle Pflicht- und Optionalfelder vor dem vorbereiteten Absenden.
+   */
   protected istKontaktFormularGueltig(): boolean {
     const pflichtfelder: KontaktFeld[] = ['name', 'email', 'betreff', 'nachricht'];
     const optionaleFelder: KontaktFeld[] = ['telefon', 'gartennummer'];
@@ -146,6 +195,9 @@ export class KontaktComponent {
     return pflichtfelderGueltig && optionaleFelderGueltig;
   }
 
+  /**
+   * Validiert das Formular und setzt anschließend den lokalen Demo-Status zurück.
+   */
   protected kontaktSenden(): void {
     if (!this.istKontaktFormularGueltig()) {
       this.feldHinweise = {
@@ -161,7 +213,15 @@ export class KontaktComponent {
     }
 
     this.formularStatus = 'Die Anfrage ist vollständig vorbereitet.';
-    this.kontaktFormular = {
+    this.kontaktFormular = this.erstelleLeeresKontaktFormular();
+  }
+
+  /**
+   * Erstellt den Ausgangszustand des Formulars.
+   */
+  private erstelleLeeresKontaktFormular(): KontaktFormular {
+    return {
+      zuHaenden: '',
       name: '',
       email: '',
       telefon: '',
@@ -171,6 +231,41 @@ export class KontaktComponent {
     };
   }
 
+  /**
+   * Übernimmt einen Empfänger in das dynamische z.Hd.-Feld.
+   */
+  private setzeFormularEmpfaenger(wert: string, formularFokussieren: boolean): void {
+    const bereinigterWert = wert.replace(this.textErsetzen, '').slice(0, 80);
+
+    if (!bereinigterWert.trim()) {
+      return;
+    }
+
+    this.kontaktFormular = {
+      ...this.kontaktFormular,
+      zuHaenden: bereinigterWert,
+    };
+    this.formularStatus = '';
+
+    if (formularFokussieren) {
+      this.scrolleZumKontaktformular();
+    }
+  }
+
+  /**
+   * Scrollt nach einer Personenauswahl gezielt zum Formular.
+   */
+  private scrolleZumKontaktformular(): void {
+    const fenster = this.dokument.defaultView;
+
+    fenster?.setTimeout(() => {
+      this.dokument.getElementById('kontaktformular')?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    });
+  }
+
+  /**
+   * Entfernt nicht erlaubte Zeichen je nach Feldtyp.
+   */
   private bereinigeKontaktWert(feld: KontaktFeld, wert: string): string {
     if (feld === 'email') {
       return wert.replace(this.emailErsetzen, '').slice(0, 120);
@@ -191,6 +286,9 @@ export class KontaktComponent {
     return wert.replace(this.textErsetzen, '').slice(0, 80);
   }
 
+  /**
+   * Gibt den konkreten Validierungshinweis für ein Feld zurück.
+   */
   private validiereKontaktFeld(feld: KontaktFeld, wert: string): string {
     const getrimmterWert = wert.trim();
 

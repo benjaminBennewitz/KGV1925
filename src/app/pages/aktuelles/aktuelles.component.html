@@ -1,7 +1,7 @@
 <!-- src/app/pages/aktuelles/aktuelles.component.html -->
 
 <div class="kgv-page aktuelles-page">
-  <section class="aktuelles-hero kgv-section kgv-section--wide" aria-labelledby="aktuelles-titel">
+  <section class="aktuelles-hero kgv-section kgv-section--wide" data-kgv-reveal-static aria-labelledby="aktuelles-titel">
     <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--eins" src="assets/img/lavendel-1_aquarell.webp" alt="" aria-hidden="true">
     <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--zwei" src="assets/img/lavendel-3_aquarell.webp" alt="" aria-hidden="true">
 
@@ -10,7 +10,7 @@
       <h1 id="aktuelles-titel" class="kgv-heading">Neuigkeiten, Termine und Hinweise aus dem Verein.</h1>
       <p class="kgv-subline">Hier sammeln wir wichtige Nachrichten aus dem Vereinsleben: Veranstaltungen, Wettbewerbe, Hinweise für Mitglieder und Rückblicke auf gemeinsame Aktionen.</p>
 
-      <div class="aktuelles-hero__actions">
+      <div class="aktuelles-hero__actions" data-kgv-reveal="soft">
         <a class="kgv-button" routerLink="/termine">
           <span class="material-symbols-outlined" aria-hidden="true">calendar_month</span>
           <span>Termine ansehen</span>
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <aside class="aktuelles-hero__panel kgv-card" aria-label="Aktuelle Kurztermine">
+    <aside class="aktuelles-hero__panel kgv-card" data-kgv-reveal="right" aria-label="Aktuelle Kurztermine">
       @for (info of heroKurzinfos; track info.label) {
         <span class="aktuelles-hero__fact">
           <strong>{{ info.wert }}</strong>

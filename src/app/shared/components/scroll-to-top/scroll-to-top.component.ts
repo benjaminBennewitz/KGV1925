@@ -1,10 +1,7 @@
 /* src/app/shared/components/scroll-to-top/scroll-to-top.component.ts */
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Component, DestroyRef, HostListener, PLATFORM_ID, inject, signal } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, HostListener, PLATFORM_ID, inject, signal } from '@angular/core';
 
 @Component({
   selector: 'app-scroll-to-top',
@@ -12,19 +9,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './scroll-to-top.component.scss',
 })
 export class ScrollToTopComponent {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly router = inject(Router);
 
   protected readonly istSichtbar = signal(false);
-
-  public constructor() {
-    this.router.events.pipe(filter((ereignis) => ereignis instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.scrollZuSeitenanfang('auto');
-      this.istSichtbar.set(false);
-    });
-  }
 
   /**
    * Prüft beim Scrollen, ob der Button sichtbar sein soll.

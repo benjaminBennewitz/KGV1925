@@ -1,7 +1,7 @@
 <!-- src/app/pages/termine/termine.component.html -->
 
 <div class="kgv-page termine-page">
-  <section class="termine-hero kgv-section kgv-section--wide" aria-labelledby="termine-titel">
+  <section class="termine-hero kgv-section kgv-section--wide" data-kgv-reveal-static aria-labelledby="termine-titel">
     <img class="termine-hero__lavendel termine-hero__lavendel--eins" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
     <img class="termine-hero__lavendel termine-hero__lavendel--zwei" src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
 
@@ -10,7 +10,7 @@
       <h1 id="termine-titel" class="kgv-heading">Das Vereinsjahr in der Monatsansicht.</h1>
       <p class="kgv-subline">Alle wichtigen Vereins-, Garten- und Gemeinschaftstermine stehen übersichtlich im Kalender. Über die Monatsnavigation lässt sich das Jahr 2026 von Januar bis Dezember durchgehen.</p>
 
-      <div class="termine-hero__actions">
+      <div class="termine-hero__actions" data-kgv-reveal="soft">
         <a class="kgv-button" routerLink="/aktuelles">
           <span class="material-symbols-outlined" aria-hidden="true">campaign</span>
           <span>Aktuelles ansehen</span>
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <aside class="termine-hero__panel kgv-card" aria-label="Kurzinfos zum Kalender">
+    <aside class="termine-hero__panel kgv-card" data-kgv-reveal="right" aria-label="Kurzinfos zum Kalender">
       @for (info of heroKurzinfos; track info.label) {
         <span class="termine-hero__fact">
           <strong>{{ info.wert }}</strong>

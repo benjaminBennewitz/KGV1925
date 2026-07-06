@@ -106,10 +106,14 @@ export class RevealService {
     }
 
     elemente.forEach((element) => {
+      if (this.istElementImViewport(element)) {
+        this.zeigeInitialSichtbaresElement(element);
+        return;
+      }
+
       this.bereiteElementVor(element);
       observer.observe(element);
       this.beobachteteElemente.add(element);
-      this.zeigeSichtbaresElement(element, observer);
     });
   }
 
@@ -126,13 +130,29 @@ export class RevealService {
    * Prüft, ob ein Element nicht animiert werden soll.
    */
   private istElementIgnoriert(element: HTMLElement): boolean {
-    return Boolean(element.closest('app-accessibility-mode, app-scroll-to-top, .kgv-screen-magnifier, .site-footer, [data-kgv-reveal-ignore]'));
+    if (element.closest('app-accessibility-mode, app-scroll-to-top, .kgv-screen-magnifier, .site-footer, [data-kgv-reveal-ignore]')) {
+      return true;
+    }
+
+    if (element.hasAttribute('data-kgv-reveal-static')) {
+      return true;
+    }
+
+    return Boolean(element.closest('[data-kgv-reveal-static]') && !element.hasAttribute('data-kgv-reveal'));
   }
 
   /**
    * Legt Richtung, Delay und Startzustand für ein Reveal-Element fest.
    */
   private bereiteElementVor(element: HTMLElement): void {
+    this.setzeRevealBasis(element);
+    element.classList.add('is-kgv-reveal-pending');
+  }
+
+  /**
+   * Setzt Reveal-Richtung und Delay ohne das Element sofort zu verstecken.
+   */
+  private setzeRevealBasis(element: HTMLElement): void {
     if (!element.hasAttribute('data-kgv-reveal')) {
       element.setAttribute('data-kgv-reveal', this.ermittleRichtung(element));
     }
@@ -201,7 +221,7 @@ export class RevealService {
             return;
           }
 
-          element.classList.add('is-kgv-revealed');
+          this.zeigeElement(element);
           beobachter.unobserve(element);
         });
       },
@@ -215,25 +235,13 @@ export class RevealService {
   }
 
   /**
-   * Zeigt bereits sichtbare Elemente direkt im nächsten Frame an.
+   * Startet die Reveal-Animation für Elemente, die beim Laden schon sichtbar sind.
    */
-  private zeigeSichtbaresElement(element: HTMLElement, observer: IntersectionObserver): void {
-    if (!this.istElementImViewport(element)) {
-      return;
-    }
-
-    const fenster = this.document.defaultView;
-
-    if (!fenster) {
-      element.classList.add('is-kgv-revealed');
-      observer.unobserve(element);
-      return;
-    }
-
-    fenster.requestAnimationFrame(() => {
-      element.classList.add('is-kgv-revealed');
-      observer.unobserve(element);
-    });
+  private zeigeInitialSichtbaresElement(element: HTMLElement): void {
+    this.setzeRevealBasis(element);
+    element.classList.remove('is-kgv-reveal-pending');
+    element.classList.add('is-kgv-revealed');
+    this.beobachteteElemente.add(element);
   }
 
   /**
@@ -270,8 +278,17 @@ export class RevealService {
    * Macht ein Reveal-Element sofort sichtbar.
    */
   private zeigeDirekt(element: HTMLElement): void {
-    this.bereiteElementVor(element);
+    this.setzeRevealBasis(element);
+    this.zeigeElement(element);
+  }
+
+  /**
+   * Macht ein vorbereitetes Element sichtbar und entfernt den Wartezustand.
+   */
+  private zeigeElement(element: HTMLElement): void {
+    this.setzeRevealBasis(element);
     element.classList.add('is-kgv-revealed');
+    element.classList.remove('is-kgv-reveal-pending');
     this.beobachteteElemente.add(element);
   }
 }

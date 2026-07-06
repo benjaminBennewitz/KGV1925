@@ -1,7 +1,7 @@
 <!-- src/app/pages/kontakt/kontakt.component.html -->
 
 <div class="kgv-page kontakt-page">
-  <section class="kontakt-hero kgv-section kgv-section--wide" aria-labelledby="kontakt-titel">
+  <section class="kontakt-hero kgv-section kgv-section--wide" data-kgv-reveal-static aria-labelledby="kontakt-titel">
     <img class="kontakt-hero__lavendel kontakt-hero__lavendel--links" src="assets/img/lavendel-1_aquarell.webp" alt="" aria-hidden="true">
     <img class="kontakt-hero__lavendel kontakt-hero__lavendel--rechts" src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
 
@@ -10,8 +10,8 @@
       <h1 id="kontakt-titel" class="kgv-heading">Direkt zum richtigen Ansprechpartner.</h1>
       <p class="kgv-subline">Hier finden Mitglieder, Gäste und Interessierte die wichtigsten Kontaktwege zum Verein, zur Anlage und zur Gartenfachberatung.</p>
 
-      <div class="kontakt-hero__actions" aria-label="Schnelle Kontaktwege">
-        <a class="kgv-button" href="#kontaktformular">
+      <div class="kontakt-hero__actions" data-kgv-reveal="soft" aria-label="Schnelle Kontaktwege">
+        <a class="kgv-button" [routerLink]="[]" fragment="kontaktformular">
           <span class="material-symbols-outlined" aria-hidden="true">edit_square</span>
           Kontaktformular öffnen
         </a>
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <aside class="kontakt-hero__panel kgv-card" aria-label="Kontakt kurz zusammengefasst">
+    <aside class="kontakt-hero__panel kgv-card" data-kgv-reveal="right" aria-label="Kontakt kurz zusammengefasst">
       <span class="kontakt-hero__panel-icon material-symbols-outlined" aria-hidden="true">support_agent</span>
       <h2>Schnelle Zuordnung</h2>
       <p>Anliegen mit Gartennummer, Rückrufnummer und kurzer Beschreibung können schneller an Vorstand oder Gartenfachberatung weitergegeben werden.</p>
@@ -61,13 +61,23 @@
               }
             </div>
           } @else {
-            <a class="kontakt-card__textlink" href="#kontaktformular">Kontakt über Formular</a>
+            <a class="kontakt-card__textlink" [routerLink]="[]" fragment="kontaktformular" (click)="waehleKontaktperson(person)">
+              <span class="material-symbols-outlined" aria-hidden="true">edit_square</span>
+              Kontakt über Formular
+            </a>
           }
 
-          <a class="kgv-button kgv-button--small" [href]="person.aktionZiel">
-            {{ person.aktionLabel }}
-            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-          </a>
+          @if (person.formularKontakt) {
+            <a class="kgv-button kgv-button--small" [routerLink]="[]" fragment="kontaktformular" (click)="waehleKontaktperson(person)">
+              {{ person.aktionLabel }}
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
+          } @else {
+            <a class="kgv-button kgv-button--small" [href]="telefonHref(person.telefonnummern[0])">
+              {{ person.aktionLabel }}
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
+          }
         </article>
       }
     </div>
@@ -100,6 +110,17 @@
     </div>
 
     <form class="kontakt-form kgv-form kgv-card" (ngSubmit)="kontaktSenden()" aria-label="Kontaktformular">
+      @if (kontaktFormular.zuHaenden) {
+        <label class="kgv-field kontakt-form__recipient">
+          <span class="kgv-label">z.Hd.</span>
+          <span class="kontakt-form__recipient-row">
+            <input class="kgv-input" type="text" name="zuHaenden" [ngModel]="kontaktFormular.zuHaenden" readonly>
+            <button class="kontakt-form__recipient-remove" type="button" (click)="entferneFormularEmpfaenger()">Entfernen</button>
+          </span>
+          <span class="kgv-help-text">Diese Anfrage wird gezielt für diese Kontaktperson vorbereitet.</span>
+        </label>
+      }
+
       <div class="kgv-form-row">
         <label class="kgv-field">
           <span class="kgv-label">Name</span>

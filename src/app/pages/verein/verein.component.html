@@ -1,13 +1,13 @@
 <!-- src/app/pages/verein/verein.component.html -->
 
 <div class="kgv-page verein-page">
-  <section class="verein-hero kgv-section kgv-section--wide" aria-labelledby="verein-titel">
+  <section class="verein-hero kgv-section kgv-section--wide" data-kgv-reveal-static aria-labelledby="verein-titel">
     <div class="verein-hero__content">
       <p class="kgv-eyebrow">Unser Verein</p>
       <h1 id="verein-titel" class="kgv-heading">Gemeinschaft, Verantwortung und 48 grüne Rückzugsorte.</h1>
       <p class="kgv-subline">Diese Übersicht verbindet Ansprechpartner, wichtige Anlageninfos, Lageplan und Gartenstatus in einem klaren, modularen Aufbau. Mitglieder und Gäste finden hier die wichtigsten Informationen zur Anlage an einem zentralen Ort.</p>
 
-      <div class="verein-hero__badges" aria-label="Schwerpunkte der Vereinsseite">
+      <div class="verein-hero__badges" data-kgv-reveal="soft" aria-label="Schwerpunkte der Vereinsseite">
         <span>
           <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
           Vorstand
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <aside class="verein-hero__panel kgv-card" aria-label="Kurzüberblick zum Verein">
+    <aside class="verein-hero__panel kgv-card" data-kgv-reveal="right" aria-label="Kurzüberblick zum Verein">
       <div class="verein-hero__panel-head">
         <span class="verein-hero__icon material-symbols-outlined" aria-hidden="true">park</span>
         <p>Auf einen Blick</p>
@@ -154,10 +154,16 @@
           <p class="kgv-eyebrow">Vereinshaus</p>
           <h3>Feiern oder Treffen planen?</h3>
           <p>Unser Vereinshaus kann für private Feiern, Versammlungen und kleine Veranstaltungen angefragt werden. Alle Informationen zur Nutzung und Anfrage stehen auf der Vermietungsseite.</p>
-          <a class="kgv-button kgv-button--small" routerLink="/vereinshausvermietung">
-            Zur Vereinshausvermietung
-            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-          </a>
+          <div class="rental-callout__actions">
+            <button class="kgv-button kgv-button--small kgv-button--lavender" type="button" (click)="oeffneVereinshausModal()">
+              Details ansehen
+              <span class="material-symbols-outlined" aria-hidden="true">photo_library</span>
+            </button>
+            <a class="kgv-button kgv-button--small" routerLink="/vereinshausvermietung">
+              Zur Vereinshausvermietung
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
+          </div>
         </div>
       </article>
     </div>
@@ -230,10 +236,10 @@
                 </button>
               }
 
-              <a class="site-map__house" routerLink="/vereinshausvermietung" aria-label="Zur Vereinshausvermietung wechseln">
+              <button class="site-map__house" type="button" aria-label="Details zum Vereinshaus öffnen" (click)="oeffneVereinshausModal()">
                 <span class="material-symbols-outlined" aria-hidden="true">home_work</span>
                 Vereinshaus
-              </a>
+              </button>
             </div>
 
             <div class="site-map__block site-map__block--east" aria-label="Östlicher Gartenstreifen mit Parzellen 01 bis 12">
@@ -319,11 +325,25 @@
       </button>
 
       <div class="garden-modal__media">
-        <img [src]="garten.bild" [alt]="garten.alt">
+        <img [src]="ermittleAktivesBild(garten.bilder).pfad" [alt]="ermittleAktivesBild(garten.bilder).alt">
         <span class="garden-modal__status" [class.garden-modal__status--free]="garten.status === 'frei'">
           <span class="material-symbols-outlined" aria-hidden="true">{{ ermittleStatusIcon(garten.status) }}</span>
           {{ ermittleStatusText(garten.status) }}
         </span>
+        <div class="garden-modal__gallery-nav" aria-label="Bildergalerie der Parzelle">
+          <button type="button" aria-label="Vorheriges Bild anzeigen" (click)="vorherigesModalBild(garten.bilder)">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+          </button>
+          <span>{{ aktiverBildIndex + 1 }} / {{ garten.bilder.length }}</span>
+          <button type="button" aria-label="Nächstes Bild anzeigen" (click)="naechstesModalBild(garten.bilder)">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+          </button>
+        </div>
+        <div class="garden-modal__thumbs" aria-label="Bild direkt auswählen">
+          @for (bild of garten.bilder; track bild.pfad; let bildIndex = $index) {
+            <button type="button" [class.garden-modal__thumb--active]="bildIndex === aktiverBildIndex" [attr.aria-label]="'Bild ' + (bildIndex + 1) + ' anzeigen'" [attr.aria-current]="bildIndex === aktiverBildIndex ? 'true' : null" (click)="setzeModalBild(bildIndex)"></button>
+          }
+        </div>
       </div>
 
       <div class="garden-modal__content">
@@ -354,10 +374,79 @@
 
         @if (garten.status === 'frei') {
           <a class="kgv-button" routerLink="/kontakt" (click)="schliesseGartenModal()">
-            Interesse anfragen
+            Anfragen
             <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
           </a>
         }
+      </div>
+    </section>
+  </div>
+}
+
+
+@if (ausgewaehltesVereinshaus; as haus) {
+  <div class="garden-modal" role="presentation" data-kgv-reveal-ignore (click)="schliesseDetailModal()">
+    <section class="garden-modal__panel kgv-card" role="dialog" aria-modal="true" aria-labelledby="vereinshaus-modal-titel" (click)="$event.stopPropagation()">
+      <button class="garden-modal__close" type="button" aria-label="Vereinshausdetails schließen" (click)="schliesseDetailModal()">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+
+      <div class="garden-modal__media">
+        <img [src]="ermittleAktivesBild(haus.bilder).pfad" [alt]="ermittleAktivesBild(haus.bilder).alt">
+        <span class="garden-modal__status garden-modal__status--house">
+          <span class="material-symbols-outlined" aria-hidden="true">{{ haus.icon }}</span>
+          Vereinshaus
+        </span>
+        <div class="garden-modal__gallery-nav" aria-label="Bildergalerie des Vereinshauses">
+          <button type="button" aria-label="Vorheriges Bild anzeigen" (click)="vorherigesModalBild(haus.bilder)">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+          </button>
+          <span>{{ aktiverBildIndex + 1 }} / {{ haus.bilder.length }}</span>
+          <button type="button" aria-label="Nächstes Bild anzeigen" (click)="naechstesModalBild(haus.bilder)">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+          </button>
+        </div>
+        <div class="garden-modal__thumbs" aria-label="Bild direkt auswählen">
+          @for (bild of haus.bilder; track bild.pfad; let bildIndex = $index) {
+            <button type="button" [class.garden-modal__thumb--active]="bildIndex === aktiverBildIndex" [attr.aria-label]="'Bild ' + (bildIndex + 1) + ' anzeigen'" [attr.aria-current]="bildIndex === aktiverBildIndex ? 'true' : null" (click)="setzeModalBild(bildIndex)"></button>
+          }
+        </div>
+      </div>
+
+      <div class="garden-modal__content">
+        <p class="kgv-eyebrow">{{ haus.eyebrow }}</p>
+        <h2 id="vereinshaus-modal-titel">{{ haus.titel }}</h2>
+        <p>{{ haus.beschreibung }}</p>
+
+        <dl class="garden-modal__details">
+          <div>
+            <dt>Größe</dt>
+            <dd>{{ haus.groesse }}</dd>
+          </div>
+          <div>
+            <dt>Lage</dt>
+            <dd>{{ haus.lage }}</dd>
+          </div>
+          <div>
+            <dt>Nutzung</dt>
+            <dd>{{ haus.nutzung }}</dd>
+          </div>
+          <div>
+            <dt>Hinweis</dt>
+            <dd>{{ haus.hinweis }}</dd>
+          </div>
+        </dl>
+
+        <div class="garden-modal__features" aria-label="Merkmale des Vereinshauses">
+          @for (merkmal of haus.merkmale; track merkmal) {
+            <span>{{ merkmal }}</span>
+          }
+        </div>
+
+        <a class="kgv-button" routerLink="/vereinshausvermietung" (click)="schliesseDetailModal()">
+          Kalender und Anfrage öffnen
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </a>
       </div>
     </section>
   </div>

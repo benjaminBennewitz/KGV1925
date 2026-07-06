@@ -2,7 +2,7 @@
 
 import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ANLAGEN_INFOS, GARTEN_PARZELLEN, GartenFilter, GartenParzelle, GartenStatus, VORSTANDSMITGLIEDER, Vorstandsmitglied } from '../../shared/data/verein.data';
+import { ANLAGEN_INFOS, DetailBild, GARTEN_PARZELLEN, GartenFilter, GartenParzelle, GartenStatus, VEREINSHAUS_DETAIL, VereinshausDetail, VORSTANDSMITGLIEDER, Vorstandsmitglied } from '../../shared/data/verein.data';
 
 @Component({
   selector: 'app-verein',
@@ -13,9 +13,12 @@ import { ANLAGEN_INFOS, GARTEN_PARZELLEN, GartenFilter, GartenParzelle, GartenSt
 export class VereinComponent {
   protected aktiveGartenFilter: GartenFilter = 'alle';
   protected ausgewaehlterGarten: GartenParzelle | null = null;
+  protected ausgewaehltesVereinshaus: VereinshausDetail | null = null;
+  protected aktiverBildIndex = 0;
   protected readonly anlagenInfos = ANLAGEN_INFOS;
   protected readonly gartenFilter: GartenFilter[] = ['alle', 'frei', 'verpachtet'];
   protected readonly gaerten = GARTEN_PARZELLEN;
+  protected readonly vereinshausDetail = VEREINSHAUS_DETAIL;
   protected readonly geschaeftsfuehrenderVorstand = VORSTANDSMITGLIEDER.filter((mitglied) => mitglied.typ === 'geschaeftsfuehrend');
   protected readonly beisitzende = VORSTANDSMITGLIEDER.filter((mitglied) => mitglied.typ === 'beisitz');
   protected readonly lageplanObereReihe = this.ermittleGaertenNachNummern([48, 47, 46, 45, 44, 43, 42]);
@@ -42,11 +45,11 @@ export class VereinComponent {
   }
 
   /**
-   * Schließt das Detailfenster, sobald die Escape-Taste genutzt wird.
+   * Schließt Detailfenster, sobald die Escape-Taste genutzt wird.
    */
   @HostListener('document:keydown.escape')
   protected schliesseModalPerTaste(): void {
-    this.schliesseGartenModal();
+    this.schliesseDetailModal();
   }
 
   /**
@@ -60,14 +63,62 @@ export class VereinComponent {
    * Öffnet die Detailansicht für eine ausgewählte Parzelle.
    */
   protected oeffneGartenModal(garten: GartenParzelle): void {
+    this.aktiverBildIndex = 0;
+    this.ausgewaehltesVereinshaus = null;
     this.ausgewaehlterGarten = garten;
+  }
+
+  /**
+   * Öffnet die Detailansicht für das Vereinshaus.
+   */
+  protected oeffneVereinshausModal(): void {
+    this.aktiverBildIndex = 0;
+    this.ausgewaehlterGarten = null;
+    this.ausgewaehltesVereinshaus = this.vereinshausDetail;
+  }
+
+  /**
+   * Schließt alle Detailansichten.
+   */
+  protected schliesseDetailModal(): void {
+    this.ausgewaehlterGarten = null;
+    this.ausgewaehltesVereinshaus = null;
+    this.aktiverBildIndex = 0;
   }
 
   /**
    * Schließt die Detailansicht der Parzelle.
    */
   protected schliesseGartenModal(): void {
-    this.ausgewaehlterGarten = null;
+    this.schliesseDetailModal();
+  }
+
+  /**
+   * Springt in der Bildergalerie zum vorherigen Bild.
+   */
+  protected vorherigesModalBild(bilder: DetailBild[]): void {
+    this.aktiverBildIndex = bilder.length ? (this.aktiverBildIndex - 1 + bilder.length) % bilder.length : 0;
+  }
+
+  /**
+   * Springt in der Bildergalerie zum nächsten Bild.
+   */
+  protected naechstesModalBild(bilder: DetailBild[]): void {
+    this.aktiverBildIndex = bilder.length ? (this.aktiverBildIndex + 1) % bilder.length : 0;
+  }
+
+  /**
+   * Setzt das aktive Bild der Detailgalerie.
+   */
+  protected setzeModalBild(index: number): void {
+    this.aktiverBildIndex = Math.max(0, index);
+  }
+
+  /**
+   * Gibt das aktive Bild einer Detailgalerie zurück.
+   */
+  protected ermittleAktivesBild(bilder: DetailBild[]): DetailBild {
+    return bilder[this.aktiverBildIndex] ?? bilder[0];
   }
 
   /**
