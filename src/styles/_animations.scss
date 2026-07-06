@@ -45,8 +45,7 @@
 .app-main__route {
   display: block;
   opacity: 1;
-  transform: translate3d(0, 0, 0);
-  transition: opacity 220ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 220ms ease;
 }
 
 .app-main__route > * {
@@ -56,7 +55,6 @@
 html.kgv-route-switching .app-main__route {
   opacity: 0;
   pointer-events: none;
-  transform: translate3d(0, 0.8rem, 0);
 }
 
 html.kgv-route-switching--instant .app-main__route {
@@ -64,7 +62,7 @@ html.kgv-route-switching--instant .app-main__route {
 }
 
 .kgv-page {
-  animation: kgv-page-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: kgv-page-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 /* ========================================================================== 

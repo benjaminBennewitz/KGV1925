@@ -1,31 +1,31 @@
 <!-- src/app/pages/startseite/startseite.component.html -->
 
-<div class="kgv-page startseite">
-  @if (startseitenPopup; as popup) {
-    <aside class="start-popup" role="dialog" aria-modal="false" aria-labelledby="start-popup-titel" data-kgv-reveal-static>
-      <div class="start-popup__inner kgv-card">
-        <button class="start-popup__close" type="button" (click)="startseitenPopupSchliessen()" aria-label="Startseiten-Pop-up schließen">
-          <span class="material-symbols-outlined" aria-hidden="true">close</span>
-        </button>
+@if (startseitenPopup; as popup) {
+  <aside class="start-popup" role="presentation" data-kgv-reveal-static (click)="startseitenPopupSchliessen()">
+    <div class="start-popup__inner kgv-card" role="dialog" aria-modal="true" aria-labelledby="start-popup-titel" (click)="$event.stopPropagation()">
+      <button class="start-popup__close" type="button" (click)="startseitenPopupSchliessen()" aria-label="Startseiten-Pop-up schließen">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
 
-        <figure class="start-popup__image">
-          <img [src]="popup.bild" [alt]="popup.bildAlt">
-        </figure>
+      <figure class="start-popup__image">
+        <img [src]="popup.bild" [alt]="popup.bildAlt">
+      </figure>
 
-        <div class="start-popup__content">
-          <p class="kgv-eyebrow">{{ popup.kicker }} · {{ popup.jahr }}</p>
-          <h2 id="start-popup-titel">{{ popup.titel }}</h2>
-          <p>{{ popup.text }}</p>
-          <span class="start-popup__date">{{ formatierePopupDatum(popup.datumISO) }}</span>
-          <a class="kgv-button" [routerLink]="popup.buttonRoute">
-            <span>{{ popup.buttonText }}</span>
-            <span aria-hidden="true">→</span>
-          </a>
-        </div>
+      <div class="start-popup__content">
+        <p class="kgv-eyebrow">{{ popup.kicker }} · {{ popup.jahr }}</p>
+        <h2 id="start-popup-titel">{{ popup.titel }}</h2>
+        <p>{{ popup.text }}</p>
+        <span class="start-popup__date">{{ formatierePopupDatum(popup.datumISO) }}</span>
+        <a class="kgv-button" [routerLink]="popup.buttonRoute">
+          <span>{{ popup.buttonText }}</span>
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
-    </aside>
-  }
+    </div>
+  </aside>
+}
 
+<div class="kgv-page startseite">
   <section class="hero" data-kgv-reveal-static aria-labelledby="startseite-titel">
     <div class="hero__inner">
       <div class="hero__content">

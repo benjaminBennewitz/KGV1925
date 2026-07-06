@@ -947,9 +947,12 @@
   display: grid;
   inset: 0;
   justify-items: center;
+  min-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 1rem;
   position: fixed;
-  z-index: 80;
+  z-index: 1300;
 }
 
 .garden-modal__panel {

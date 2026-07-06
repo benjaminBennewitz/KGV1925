@@ -292,7 +292,7 @@ export class AccessibilityModeComponent implements OnInit, OnDestroy {
   private speichereEinstellungen(einstellungen: AccessEinstellungen): void {
     try {
       localStorage.setItem(this.storageKey, JSON.stringify(einstellungen));
-    } catch (error) {}
+    } catch (error) { }
   }
 
   /**
@@ -322,7 +322,7 @@ export class AccessibilityModeComponent implements OnInit, OnDestroy {
       };
     }
 
-    const bevorzugtReduzierteBewegung = this.document.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches ?? false;
+    const bevorzugtReduzierteBewegung = this.document.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
     return {
       bewegung: bevorzugtReduzierteBewegung ? 'reduziert' : 'voll',
@@ -407,7 +407,7 @@ export class AccessibilityModeComponent implements OnInit, OnDestroy {
    */
   private synchronisiereBildschirmlupe(einstellungen: AccessEinstellungen): void {
     const fenster = this.document.defaultView;
-    const kannLupeNutzen = Boolean(fenster?.matchMedia(this.feinzeigerQuery).matches) && einstellungen.lupe === 'an';
+    const kannLupeNutzen = Boolean(fenster?.matchMedia?.(this.feinzeigerQuery).matches) && einstellungen.lupe === 'an';
 
     this.document.documentElement.classList.toggle('kgv-screen-magnifier-enabled', kannLupeNutzen);
 
