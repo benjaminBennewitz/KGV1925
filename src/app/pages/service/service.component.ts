@@ -3,6 +3,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SERVICE_DOWNLOADS, SERVICE_KARTEN, ServiceDownload } from '../../shared/data/service.data';
+import { bereinigeSuchwert, normalisiereSuchwert } from '../../shared/utils/eingabe-sicherheit.util';
 
 @Component({
   selector: 'app-service',
@@ -17,14 +18,14 @@ export class ServiceComponent {
   protected suchbegriff = '';
 
   protected get gefilterteDownloads(): ServiceDownload[] {
-    const suche = this.suchbegriff.trim().toLowerCase();
+    const suche = normalisiereSuchwert(this.suchbegriff);
 
     if (!suche) {
       return this.downloads;
     }
 
     return this.downloads.filter((download) => {
-      const suchText = `${download.titel} ${download.kategorie} ${download.auszug} ${download.tags.join(' ')}`.toLowerCase();
+      const suchText = normalisiereSuchwert(`${download.titel} ${download.kategorie} ${download.auszug} ${download.tags.join(' ')}`);
 
       return suchText.includes(suche);
     });
@@ -49,7 +50,7 @@ export class ServiceComponent {
    */
   protected aktualisiereSuche(event: Event): void {
     const eingabe = event.target as HTMLInputElement;
-    const bereinigterWert = eingabe.value.replace(/[^A-Za-zÄÖÜäöüß0-9\s\-.]/g, '').slice(0, 50);
+    const bereinigterWert = bereinigeSuchwert(eingabe.value, 50);
 
     this.suchbegriff = bereinigterWert;
     eingabe.value = bereinigterWert;

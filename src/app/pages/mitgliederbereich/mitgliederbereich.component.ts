@@ -9,6 +9,7 @@ import { TERMIN_KATEGORIEN, TERMIN_KATEGORIE_AKZENTE, TerminAkzent, TerminEintra
 import { GARTEN_PARZELLEN } from '../../shared/data/verein.data';
 import { AdminContentService, StartseitenPopup, VereinshausBelegung, VereinshausBelegungsArt } from '../../shared/services/admin-content.service';
 import { EingereichterZaehlerstand, MitgliederRolle, MitgliederSession, MitgliederSessionService, ZaehlerTyp } from '../../shared/services/mitglieder-session.service';
+import { ADMIN_TEXT_MUSTER, bereinigeAdminText as bereinigeSicherenAdminText, bereinigeSuchwert, normalisiereSuchwert } from '../../shared/utils/eingabe-sicherheit.util';
 
 type MitgliederAnsicht = 'uebersicht' | 'rechnungen' | 'zaehlerstaende' | 'admin';
 type AdminBereich = 'gaerten' | 'termine' | 'vereinshaus' | 'gartenwissen' | 'popup';
@@ -155,7 +156,7 @@ export class MitgliederbereichComponent implements OnDestroy {
   private readonly pdfMaxGroesse = 5 * 1024 * 1024;
   private readonly adminTextErsetzen = /[^A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:€&\n\r]/g;
   private readonly adminSlugErsetzen = /[^a-z0-9-]/g;
-  private readonly adminTextMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:€&\n\r]{2,900}$/;
+  private readonly adminTextMuster = ADMIN_TEXT_MUSTER;
   private readonly gartenNamen = [
     'Anna Schneider',
     'Thomas Müller',
@@ -788,7 +789,7 @@ export class MitgliederbereichComponent implements OnDestroy {
    * Aktualisiert die Termin-Suche im Adminbereich.
    */
   protected terminSucheAktualisieren(wert: string): void {
-    this.terminSuche = this.bereinigeAdminText(wert, 80);
+    this.terminSuche = bereinigeSuchwert(wert, 80);
   }
 
   /**
@@ -815,7 +816,7 @@ export class MitgliederbereichComponent implements OnDestroy {
    * Aktualisiert die Vereinshaus-Suche im Adminbereich.
    */
   protected vereinshausSucheAktualisieren(wert: string): void {
-    this.vereinshausSuche = this.bereinigeAdminText(wert, 80);
+    this.vereinshausSuche = bereinigeSuchwert(wert, 80);
   }
 
   /**
@@ -1696,7 +1697,7 @@ export class MitgliederbereichComponent implements OnDestroy {
    * Bereinigt einen Admin-Text auf erlaubte Zeichen und eine maximale Länge.
    */
   private bereinigeAdminText(wert: string, maxLaenge: number): string {
-    return `${wert ?? ''}`.replace(this.adminTextErsetzen, '').slice(0, maxLaenge);
+    return bereinigeSicherenAdminText(wert, maxLaenge);
   }
 
   /**
@@ -1993,7 +1994,7 @@ export class MitgliederbereichComponent implements OnDestroy {
    * Normalisiert Suchtexte für einfache Vergleiche.
    */
   private normalisiereSuche(wert: string): string {
-    return `${wert ?? ''}`.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
+    return normalisiereSuchwert(wert);
   }
 
   /**

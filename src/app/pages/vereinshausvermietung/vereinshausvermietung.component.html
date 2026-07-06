@@ -161,6 +161,11 @@
     </div>
 
     <form class="vermietung-form kgv-form kgv-card" (ngSubmit)="mietAnfrageSenden()" aria-label="Mietformular Vereinshaus">
+      <label class="kgv-honeypot" aria-hidden="true">
+        <span>Website</span>
+        <input type="text" name="website" autocomplete="off" tabindex="-1" [ngModel]="mietHoneypot" (ngModelChange)="mietHoneypotAktualisieren($event)">
+      </label>
+
       @if (mietAnfrage.wunschdatum) {
         <label class="kgv-field vermietung-form__date">
           <span class="kgv-label">Wunschtermin</span>

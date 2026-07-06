@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { FeiertagEintrag, feiertagNrwFuerDatum } from '../../shared/data/feiertage-nrw.data';
 import { TERMIN_KATEGORIEN, TERMIN_KATEGORIE_AKZENTE, TerminEintrag, TerminKategorie } from '../../shared/data/termine.data';
 import { AdminContentService } from '../../shared/services/admin-content.service';
+import { bereinigeSuchwert, normalisiereSuchwert } from '../../shared/utils/eingabe-sicherheit.util';
 
 interface KalenderTag {
   datumISO: string;
@@ -119,7 +120,7 @@ export class TermineComponent {
    * Aktualisiert die Suche für Titel und Datum.
    */
   protected terminSucheAktualisieren(wert: string): void {
-    this.terminSuche = `${wert ?? ''}`.replace(/[^A-Za-zÄÖÜäöüß0-9 .\-:/]/g, '').slice(0, 80);
+    this.terminSuche = bereinigeSuchwert(wert, 80);
     this.fokussierterTerminSlug = null;
   }
 
@@ -246,7 +247,7 @@ export class TermineComponent {
   }
 
   private normalisiereSuche(wert: string): string {
-    return `${wert ?? ''}`.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
+    return normalisiereSuchwert(wert);
   }
 
   private erzeugeDatumString(jahr: number, monatIndex: number, tagZahl: number): string {

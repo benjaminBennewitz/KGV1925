@@ -17,7 +17,7 @@
         <form class="site-footer__contact" action="/kontakt" method="get" aria-label="Kontakt im Footer öffnen">
           <label for="footer-email">Kontakt aufnehmen</label>
           <div class="site-footer__contact-row">
-            <input id="footer-email" name="email" type="email" autocomplete="email" placeholder="deine@email.de">
+            <input id="footer-email" name="email" type="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" placeholder="deine@email.de">
             <button type="submit">Kontakt öffnen</button>
           </div>
         </form>

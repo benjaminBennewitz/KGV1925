@@ -110,6 +110,11 @@
     </div>
 
     <form class="kontakt-form kgv-form kgv-card" (ngSubmit)="kontaktSenden()" aria-label="Kontaktformular">
+      <label class="kgv-honeypot" aria-hidden="true">
+        <span>Website</span>
+        <input type="text" name="website" autocomplete="off" tabindex="-1" [ngModel]="kontaktHoneypot" (ngModelChange)="kontaktHoneypotAktualisieren($event)">
+      </label>
+
       @if (kontaktFormular.zuHaenden) {
         <label class="kgv-field kontakt-form__recipient">
           <span class="kgv-label">z.Hd.</span>

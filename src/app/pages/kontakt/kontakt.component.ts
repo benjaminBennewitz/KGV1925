@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { bereinigeEmail, bereinigeFormularText, bereinigeMehrzeiligenFormularText, bereinigeTelefon, bereinigeZiffern, enthaeltBotSignal } from '../../shared/utils/eingabe-sicherheit.util';
 
 type KontaktFeld = Exclude<keyof KontaktFormular, 'zuHaenden'>;
 
@@ -101,6 +102,8 @@ export class KontaktComponent implements OnInit {
   ];
 
   protected kontaktFormular: KontaktFormular = this.erstelleLeeresKontaktFormular();
+  protected kontaktHoneypot = '';
+  private kontaktFormularGestartetAm = Date.now();
 
   protected feldHinweise: Record<KontaktFeld, string> = {
     name: '',
@@ -176,6 +179,14 @@ export class KontaktComponent implements OnInit {
     this.formularStatus = '';
   }
 
+
+  /**
+   * Aktualisiert das unsichtbare Honeypot-Feld des Kontaktformulars.
+   */
+  protected kontaktHoneypotAktualisieren(wert: string): void {
+    this.kontaktHoneypot = `${wert ?? ''}`.slice(0, 80);
+  }
+
   /**
    * Prüft, ob ein Feld aktuell einen Hinweis ausgeben soll.
    */
@@ -199,6 +210,11 @@ export class KontaktComponent implements OnInit {
    * Validiert das Formular und setzt anschließend den lokalen Demo-Status zurück.
    */
   protected kontaktSenden(): void {
+    if (this.istKontaktAnfrageAutomatisch()) {
+      this.formularStatus = 'Die Anfrage wurde nicht verarbeitet. Bitte Formular neu laden und erneut ausfüllen.';
+      return;
+    }
+
     if (!this.istKontaktFormularGueltig()) {
       this.feldHinweise = {
         name: this.validiereKontaktFeld('name', this.kontaktFormular.name) || 'Bitte Namen eintragen.',
@@ -214,6 +230,7 @@ export class KontaktComponent implements OnInit {
 
     this.formularStatus = 'Die Anfrage ist vollständig vorbereitet.';
     this.kontaktFormular = this.erstelleLeeresKontaktFormular();
+    this.kontaktFormularGestartetAm = Date.now();
   }
 
   /**
@@ -235,7 +252,7 @@ export class KontaktComponent implements OnInit {
    * Übernimmt einen Empfänger in das dynamische z.Hd.-Feld.
    */
   private setzeFormularEmpfaenger(wert: string, formularFokussieren: boolean): void {
-    const bereinigterWert = wert.replace(this.textErsetzen, '').slice(0, 80);
+    const bereinigterWert = bereinigeFormularText(wert, 80);
 
     if (!bereinigterWert.trim()) {
       return;
@@ -268,27 +285,35 @@ export class KontaktComponent implements OnInit {
    */
   private bereinigeKontaktWert(feld: KontaktFeld, wert: string): string {
     if (feld === 'email') {
-      return wert.replace(this.emailErsetzen, '').slice(0, 120);
+      return bereinigeEmail(wert, 120);
     }
 
     if (feld === 'telefon') {
-      return wert.replace(this.telefonErsetzen, '').slice(0, 30);
+      return bereinigeTelefon(wert, 30);
     }
 
     if (feld === 'gartennummer') {
-      return wert.replace(/[^0-9]/g, '').slice(0, 2);
+      return bereinigeZiffern(wert, 2);
     }
 
     if (feld === 'nachricht') {
-      return wert.replace(this.nachrichtErsetzen, '').slice(0, 800);
+      return bereinigeMehrzeiligenFormularText(wert, 800);
     }
 
-    return wert.replace(this.textErsetzen, '').slice(0, 80);
+    return bereinigeFormularText(wert, 80);
   }
 
   /**
    * Gibt den konkreten Validierungshinweis für ein Feld zurück.
    */
+
+  /**
+   * Erkennt einfache Bot-Signale vor einer späteren Backend-Prüfung.
+   */
+  private istKontaktAnfrageAutomatisch(): boolean {
+    return enthaeltBotSignal(this.kontaktHoneypot, this.kontaktFormularGestartetAm);
+  }
+
   private validiereKontaktFeld(feld: KontaktFeld, wert: string): string {
     const getrimmterWert = wert.trim();
 

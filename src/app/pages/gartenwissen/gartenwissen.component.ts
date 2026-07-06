@@ -4,6 +4,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GARTENWISSEN_BEITRAEGE, GARTENWISSEN_KATEGORIEN, GARTENWISSEN_MONATSCHECK, GartenwissenBeitrag, GartenwissenKategorie } from '../../shared/data/gartenwissen.data';
 import { AdminContentService } from '../../shared/services/admin-content.service';
+import { bereinigeSuchwert, normalisiereSuchwert } from '../../shared/utils/eingabe-sicherheit.util';
 
 @Component({
   selector: 'app-gartenwissen',
@@ -25,11 +26,11 @@ export class GartenwissenComponent {
   }
 
   protected get gefilterteBeitraege(): GartenwissenBeitrag[] {
-    const suche = this.suchbegriff.trim().toLowerCase();
+    const suche = normalisiereSuchwert(this.suchbegriff);
 
     return this.beitraege.filter((beitrag) => {
       const passtZurKategorie = this.aktiveKategorie === 'Alle' || beitrag.kategorie === this.aktiveKategorie;
-      const suchText = `${beitrag.titel} ${beitrag.kurztext} ${beitrag.kategorie} ${beitrag.tags.join(' ')}`.toLowerCase();
+      const suchText = normalisiereSuchwert(`${beitrag.titel} ${beitrag.kurztext} ${beitrag.kategorie} ${beitrag.tags.join(' ')}`);
       const passtZurSuche = !suche || suchText.includes(suche);
 
       return passtZurKategorie && passtZurSuche;
@@ -49,7 +50,7 @@ export class GartenwissenComponent {
    */
   protected aktualisiereSuche(event: Event): void {
     const eingabe = event.target as HTMLInputElement;
-    const bereinigterWert = eingabe.value.replace(/[^A-Za-zÄÖÜäöüß0-9\s\-]/g, '').slice(0, 50);
+    const bereinigterWert = bereinigeSuchwert(eingabe.value, 50);
 
     this.suchbegriff = bereinigterWert;
     eingabe.value = bereinigterWert;

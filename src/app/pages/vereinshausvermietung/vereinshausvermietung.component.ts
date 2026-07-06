@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FeiertagEintrag, feiertagNrwFuerDatum } from '../../shared/data/feiertage-nrw.data';
 import { AdminContentService, VereinshausBelegung } from '../../shared/services/admin-content.service';
+import { bereinigeEmail, bereinigeFormularText, bereinigeMehrzeiligenFormularText, bereinigeSuchwert, bereinigeTelefon, bereinigeZiffern, enthaeltBotSignal, normalisiereSuchwert } from '../../shared/utils/eingabe-sicherheit.util';
 
 interface MietInfo {
   icon: string;
@@ -60,7 +61,9 @@ export class VereinshausvermietungComponent {
   protected fokussierteBelegung: string | null = null;
   protected vereinshausSuche = '';
   protected mietAnfrage: MietAnfrage = this.erstelleLeereMietAnfrage();
+  protected mietHoneypot = '';
   protected mietFormularStatus = '';
+  private mietFormularGestartetAm = Date.now();
   protected readonly wochentage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
   protected readonly monate = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
   protected readonly mietFeldHinweise: Record<MietFeld, string> = {
@@ -136,7 +139,7 @@ export class VereinshausvermietungComponent {
    * Aktualisiert die Suche für Titel und Datum.
    */
   protected vereinshausSucheAktualisieren(wert: string): void {
-    this.vereinshausSuche = `${wert ?? ''}`.replace(/[^A-Za-zÄÖÜäöüß0-9 .\-:/]/g, '').slice(0, 80);
+    this.vereinshausSuche = bereinigeSuchwert(wert, 80);
     this.fokussierteBelegung = null;
   }
 
@@ -230,6 +233,14 @@ export class VereinshausvermietungComponent {
     this.mietFormularStatus = '';
   }
 
+
+  /**
+   * Aktualisiert das unsichtbare Honeypot-Feld der Mietanfrage.
+   */
+  protected mietHoneypotAktualisieren(wert: string): void {
+    this.mietHoneypot = `${wert ?? ''}`.slice(0, 80);
+  }
+
   /**
    * Prüft, ob ein Formularfeld aktuell einen Hinweis ausgeben soll.
    */
@@ -253,6 +264,11 @@ export class VereinshausvermietungComponent {
    * Validiert das Formular und setzt anschließend einen lokalen Demo-Status.
    */
   protected mietAnfrageSenden(): void {
+    if (this.istMietAnfrageAutomatisch()) {
+      this.mietFormularStatus = 'Die Mietanfrage wurde nicht verarbeitet. Bitte Formular neu laden und erneut ausfüllen.';
+      return;
+    }
+
     if (!this.istMietFormularGueltig()) {
       this.mietFeldHinweise.name = this.validiereMietFeld('name', this.mietAnfrage.name) || 'Bitte Namen eintragen.';
       this.mietFeldHinweise.email = this.validiereMietFeld('email', this.mietAnfrage.email) || 'Bitte E-Mail-Adresse eintragen.';
@@ -266,6 +282,7 @@ export class VereinshausvermietungComponent {
     }
 
     this.mietFormularStatus = 'Die Mietanfrage ist vollständig vorbereitet.';
+    this.mietFormularGestartetAm = Date.now();
   }
 
   /**
@@ -349,7 +366,7 @@ export class VereinshausvermietungComponent {
   }
 
   private normalisiereSuche(wert: string): string {
-    return `${wert ?? ''}`.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
+    return normalisiereSuchwert(wert);
   }
 
   private erstelleLeereMietAnfrage(): MietAnfrage {
@@ -373,22 +390,30 @@ export class VereinshausvermietungComponent {
 
   private bereinigeMietWert(feld: MietFeld, wert: string): string {
     if (feld === 'email') {
-      return wert.replace(this.emailErsetzen, '').slice(0, 120);
+      return bereinigeEmail(wert, 120);
     }
 
     if (feld === 'telefon') {
-      return wert.replace(this.telefonErsetzen, '').slice(0, 30);
+      return bereinigeTelefon(wert, 30);
     }
 
     if (feld === 'gaeste') {
-      return wert.replace(/[^0-9]/g, '').slice(0, 2);
+      return bereinigeZiffern(wert, 2);
     }
 
     if (feld === 'nachricht') {
-      return wert.replace(this.nachrichtErsetzen, '').slice(0, 800);
+      return bereinigeMehrzeiligenFormularText(wert, 800);
     }
 
-    return wert.replace(this.textErsetzen, '').slice(0, 80);
+    return bereinigeFormularText(wert, 80);
+  }
+
+
+  /**
+   * Erkennt einfache Bot-Signale vor einer späteren Backend-Prüfung.
+   */
+  private istMietAnfrageAutomatisch(): boolean {
+    return enthaeltBotSignal(this.mietHoneypot, this.mietFormularGestartetAm);
   }
 
   private validiereMietFeld(feld: MietFeld, wert: string): string {
