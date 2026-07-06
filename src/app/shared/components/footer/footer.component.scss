@@ -39,7 +39,7 @@
   min-height: 100dvh;
   overflow: hidden;
   padding: 0;
-  width: 100vw;
+  width: 100%;
 }
 
 .site-footer__frame {
@@ -102,7 +102,7 @@
   color: var(--kgv-text-main);
   display: grid;
   gap: clamp(1.5rem, 3vw, 3rem);
-  grid-template-columns: minmax(18rem, 1.35fr) repeat(3, minmax(8rem, 0.7fr));
+  grid-template-columns: minmax(min(100%, 18rem), 1.35fr) repeat(3, minmax(min(100%, 8rem), 0.7fr));
   margin: 0;
   padding: clamp(2rem, 4vw, 4rem) clamp(5.25rem, 7vw, 7.5rem) clamp(2rem, 4vw, 4rem) clamp(2rem, 4vw, 4rem);
   position: relative;
@@ -405,11 +405,31 @@
 }
 
 @media (max-width: 420px) {
+  .site-footer {
+    margin-top: 2.5rem;
+  }
+
+  .site-footer__wordmark {
+    font-size: clamp(2.75rem, 17vw, 4rem);
+    letter-spacing: 0.055em;
+    padding-top: 1.5rem;
+    text-indent: 0.055em;
+  }
+
   .site-footer__content {
-    padding: var(--kgv-space-xl) clamp(4.75rem, 18vw, 5.75rem) var(--kgv-space-xl) var(--kgv-space-md);
+    gap: 1.25rem;
+    padding: var(--kgv-space-xl) var(--kgv-space-md);
+  }
+
+  .site-footer__brand-row {
+    align-items: flex-start;
+  }
+
+  .site-footer__contact-row {
+    border-radius: var(--kgv-radius-lg);
   }
 
   .site-footer__bottom {
-    padding-right: clamp(4.75rem, 18vw, 5.75rem);
+    padding: var(--kgv-space-sm) var(--kgv-space-md) calc(var(--kgv-floating-button-size) + 1.4rem);
   }
 }

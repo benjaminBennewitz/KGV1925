@@ -136,3 +136,11 @@
     column-count: 1;
   }
 }
+
+@media (max-width: 420px) {
+  .galerie__intro,
+  .galerie__note,
+  .gallery-card__content {
+    padding: 1rem;
+  }
+}

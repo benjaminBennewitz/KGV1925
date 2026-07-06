@@ -814,3 +814,31 @@
     flex: 1;
   }
 }
+
+@media (max-width: 520px) {
+  .kalender-card {
+    padding: 0.5rem;
+    scrollbar-width: thin;
+  }
+
+  .kalender-wochentage,
+  .kalender-grid {
+    min-width: 38rem;
+  }
+
+  .kalender-tag {
+    border-radius: var(--kgv-radius-sm);
+  }
+
+  .kalender-legende__pill {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .kalender-wochentage,
+  .kalender-grid {
+    min-width: 34rem;
+  }
+}

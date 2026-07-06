@@ -140,6 +140,9 @@ KGV1925/
 │   │       ├── lavendel-2_aquarell.webp
 │   │       ├── lavendel-3_aquarell.webp
 │   │       └── lavendel-4_aquarell.webp
+│   ├── environments/
+│   │   ├── environment.developerakademie.ts
+│   │   └── environment.ts
 │   ├── styles/
 │   │   ├── _accessibility.scss
 │   │   ├── _animations.scss

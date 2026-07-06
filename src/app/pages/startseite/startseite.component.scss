@@ -865,3 +865,44 @@
     padding: 0;
   }
 }
+
+@media (max-width: 420px) {
+  .start-popup__inner {
+    border-radius: var(--kgv-radius-lg);
+    transform: none;
+  }
+
+  .start-popup .kgv-button {
+    width: 100%;
+  }
+
+  .hero {
+    padding-inline: 0.75rem;
+  }
+
+  .hero__visual {
+    min-height: 16rem;
+  }
+
+  .hero__visual img {
+    min-height: 16rem;
+  }
+
+  .event-card {
+    grid-template-columns: 1fr;
+    margin: -2rem 0.25rem 0;
+  }
+
+  .section-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .site-notice {
+    padding: 1rem;
+  }
+
+  .site-notice__card li {
+    grid-template-columns: 1fr;
+  }
+}

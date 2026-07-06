@@ -376,3 +376,23 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 420px) {
+  .kontakt-hero,
+  .kontakt-info-band,
+  .kontakt-form-section,
+  .kontakt-form {
+    border-radius: var(--kgv-radius-lg);
+    padding: 1rem;
+  }
+
+  .kontakt-card,
+  .kontakt-info-card {
+    padding: 1rem;
+  }
+
+  .kontakt-form__recipient-remove,
+  .kontakt-form .kgv-button {
+    width: 100%;
+  }
+}

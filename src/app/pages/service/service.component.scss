@@ -471,3 +471,25 @@
     min-height: 14rem;
   }
 }
+
+@media (max-width: 420px) {
+  .service-hero__inner,
+  .service-card,
+  .download-card {
+    border-radius: var(--kgv-radius-lg);
+  }
+
+  .service-hero-card,
+  .download-card__content {
+    padding: 1rem;
+  }
+
+  .download-card__media {
+    min-height: 12rem;
+  }
+
+  .service-hero__actions .kgv-button,
+  .download-card__link {
+    width: 100%;
+  }
+}

@@ -48,15 +48,15 @@
 
 .kgv-section {
   margin-inline: auto;
-  width: min(100% - 2rem, var(--kgv-content-width));
+  width: min(100% - clamp(1rem, 4vw, 2rem), var(--kgv-content-width));
 }
 
 .kgv-section--wide {
-  width: min(100% - 2rem, var(--kgv-wide-width));
+  width: min(100% - clamp(1rem, 4vw, 2rem), var(--kgv-wide-width));
 }
 
 .kgv-section--narrow {
-  width: min(100% - 2rem, var(--kgv-narrow-width));
+  width: min(100% - clamp(1rem, 4vw, 2rem), var(--kgv-narrow-width));
 }
 
 .kgv-section-header {
@@ -126,5 +126,25 @@
   .kgv-grid--3,
   .kgv-grid--4 {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-main {
+    padding-block-end: 1.5rem;
+  }
+
+  .kgv-page {
+    gap: 1.5rem;
+  }
+
+  .kgv-page:not(.startseite) {
+    padding-block-start: 1rem;
+  }
+
+  .kgv-section,
+  .kgv-section--wide,
+  .kgv-section--narrow {
+    width: min(100% - 0.85rem, var(--kgv-content-width));
   }
 }

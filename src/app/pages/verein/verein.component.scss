@@ -1283,3 +1283,84 @@
     bottom: 4rem;
   }
 }
+
+@media (max-width: 420px) {
+  .verein-hero,
+  .garden-panel,
+  .map-panel {
+    padding: 1rem;
+  }
+
+  .verein-hero__badges span {
+    width: 100%;
+  }
+
+  .verein-hero__facts span {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .verein-hero__facts small {
+    text-align: left;
+  }
+
+  .site-map {
+    background-size: 1.5rem 1.5rem;
+    gap: 0.55rem;
+    padding: 0.55rem;
+  }
+
+  .site-map__row,
+  .site-map__block {
+    gap: 0.35rem;
+    padding: 0.45rem;
+  }
+
+  .site-map__row--north,
+  .site-map__row--cross,
+  .site-map__blocks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .site-map__plot,
+  .site-map__house {
+    font-size: 0.68rem;
+    min-height: 2rem;
+  }
+
+  .garden-modal {
+    align-items: start;
+    padding: 0.5rem;
+  }
+
+  .garden-modal__panel {
+    max-height: none;
+    width: 100%;
+  }
+
+  .garden-modal__close {
+    right: 0.6rem;
+    top: 0.6rem;
+  }
+
+  .garden-modal__status {
+    left: 0.6rem;
+    line-height: 1.2;
+    max-width: calc(100% - 4rem);
+    top: 0.6rem;
+  }
+
+  .garden-modal__gallery-nav {
+    bottom: 0.6rem;
+    left: 0.6rem;
+  }
+
+  .garden-modal__thumbs {
+    display: none;
+  }
+
+  .garden-modal .kgv-button {
+    width: 100%;
+  }
+}

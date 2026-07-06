@@ -563,3 +563,33 @@
     padding: 1rem;
   }
 }
+
+@media (max-width: 420px) {
+  .aktuelles-hero,
+  .lavender-note {
+    border-radius: var(--kgv-radius-lg);
+    padding: 1rem;
+  }
+
+  .aktuelles-hero__actions .kgv-button,
+  .lavender-note .kgv-button {
+    width: 100%;
+  }
+
+  .aktuelles-hero__fact {
+    min-width: 0;
+  }
+
+  .spotlight-card__image {
+    min-height: 15rem;
+  }
+
+  .news-card__actions {
+    align-items: stretch;
+    display: grid;
+  }
+
+  .news-card__download {
+    justify-content: center;
+  }
+}

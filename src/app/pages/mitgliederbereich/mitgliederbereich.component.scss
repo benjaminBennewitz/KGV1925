@@ -1410,14 +1410,19 @@
 }
 
 @media (max-width: 720px) {
-  .member-toolbar,
   .invoice-card,
-  .admin-detail__head,
   .admin-meter-values,
-  .admin-crud__head,
-  .admin-crud-form__title,
   .admin-popup-list-item {
     align-items: stretch;
+    grid-template-columns: 1fr;
+  }
+
+  .member-toolbar,
+  .admin-detail__head,
+  .admin-crud__head,
+  .admin-crud-form__title {
+    align-items: stretch;
+    display: grid;
     grid-template-columns: 1fr;
   }
 
@@ -1446,5 +1451,58 @@
 
   .file-upload {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .mitglieder-hero,
+  .member-toolbar,
+  .dashboard-card,
+  .meter-card,
+  .admin-crud,
+  .admin-detail,
+  .admin-garden-list,
+  .admin-panel,
+  .member-note {
+    border-radius: var(--kgv-radius-lg);
+    padding: 1rem;
+  }
+
+  .demo-access,
+  .meter-card__head,
+  .admin-stat-card,
+  .admin-meter-values article,
+  .file-upload {
+    align-items: start;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-stats,
+  .admin-tabs {
+    gap: 0.75rem;
+  }
+
+  .admin-tab {
+    min-height: auto;
+  }
+
+  .admin-choice__button,
+  .admin-crud-item__actions button,
+  .file-upload__button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .admin-popup-preview {
+    padding: 0.65rem;
+  }
+
+  .admin-popup-preview img {
+    aspect-ratio: 16 / 10;
+  }
+
+  .member-note img {
+    display: none;
   }
 }

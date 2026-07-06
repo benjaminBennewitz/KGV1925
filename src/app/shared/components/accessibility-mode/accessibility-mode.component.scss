@@ -268,3 +268,29 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 420px) {
+  .accessibility__panel {
+    border-radius: 1rem;
+    max-height: min(76dvh, calc(100dvh - 6.75rem));
+    padding: 0.75rem;
+    width: calc(100vw - 1rem);
+  }
+
+  .accessibility__head {
+    gap: 0.7rem;
+  }
+
+  .accessibility__panel h2 {
+    font-size: 1.18rem;
+  }
+
+  .accessibility__group {
+    padding: 0.65rem;
+  }
+
+  .accessibility__option {
+    min-height: 2.35rem;
+    padding-inline: 0.5rem;
+  }
+}

@@ -74,8 +74,22 @@
   --kgv-space-2xl: 3rem;
   --kgv-space-3xl: 4rem;
   --kgv-header-height: 5.25rem;
+  --kgv-floating-button-size: 3rem;
+  --kgv-floating-button-bottom: 1rem;
+  --kgv-floating-button-right: 1rem;
+  --kgv-floating-button-gap: 0.75rem;
   --kgv-content-width: 1160px;
   --kgv-wide-width: 1280px;
   --kgv-narrow-width: 880px;
   color-scheme: light;
+}
+
+@media (max-width: 420px) {
+  :root {
+    --kgv-header-height: 4.55rem;
+    --kgv-floating-button-size: 2.65rem;
+    --kgv-floating-button-bottom: 0.65rem;
+    --kgv-floating-button-right: 0.65rem;
+    --kgv-floating-button-gap: 0.5rem;
+  }
 }

@@ -581,3 +581,31 @@
     min-height: auto;
   }
 }
+
+@media (max-width: 420px) {
+  .gartenwissen {
+    padding-bottom: 2.5rem;
+  }
+
+  .saison-card,
+  .check-card,
+  .wissen-card,
+  .wissen-detail__body,
+  .gartenwissen-note {
+    padding: 1rem;
+  }
+
+  .wissen-search {
+    border-radius: var(--kgv-radius-lg);
+    min-width: 0;
+  }
+
+  .wissen-filter__button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .wissen-detail__media {
+    min-height: 10rem;
+  }
+}

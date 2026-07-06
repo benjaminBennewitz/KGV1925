@@ -696,3 +696,45 @@
     width: 100%;
   }
 }
+
+@media (max-width: 520px) {
+  .vermietung__visual,
+  .vermietung__panel,
+  .vermietung-form,
+  .vermietung-kalender__liste {
+    padding: 1rem;
+  }
+
+  .vermietung-kalender__switch {
+    width: 100%;
+  }
+
+  .vermietung-kalender__switch strong {
+    flex: 1;
+  }
+
+  .vermietung-kalender__card {
+    padding: 0.5rem;
+    scrollbar-width: thin;
+  }
+
+  .vermietung-kalender__wochentage,
+  .vermietung-kalender__grid {
+    min-width: 36rem;
+  }
+
+  .vermietung-kalender__legend span {
+    flex: 1 1 auto;
+  }
+
+  .vermietung__panel li {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 360px) {
+  .vermietung-kalender__wochentage,
+  .vermietung-kalender__grid {
+    min-width: 33rem;
+  }
+}
