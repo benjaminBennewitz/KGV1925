@@ -14,12 +14,15 @@
         <h2 id="site-footer-title">Seit 1925 verwurzelt. Für Gemeinschaft gemacht.</h2>
         <p>News, Termine, Service und Gartenwissen für Mitglieder, Besucher und alle, die den Verein kennenlernen möchten.</p>
 
-        <form class="site-footer__contact" action="/kontakt" method="get" aria-label="Kontakt im Footer öffnen">
+        <form class="site-footer__contact" aria-label="Kontakt im Footer öffnen" (submit)="kontaktOeffnen($event)" novalidate>
           <label for="footer-email">Kontakt aufnehmen</label>
-          <div class="site-footer__contact-row">
-            <input id="footer-email" name="email" type="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" placeholder="deine@email.de">
+          <div class="site-footer__contact-row" [class.site-footer__contact-row--invalid]="footerEmailHinweis" [class.site-footer__contact-row--valid]="istFooterEmailValide()">
+            <input id="footer-email" name="email" type="text" inputmode="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" placeholder="deine@email.de" [value]="footerEmail" (input)="footerEmailAktualisieren($event)" [attr.aria-invalid]="footerEmailHinweis ? 'true' : 'false'" aria-describedby="footer-email-hinweis">
             <button type="submit">Kontakt öffnen</button>
           </div>
+          @if (footerEmailHinweis) {
+            <span id="footer-email-hinweis" class="site-footer__contact-hint kgv-error-text" role="alert">{{ footerEmailHinweis }}</span>
+          }
         </form>
 
         <div class="site-footer__socials" aria-label="Social Media Kanäle">

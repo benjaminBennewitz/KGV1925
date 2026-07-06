@@ -65,6 +65,7 @@
   color: var(--kgv-text-main);
   min-height: 2.9rem;
   padding: 0.72rem 0.9rem;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
   width: 100%;
 }
 
@@ -94,15 +95,43 @@
   outline: 0;
 }
 
+.kgv-input--invalid,
+.kgv-textarea.kgv-input--invalid,
+.kgv-select.kgv-input--invalid {
+  border-color: var(--kgv-error);
+}
+
+.kgv-input--invalid:focus,
+.kgv-textarea.kgv-input--invalid:focus,
+.kgv-select.kgv-input--invalid:focus {
+  border-color: var(--kgv-error);
+  box-shadow: 0 0 0 4px rgba(180, 35, 24, 0.12);
+}
+
+.kgv-input--valid,
+.kgv-textarea.kgv-input--valid,
+.kgv-select.kgv-input--valid {
+  border-color: var(--kgv-success);
+}
+
+.kgv-input--valid:focus,
+.kgv-textarea.kgv-input--valid:focus,
+.kgv-select.kgv-input--valid:focus {
+  border-color: var(--kgv-success);
+  box-shadow: 0 0 0 4px rgba(47, 111, 78, 0.12);
+}
+
 .kgv-help-text {
   color: var(--kgv-text-soft);
-  font-size: 0.88rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
 }
 
 .kgv-error-text {
   color: var(--kgv-error);
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   font-weight: 700;
+  line-height: 1.45;
 }
 
 .kgv-checkbox {

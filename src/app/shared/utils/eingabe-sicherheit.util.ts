@@ -12,6 +12,11 @@ const MEHRFACHE_ZEILEN = /\n{3,}/g;
 
 export const ADMIN_TEXT_MUSTER = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:€&\n\r]{2,900}$/;
 
+export interface BereinigteEingabe {
+  wert: string;
+  hatteUnerlaubteZeichen: boolean;
+}
+
 /**
  * Normalisiert einzeilige Texte ohne Zeilenumbrüche.
  */
@@ -27,10 +32,30 @@ export function normalisiereMehrzeiligenText(wert: string): string {
 }
 
 /**
+ * Liefert neben dem bereinigten Wert auch, ob Zeichen entfernt wurden.
+ */
+export function erstelleBereinigteEingabe(originalWert: string, bereinigterWert: string): BereinigteEingabe {
+  return {
+    wert: bereinigterWert,
+    hatteUnerlaubteZeichen: `${originalWert ?? ''}` !== bereinigterWert,
+  };
+}
+
+/**
  * Bereinigt Suchwerte auf ungefährliche Zeichen und begrenzt die Länge.
  */
 export function bereinigeSuchwert(wert: string, maxLaenge = 80): string {
-  return normalisiereEinzeiligenText(wert).replace(SUCH_ERSETZEN, '').slice(0, maxLaenge);
+  return bereinigeSuchwertMitStatus(wert, maxLaenge).wert;
+}
+
+/**
+ * Bereinigt Suchwerte und meldet entfernte Zeichen zurück.
+ */
+export function bereinigeSuchwertMitStatus(wert: string, maxLaenge = 80): BereinigteEingabe {
+  const originalWert = `${wert ?? ''}`;
+  const bereinigterWert = normalisiereEinzeiligenText(originalWert).replace(SUCH_ERSETZEN, '').slice(0, maxLaenge);
+
+  return erstelleBereinigteEingabe(originalWert, bereinigterWert);
 }
 
 /**
@@ -44,14 +69,34 @@ export function normalisiereSuchwert(wert: string): string {
  * Bereinigt ein allgemeines Formular-Textfeld.
  */
 export function bereinigeFormularText(wert: string, maxLaenge = 80): string {
-  return normalisiereEinzeiligenText(wert).replace(TEXT_ERSETZEN, '').slice(0, maxLaenge);
+  return bereinigeFormularTextMitStatus(wert, maxLaenge).wert;
+}
+
+/**
+ * Bereinigt ein allgemeines Formular-Textfeld und meldet entfernte Zeichen zurück.
+ */
+export function bereinigeFormularTextMitStatus(wert: string, maxLaenge = 80): BereinigteEingabe {
+  const originalWert = `${wert ?? ''}`;
+  const bereinigterWert = normalisiereEinzeiligenText(originalWert).replace(TEXT_ERSETZEN, '').slice(0, maxLaenge);
+
+  return erstelleBereinigteEingabe(originalWert, bereinigterWert);
 }
 
 /**
  * Bereinigt ein mehrzeiliges Formular-Textfeld.
  */
 export function bereinigeMehrzeiligenFormularText(wert: string, maxLaenge = 800): string {
-  return normalisiereMehrzeiligenText(wert).replace(MEHRZEILIGER_TEXT_ERSETZEN, '').slice(0, maxLaenge);
+  return bereinigeMehrzeiligenFormularTextMitStatus(wert, maxLaenge).wert;
+}
+
+/**
+ * Bereinigt ein mehrzeiliges Formular-Textfeld und meldet entfernte Zeichen zurück.
+ */
+export function bereinigeMehrzeiligenFormularTextMitStatus(wert: string, maxLaenge = 800): BereinigteEingabe {
+  const originalWert = `${wert ?? ''}`;
+  const bereinigterWert = normalisiereMehrzeiligenText(originalWert).replace(MEHRZEILIGER_TEXT_ERSETZEN, '').slice(0, maxLaenge);
+
+  return erstelleBereinigteEingabe(originalWert, bereinigterWert);
 }
 
 /**
@@ -65,21 +110,51 @@ export function bereinigeAdminText(wert: string, maxLaenge: number): string {
  * Bereinigt eine E-Mail-Adresse vor der Formularvalidierung.
  */
 export function bereinigeEmail(wert: string, maxLaenge = 120): string {
-  return normalisiereEinzeiligenText(wert).replace(EMAIL_ERSETZEN, '').slice(0, maxLaenge);
+  return bereinigeEmailMitStatus(wert, maxLaenge).wert;
+}
+
+/**
+ * Bereinigt eine E-Mail-Adresse und meldet entfernte Zeichen zurück.
+ */
+export function bereinigeEmailMitStatus(wert: string, maxLaenge = 120): BereinigteEingabe {
+  const originalWert = `${wert ?? ''}`;
+  const bereinigterWert = normalisiereEinzeiligenText(originalWert).replace(EMAIL_ERSETZEN, '').slice(0, maxLaenge);
+
+  return erstelleBereinigteEingabe(originalWert, bereinigterWert);
 }
 
 /**
  * Bereinigt eine Telefonnummer vor der Formularvalidierung.
  */
 export function bereinigeTelefon(wert: string, maxLaenge = 30): string {
-  return normalisiereEinzeiligenText(wert).replace(TELEFON_ERSETZEN, '').slice(0, maxLaenge);
+  return bereinigeTelefonMitStatus(wert, maxLaenge).wert;
+}
+
+/**
+ * Bereinigt eine Telefonnummer und meldet entfernte Zeichen zurück.
+ */
+export function bereinigeTelefonMitStatus(wert: string, maxLaenge = 30): BereinigteEingabe {
+  const originalWert = `${wert ?? ''}`;
+  const bereinigterWert = normalisiereEinzeiligenText(originalWert).replace(TELEFON_ERSETZEN, '').slice(0, maxLaenge);
+
+  return erstelleBereinigteEingabe(originalWert, bereinigterWert);
 }
 
 /**
  * Bereinigt eine reine Zifferneingabe mit fester Maximallänge.
  */
 export function bereinigeZiffern(wert: string, maxLaenge: number): string {
-  return `${wert ?? ''}`.replace(/\D/g, '').slice(0, maxLaenge);
+  return bereinigeZiffernMitStatus(wert, maxLaenge).wert;
+}
+
+/**
+ * Bereinigt eine reine Zifferneingabe und meldet entfernte Zeichen zurück.
+ */
+export function bereinigeZiffernMitStatus(wert: string, maxLaenge: number): BereinigteEingabe {
+  const originalWert = `${wert ?? ''}`;
+  const bereinigterWert = originalWert.replace(/\D/g, '').slice(0, maxLaenge);
+
+  return erstelleBereinigteEingabe(originalWert, bereinigterWert);
 }
 
 /**

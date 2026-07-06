@@ -4,7 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { bereinigeEmail, bereinigeFormularText, bereinigeMehrzeiligenFormularText, bereinigeTelefon, bereinigeZiffern, enthaeltBotSignal } from '../../shared/utils/eingabe-sicherheit.util';
+import { BereinigteEingabe, bereinigeEmailMitStatus, bereinigeFormularText, bereinigeFormularTextMitStatus, bereinigeMehrzeiligenFormularTextMitStatus, bereinigeTelefonMitStatus, bereinigeZiffernMitStatus, enthaeltBotSignal } from '../../shared/utils/eingabe-sicherheit.util';
 
 type KontaktFeld = Exclude<keyof KontaktFormular, 'zuHaenden'>;
 
@@ -44,13 +44,9 @@ export class KontaktComponent implements OnInit {
   private readonly dokument = inject(DOCUMENT);
   private readonly route = inject(ActivatedRoute);
   private readonly textMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}$/;
-  private readonly textErsetzen = /[^A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]/g;
   private readonly nachrichtMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:\n\r]{10,800}$/;
-  private readonly nachrichtErsetzen = /[^A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:\n\r]/g;
   private readonly emailMuster = /^[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/;
-  private readonly emailErsetzen = /[^A-Za-z0-9._+\-@]/g;
   private readonly telefonMuster = /^[0-9 +()\/-]{6,30}$/;
-  private readonly telefonErsetzen = /[^0-9 +()\/-]/g;
   private readonly gartennummerMuster = /^(0?[1-9]|[1-4][0-9]|50)$/;
 
   protected readonly kontaktpersonen: Kontaktperson[] = [
@@ -103,31 +99,30 @@ export class KontaktComponent implements OnInit {
 
   protected kontaktFormular: KontaktFormular = this.erstelleLeeresKontaktFormular();
   protected kontaktHoneypot = '';
+  protected feldHinweise: Record<KontaktFeld, string> = this.erstelleLeereKontaktHinweise();
+  protected formularStatus = '';
   private kontaktFormularGestartetAm = Date.now();
 
-  protected feldHinweise: Record<KontaktFeld, string> = {
-    name: '',
-    email: '',
-    telefon: '',
-    gartennummer: '',
-    betreff: '',
-    nachricht: '',
-  };
-
-  protected formularStatus = '';
-
   /**
-   * Übernimmt optionale Vorbelegungen aus der URL, falls Kontaktlinks gezielt auf eine Person verweisen.
+   * Übernimmt optionale Vorbelegungen aus der URL, falls Kontaktlinks gezielt auf Formularfelder verweisen.
    */
   public ngOnInit(): void {
     this.route.queryParamMap.subscribe((parameter) => {
       const zuHaenden = parameter.get('zhd');
+      const email = parameter.get('email');
+      let formularFokussieren = false;
 
-      if (!zuHaenden) {
-        return;
+      if (zuHaenden) {
+        this.setzeFormularEmpfaenger(zuHaenden, false);
       }
 
-      this.setzeFormularEmpfaenger(zuHaenden, false);
+      if (email) {
+        formularFokussieren = this.uebernehmeEmailAusUrl(email);
+      }
+
+      if (formularFokussieren) {
+        this.scrolleZumKontaktformular('kontakt-email');
+      }
     });
   }
 
@@ -164,21 +159,23 @@ export class KontaktComponent implements OnInit {
   }
 
   /**
-   * Bereinigt und validiert ein Formularfeld während der Eingabe.
+   * Bereinigt und validiert ein Formularfeld direkt während der Eingabe.
    */
-  protected kontaktFeldAktualisieren(feld: KontaktFeld, wert: string): void {
-    const bereinigterWert = this.bereinigeKontaktWert(feld, wert);
+  protected kontaktFeldEingabe(feld: KontaktFeld, ereignis: Event): void {
+    const ziel = this.leseEingabeZiel(ereignis);
+    const ergebnis = this.bereinigeKontaktWertMitStatus(feld, ziel.value);
+
+    ziel.value = ergebnis.wert;
     this.kontaktFormular = {
       ...this.kontaktFormular,
-      [feld]: bereinigterWert,
+      [feld]: ergebnis.wert,
     };
     this.feldHinweise = {
       ...this.feldHinweise,
-      [feld]: this.validiereKontaktFeld(feld, bereinigterWert),
+      [feld]: this.validiereKontaktEingabe(feld, ergebnis),
     };
     this.formularStatus = '';
   }
-
 
   /**
    * Aktualisiert das unsichtbare Honeypot-Feld des Kontaktformulars.
@@ -192,6 +189,15 @@ export class KontaktComponent implements OnInit {
    */
   protected hatFeldHinweis(feld: KontaktFeld): boolean {
     return this.feldHinweise[feld].length > 0;
+  }
+
+  /**
+   * Prüft, ob ein Feld sichtbar als valide markiert werden kann.
+   */
+  protected istKontaktFeldValide(feld: KontaktFeld): boolean {
+    const wert = this.kontaktFormular[feld].trim();
+
+    return wert.length > 0 && !this.validiereKontaktFeld(feld, wert) && !this.hatFeldHinweis(feld);
   }
 
   /**
@@ -230,6 +236,8 @@ export class KontaktComponent implements OnInit {
 
     this.formularStatus = 'Die Anfrage ist vollständig vorbereitet.';
     this.kontaktFormular = this.erstelleLeeresKontaktFormular();
+    this.feldHinweise = this.erstelleLeereKontaktHinweise();
+    this.kontaktHoneypot = '';
     this.kontaktFormularGestartetAm = Date.now();
   }
 
@@ -239,6 +247,20 @@ export class KontaktComponent implements OnInit {
   private erstelleLeeresKontaktFormular(): KontaktFormular {
     return {
       zuHaenden: '',
+      name: '',
+      email: '',
+      telefon: '',
+      gartennummer: '',
+      betreff: '',
+      nachricht: '',
+    };
+  }
+
+  /**
+   * Erstellt den Ausgangszustand der Feldhinweise.
+   */
+  private erstelleLeereKontaktHinweise(): Record<KontaktFeld, string> {
+    return {
       name: '',
       email: '',
       telefon: '',
@@ -270,42 +292,75 @@ export class KontaktComponent implements OnInit {
   }
 
   /**
+   * Übernimmt eine geprüfte E-Mail-Adresse aus dem Footer-Link.
+   */
+  private uebernehmeEmailAusUrl(wert: string): boolean {
+    const ergebnis = bereinigeEmailMitStatus(wert, 120);
+
+    if (!ergebnis.wert || ergebnis.hatteUnerlaubteZeichen || this.validiereKontaktFeld('email', ergebnis.wert)) {
+      return false;
+    }
+
+    this.kontaktFormular = {
+      ...this.kontaktFormular,
+      email: ergebnis.wert,
+    };
+    this.feldHinweise = {
+      ...this.feldHinweise,
+      email: '',
+    };
+
+    return true;
+  }
+
+  /**
    * Scrollt nach einer Personenauswahl gezielt zum Formular.
    */
-  private scrolleZumKontaktformular(): void {
+  private scrolleZumKontaktformular(fokusId?: string): void {
     const fenster = this.dokument.defaultView;
 
     fenster?.setTimeout(() => {
       this.dokument.getElementById('kontaktformular')?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-    });
+
+      if (fokusId) {
+        this.dokument.getElementById(fokusId)?.focus({ preventScroll: true });
+      }
+    }, 80);
   }
 
   /**
-   * Entfernt nicht erlaubte Zeichen je nach Feldtyp.
+   * Entfernt nicht erlaubte Zeichen je nach Feldtyp und meldet entfernte Zeichen zurück.
    */
-  private bereinigeKontaktWert(feld: KontaktFeld, wert: string): string {
+  private bereinigeKontaktWertMitStatus(feld: KontaktFeld, wert: string): BereinigteEingabe {
     if (feld === 'email') {
-      return bereinigeEmail(wert, 120);
+      return bereinigeEmailMitStatus(wert, 120);
     }
 
     if (feld === 'telefon') {
-      return bereinigeTelefon(wert, 30);
+      return bereinigeTelefonMitStatus(wert, 30);
     }
 
     if (feld === 'gartennummer') {
-      return bereinigeZiffern(wert, 2);
+      return bereinigeZiffernMitStatus(wert, 2);
     }
 
     if (feld === 'nachricht') {
-      return bereinigeMehrzeiligenFormularText(wert, 800);
+      return bereinigeMehrzeiligenFormularTextMitStatus(wert, 800);
     }
 
-    return bereinigeFormularText(wert, 80);
+    return bereinigeFormularTextMitStatus(wert, 80);
   }
 
   /**
-   * Gibt den konkreten Validierungshinweis für ein Feld zurück.
+   * Erzeugt den passenden Live-Hinweis für eine bereinigte Eingabe.
    */
+  private validiereKontaktEingabe(feld: KontaktFeld, ergebnis: BereinigteEingabe): string {
+    if (ergebnis.hatteUnerlaubteZeichen) {
+      return this.unerlaubteZeichenHinweis(feld);
+    }
+
+    return this.validiereKontaktFeld(feld, ergebnis.wert);
+  }
 
   /**
    * Erkennt einfache Bot-Signale vor einer späteren Backend-Prüfung.
@@ -314,6 +369,9 @@ export class KontaktComponent implements OnInit {
     return enthaeltBotSignal(this.kontaktHoneypot, this.kontaktFormularGestartetAm);
   }
 
+  /**
+   * Gibt den konkreten Validierungshinweis für ein Feld zurück.
+   */
   private validiereKontaktFeld(feld: KontaktFeld, wert: string): string {
     const getrimmterWert = wert.trim();
 
@@ -321,26 +379,56 @@ export class KontaktComponent implements OnInit {
       return '';
     }
 
-    if (feld === 'email' && getrimmterWert && !this.emailMuster.test(getrimmterWert)) {
-      return 'Bitte eine gültige E-Mail-Adresse ohne Sonderzeichen außerhalb von . _ + - @ eintragen.';
+    if (!getrimmterWert) {
+      return '';
     }
 
-    if (feld === 'telefon' && getrimmterWert && !this.telefonMuster.test(getrimmterWert)) {
-      return 'Bitte nur Zahlen, Leerzeichen, +, -, / und Klammern verwenden.';
+    if (feld === 'email' && !this.emailMuster.test(getrimmterWert)) {
+      return 'Bitte eine vollständige E-Mail-Adresse eintragen.';
     }
 
-    if (feld === 'gartennummer' && getrimmterWert && !this.gartennummerMuster.test(getrimmterWert)) {
+    if (feld === 'telefon' && !this.telefonMuster.test(getrimmterWert)) {
+      return 'Bitte 6 bis 30 Zeichen verwenden: Ziffern, Leerzeichen, +, -, / und Klammern.';
+    }
+
+    if (feld === 'gartennummer' && !this.gartennummerMuster.test(getrimmterWert)) {
       return 'Bitte eine Gartennummer zwischen 1 und 50 eintragen.';
     }
 
-    if (feld === 'nachricht' && getrimmterWert && !this.nachrichtMuster.test(getrimmterWert)) {
-      return 'Die Nachricht braucht 10 bis 800 Zeichen und darf nur sichere Satzzeichen verwenden.';
+    if (feld === 'nachricht' && !this.nachrichtMuster.test(getrimmterWert)) {
+      return 'Bitte 10 bis 800 Zeichen verwenden.';
     }
 
-    if ((feld === 'name' || feld === 'betreff') && getrimmterWert && !this.textMuster.test(getrimmterWert)) {
-      return 'Bitte 2 bis 80 Zeichen verwenden. Erlaubt sind Buchstaben, Zahlen, Leerzeichen und sichere Satzzeichen.';
+    if ((feld === 'name' || feld === 'betreff') && !this.textMuster.test(getrimmterWert)) {
+      return 'Bitte 2 bis 80 Zeichen verwenden.';
     }
 
     return '';
+  }
+
+  /**
+   * Meldet entfernte Zeichen je nach Feldtyp verständlich zurück.
+   */
+  private unerlaubteZeichenHinweis(feld: KontaktFeld): string {
+    if (feld === 'email') {
+      return 'Entfernt: Bitte nur Buchstaben, Zahlen und . _ + - @ verwenden.';
+    }
+
+    if (feld === 'telefon') {
+      return 'Entfernt: Bitte nur Ziffern, Leerzeichen, +, -, / und Klammern verwenden.';
+    }
+
+    if (feld === 'gartennummer') {
+      return 'Entfernt: Bitte nur Ziffern verwenden.';
+    }
+
+    return 'Entfernt: Bitte nur Buchstaben, Zahlen, Leerzeichen und sichere Satzzeichen verwenden.';
+  }
+
+  /**
+   * Liest ein Textfeld aus einem Eingabeereignis.
+   */
+  private leseEingabeZiel(ereignis: Event): HTMLInputElement | HTMLTextAreaElement {
+    return ereignis.target as HTMLInputElement | HTMLTextAreaElement;
   }
 }

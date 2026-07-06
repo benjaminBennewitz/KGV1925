@@ -109,7 +109,7 @@
       <p>Bitte trage dein Anliegen möglichst konkret ein. Pflichtfelder werden vor dem Absenden geprüft.</p>
     </div>
 
-    <form class="kontakt-form kgv-form kgv-card" (ngSubmit)="kontaktSenden()" aria-label="Kontaktformular">
+    <form class="kontakt-form kgv-form kgv-card" (ngSubmit)="kontaktSenden()" aria-label="Kontaktformular" novalidate>
       <label class="kgv-honeypot" aria-hidden="true">
         <span>Website</span>
         <input type="text" name="website" autocomplete="off" tabindex="-1" [ngModel]="kontaktHoneypot" (ngModelChange)="kontaktHoneypotAktualisieren($event)">
@@ -129,17 +129,17 @@
       <div class="kgv-form-row">
         <label class="kgv-field">
           <span class="kgv-label">Name</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('name')" type="text" name="name" autocomplete="name" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="kontaktFormular.name" (ngModelChange)="kontaktFeldAktualisieren('name', $event)" required>
+          <input id="kontakt-name" class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('name')" [class.kgv-input--valid]="istKontaktFeldValide('name')" type="text" name="name" autocomplete="name" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="kontaktFormular.name" (input)="kontaktFeldEingabe('name', $event)" [attr.aria-invalid]="hatFeldHinweis('name')" aria-describedby="kontakt-name-hinweis" required>
           @if (feldHinweise.name) {
-            <span class="kgv-error-text" role="alert">{{ feldHinweise.name }}</span>
+            <span id="kontakt-name-hinweis" class="kgv-error-text" role="alert">{{ feldHinweise.name }}</span>
           }
         </label>
 
         <label class="kgv-field">
           <span class="kgv-label">E-Mail</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('email')" type="email" name="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" [ngModel]="kontaktFormular.email" (ngModelChange)="kontaktFeldAktualisieren('email', $event)" required>
+          <input id="kontakt-email" class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('email')" [class.kgv-input--valid]="istKontaktFeldValide('email')" type="text" inputmode="email" name="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" [ngModel]="kontaktFormular.email" (input)="kontaktFeldEingabe('email', $event)" [attr.aria-invalid]="hatFeldHinweis('email')" aria-describedby="kontakt-email-hinweis" required>
           @if (feldHinweise.email) {
-            <span class="kgv-error-text" role="alert">{{ feldHinweise.email }}</span>
+            <span id="kontakt-email-hinweis" class="kgv-error-text" role="alert">{{ feldHinweise.email }}</span>
           }
         </label>
       </div>
@@ -147,34 +147,34 @@
       <div class="kgv-form-row">
         <label class="kgv-field">
           <span class="kgv-label">Telefon</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('telefon')" type="tel" name="telefon" inputmode="tel" autocomplete="tel" maxlength="30" pattern="[0-9 +()\/-]{6,30}" [ngModel]="kontaktFormular.telefon" (ngModelChange)="kontaktFeldAktualisieren('telefon', $event)">
+          <input id="kontakt-telefon" class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('telefon')" [class.kgv-input--valid]="istKontaktFeldValide('telefon')" type="tel" name="telefon" inputmode="tel" autocomplete="tel" maxlength="30" pattern="[0-9 +()\/-]{6,30}" [ngModel]="kontaktFormular.telefon" (input)="kontaktFeldEingabe('telefon', $event)" [attr.aria-invalid]="hatFeldHinweis('telefon')" aria-describedby="kontakt-telefon-hinweis">
           @if (feldHinweise.telefon) {
-            <span class="kgv-error-text" role="alert">{{ feldHinweise.telefon }}</span>
+            <span id="kontakt-telefon-hinweis" class="kgv-error-text" role="alert">{{ feldHinweise.telefon }}</span>
           }
         </label>
 
         <label class="kgv-field">
           <span class="kgv-label">Gartennummer</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('gartennummer')" type="text" name="gartennummer" inputmode="numeric" maxlength="2" pattern="(0?[1-9]|[1-4][0-9]|50)" [ngModel]="kontaktFormular.gartennummer" (ngModelChange)="kontaktFeldAktualisieren('gartennummer', $event)">
+          <input id="kontakt-gartennummer" class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('gartennummer')" [class.kgv-input--valid]="istKontaktFeldValide('gartennummer')" type="text" name="gartennummer" inputmode="numeric" maxlength="2" pattern="(0?[1-9]|[1-4][0-9]|50)" [ngModel]="kontaktFormular.gartennummer" (input)="kontaktFeldEingabe('gartennummer', $event)" [attr.aria-invalid]="hatFeldHinweis('gartennummer')" aria-describedby="kontakt-gartennummer-hinweis">
           @if (feldHinweise.gartennummer) {
-            <span class="kgv-error-text" role="alert">{{ feldHinweise.gartennummer }}</span>
+            <span id="kontakt-gartennummer-hinweis" class="kgv-error-text" role="alert">{{ feldHinweise.gartennummer }}</span>
           }
         </label>
       </div>
 
       <label class="kgv-field">
         <span class="kgv-label">Betreff</span>
-        <input class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('betreff')" type="text" name="betreff" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="kontaktFormular.betreff" (ngModelChange)="kontaktFeldAktualisieren('betreff', $event)" required>
+        <input id="kontakt-betreff" class="kgv-input" [class.kgv-input--invalid]="hatFeldHinweis('betreff')" [class.kgv-input--valid]="istKontaktFeldValide('betreff')" type="text" name="betreff" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="kontaktFormular.betreff" (input)="kontaktFeldEingabe('betreff', $event)" [attr.aria-invalid]="hatFeldHinweis('betreff')" aria-describedby="kontakt-betreff-hinweis" required>
         @if (feldHinweise.betreff) {
-          <span class="kgv-error-text" role="alert">{{ feldHinweise.betreff }}</span>
+          <span id="kontakt-betreff-hinweis" class="kgv-error-text" role="alert">{{ feldHinweise.betreff }}</span>
         }
       </label>
 
       <label class="kgv-field">
         <span class="kgv-label">Nachricht</span>
-        <textarea class="kgv-textarea" [class.kgv-input--invalid]="hatFeldHinweis('nachricht')" name="nachricht" maxlength="800" [ngModel]="kontaktFormular.nachricht" (ngModelChange)="kontaktFeldAktualisieren('nachricht', $event)" required></textarea>
+        <textarea id="kontakt-nachricht" class="kgv-textarea" [class.kgv-input--invalid]="hatFeldHinweis('nachricht')" [class.kgv-input--valid]="istKontaktFeldValide('nachricht')" name="nachricht" maxlength="800" [ngModel]="kontaktFormular.nachricht" (input)="kontaktFeldEingabe('nachricht', $event)" [attr.aria-invalid]="hatFeldHinweis('nachricht')" aria-describedby="kontakt-nachricht-hinweis" required></textarea>
         @if (feldHinweise.nachricht) {
-          <span class="kgv-error-text" role="alert">{{ feldHinweise.nachricht }}</span>
+          <span id="kontakt-nachricht-hinweis" class="kgv-error-text" role="alert">{{ feldHinweise.nachricht }}</span>
         }
       </label>
 

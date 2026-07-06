@@ -160,7 +160,7 @@
       <p>Wähle im Kalender einen freien Tag aus. Der Wunschtermin wird dann automatisch in das Formular übernommen.</p>
     </div>
 
-    <form class="vermietung-form kgv-form kgv-card" (ngSubmit)="mietAnfrageSenden()" aria-label="Mietformular Vereinshaus">
+    <form class="vermietung-form kgv-form kgv-card" (ngSubmit)="mietAnfrageSenden()" aria-label="Mietformular Vereinshaus" novalidate>
       <label class="kgv-honeypot" aria-hidden="true">
         <span>Website</span>
         <input type="text" name="website" autocomplete="off" tabindex="-1" [ngModel]="mietHoneypot" (ngModelChange)="mietHoneypotAktualisieren($event)">
@@ -185,7 +185,7 @@
       <div class="kgv-form-row">
         <label class="kgv-field">
           <span class="kgv-label">Name</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('name')" type="text" name="name" autocomplete="name" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="mietAnfrage.name" (ngModelChange)="mietFeldAktualisieren('name', $event)" required>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('name')" [class.kgv-input--valid]="istMietFeldValide('name')" type="text" name="name" autocomplete="name" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="mietAnfrage.name" (input)="mietFeldEingabe('name', $event)" [attr.aria-invalid]="hatMietFeldHinweis('name')" required>
           @if (mietFeldHinweise.name) {
             <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.name }}</span>
           }
@@ -193,7 +193,7 @@
 
         <label class="kgv-field">
           <span class="kgv-label">E-Mail</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('email')" type="email" name="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" [ngModel]="mietAnfrage.email" (ngModelChange)="mietFeldAktualisieren('email', $event)" required>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('email')" [class.kgv-input--valid]="istMietFeldValide('email')" type="text" inputmode="email" name="email" autocomplete="email" maxlength="120" pattern="[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}" [ngModel]="mietAnfrage.email" (input)="mietFeldEingabe('email', $event)" [attr.aria-invalid]="hatMietFeldHinweis('email')" required>
           @if (mietFeldHinweise.email) {
             <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.email }}</span>
           }
@@ -203,7 +203,7 @@
       <div class="kgv-form-row">
         <label class="kgv-field">
           <span class="kgv-label">Telefon</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('telefon')" type="tel" name="telefon" inputmode="tel" autocomplete="tel" maxlength="30" pattern="[0-9 +()\/-]{6,30}" [ngModel]="mietAnfrage.telefon" (ngModelChange)="mietFeldAktualisieren('telefon', $event)">
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('telefon')" [class.kgv-input--valid]="istMietFeldValide('telefon')" type="tel" name="telefon" inputmode="tel" autocomplete="tel" maxlength="30" pattern="[0-9 +()\/-]{6,30}" [ngModel]="mietAnfrage.telefon" (input)="mietFeldEingabe('telefon', $event)" [attr.aria-invalid]="hatMietFeldHinweis('telefon')">
           @if (mietFeldHinweise.telefon) {
             <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.telefon }}</span>
           }
@@ -211,7 +211,7 @@
 
         <label class="kgv-field">
           <span class="kgv-label">Gästezahl</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('gaeste')" type="text" name="gaeste" inputmode="numeric" maxlength="2" pattern="([1-9]|[1-7][0-9]|80)" [ngModel]="mietAnfrage.gaeste" (ngModelChange)="mietFeldAktualisieren('gaeste', $event)" required>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('gaeste')" [class.kgv-input--valid]="istMietFeldValide('gaeste')" type="text" name="gaeste" inputmode="numeric" maxlength="2" pattern="([1-9]|[1-7][0-9]|80)" [ngModel]="mietAnfrage.gaeste" (input)="mietFeldEingabe('gaeste', $event)" [attr.aria-invalid]="hatMietFeldHinweis('gaeste')" required>
           @if (mietFeldHinweise.gaeste) {
             <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.gaeste }}</span>
           }
@@ -221,7 +221,7 @@
       <div class="kgv-form-row">
         <label class="kgv-field">
           <span class="kgv-label">Gewünschter Zeitraum</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('zeitraum')" type="text" name="zeitraum" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" placeholder="z. B. 15:00 bis 22:00 Uhr" [ngModel]="mietAnfrage.zeitraum" (ngModelChange)="mietFeldAktualisieren('zeitraum', $event)" required>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('zeitraum')" [class.kgv-input--valid]="istMietFeldValide('zeitraum')" type="text" name="zeitraum" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" placeholder="z. B. 15:00 bis 22:00 Uhr" [ngModel]="mietAnfrage.zeitraum" (input)="mietFeldEingabe('zeitraum', $event)" [attr.aria-invalid]="hatMietFeldHinweis('zeitraum')" required>
           @if (mietFeldHinweise.zeitraum) {
             <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.zeitraum }}</span>
           }
@@ -229,7 +229,7 @@
 
         <label class="kgv-field">
           <span class="kgv-label">Anlass</span>
-          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('anlass')" type="text" name="anlass" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="mietAnfrage.anlass" (ngModelChange)="mietFeldAktualisieren('anlass', $event)" required>
+          <input class="kgv-input" [class.kgv-input--invalid]="hatMietFeldHinweis('anlass')" [class.kgv-input--valid]="istMietFeldValide('anlass')" type="text" name="anlass" maxlength="80" pattern="[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}" [ngModel]="mietAnfrage.anlass" (input)="mietFeldEingabe('anlass', $event)" [attr.aria-invalid]="hatMietFeldHinweis('anlass')" required>
           @if (mietFeldHinweise.anlass) {
             <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.anlass }}</span>
           }
@@ -238,7 +238,7 @@
 
       <label class="kgv-field">
         <span class="kgv-label">Nachricht</span>
-        <textarea class="kgv-textarea" [class.kgv-input--invalid]="hatMietFeldHinweis('nachricht')" name="nachricht" maxlength="800" [ngModel]="mietAnfrage.nachricht" (ngModelChange)="mietFeldAktualisieren('nachricht', $event)" required></textarea>
+        <textarea class="kgv-textarea" [class.kgv-input--invalid]="hatMietFeldHinweis('nachricht')" [class.kgv-input--valid]="istMietFeldValide('nachricht')" name="nachricht" maxlength="800" [ngModel]="mietAnfrage.nachricht" (input)="mietFeldEingabe('nachricht', $event)" [attr.aria-invalid]="hatMietFeldHinweis('nachricht')" required></textarea>
         @if (mietFeldHinweise.nachricht) {
           <span class="kgv-error-text" role="alert">{{ mietFeldHinweise.nachricht }}</span>
         }

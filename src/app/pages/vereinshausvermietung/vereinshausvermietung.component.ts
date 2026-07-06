@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FeiertagEintrag, feiertagNrwFuerDatum } from '../../shared/data/feiertage-nrw.data';
 import { AdminContentService, VereinshausBelegung } from '../../shared/services/admin-content.service';
-import { bereinigeEmail, bereinigeFormularText, bereinigeMehrzeiligenFormularText, bereinigeSuchwert, bereinigeTelefon, bereinigeZiffern, enthaeltBotSignal, normalisiereSuchwert } from '../../shared/utils/eingabe-sicherheit.util';
+import { BereinigteEingabe, bereinigeEmailMitStatus, bereinigeFormularTextMitStatus, bereinigeMehrzeiligenFormularTextMitStatus, bereinigeSuchwert, bereinigeTelefonMitStatus, bereinigeZiffernMitStatus, enthaeltBotSignal, normalisiereSuchwert } from '../../shared/utils/eingabe-sicherheit.util';
 
 interface MietInfo {
   icon: string;
@@ -221,15 +221,18 @@ export class VereinshausvermietungComponent {
   }
 
   /**
-   * Bereinigt und validiert ein Feld der Mietanfrage.
+   * Bereinigt und validiert ein Feld der Mietanfrage direkt während der Eingabe.
    */
-  protected mietFeldAktualisieren(feld: MietFeld, wert: string): void {
-    const bereinigterWert = this.bereinigeMietWert(feld, wert);
+  protected mietFeldEingabe(feld: MietFeld, ereignis: Event): void {
+    const ziel = this.leseEingabeZiel(ereignis);
+    const ergebnis = this.bereinigeMietWertMitStatus(feld, ziel.value);
+
+    ziel.value = ergebnis.wert;
     this.mietAnfrage = {
       ...this.mietAnfrage,
-      [feld]: bereinigterWert,
+      [feld]: ergebnis.wert,
     };
-    this.mietFeldHinweise[feld] = this.validiereMietFeld(feld, bereinigterWert);
+    this.mietFeldHinweise[feld] = this.validiereMietEingabe(feld, ergebnis);
     this.mietFormularStatus = '';
   }
 
@@ -246,6 +249,15 @@ export class VereinshausvermietungComponent {
    */
   protected hatMietFeldHinweis(feld: MietFeld): boolean {
     return this.mietFeldHinweise[feld].length > 0;
+  }
+
+  /**
+   * Prüft, ob ein Mietfeld sichtbar als valide markiert werden kann.
+   */
+  protected istMietFeldValide(feld: MietFeld): boolean {
+    const wert = this.mietAnfrage[feld].trim();
+
+    return wert.length > 0 && !this.validiereMietFeld(feld, wert) && !this.hatMietFeldHinweis(feld);
   }
 
   /**
@@ -388,24 +400,35 @@ export class VereinshausvermietungComponent {
     });
   }
 
-  private bereinigeMietWert(feld: MietFeld, wert: string): string {
+  private bereinigeMietWertMitStatus(feld: MietFeld, wert: string): BereinigteEingabe {
     if (feld === 'email') {
-      return bereinigeEmail(wert, 120);
+      return bereinigeEmailMitStatus(wert, 120);
     }
 
     if (feld === 'telefon') {
-      return bereinigeTelefon(wert, 30);
+      return bereinigeTelefonMitStatus(wert, 30);
     }
 
     if (feld === 'gaeste') {
-      return bereinigeZiffern(wert, 2);
+      return bereinigeZiffernMitStatus(wert, 2);
     }
 
     if (feld === 'nachricht') {
-      return bereinigeMehrzeiligenFormularText(wert, 800);
+      return bereinigeMehrzeiligenFormularTextMitStatus(wert, 800);
     }
 
-    return bereinigeFormularText(wert, 80);
+    return bereinigeFormularTextMitStatus(wert, 80);
+  }
+
+  /**
+   * Erzeugt den passenden Live-Hinweis für eine bereinigte Mietfeld-Eingabe.
+   */
+  private validiereMietEingabe(feld: MietFeld, ergebnis: BereinigteEingabe): string {
+    if (ergebnis.hatteUnerlaubteZeichen) {
+      return this.unerlaubteMietZeichenHinweis(feld);
+    }
+
+    return this.validiereMietFeld(feld, ergebnis.wert);
   }
 
 
@@ -442,6 +465,32 @@ export class VereinshausvermietungComponent {
     }
 
     return '';
+  }
+
+  /**
+   * Meldet entfernte Zeichen je nach Mietfeld verständlich zurück.
+   */
+  private unerlaubteMietZeichenHinweis(feld: MietFeld): string {
+    if (feld === 'email') {
+      return 'Entfernt: Bitte nur Buchstaben, Zahlen und . _ + - @ verwenden.';
+    }
+
+    if (feld === 'telefon') {
+      return 'Entfernt: Bitte nur Ziffern, Leerzeichen, +, -, / und Klammern verwenden.';
+    }
+
+    if (feld === 'gaeste') {
+      return 'Entfernt: Bitte nur Ziffern verwenden.';
+    }
+
+    return 'Entfernt: Bitte nur Buchstaben, Zahlen, Leerzeichen und sichere Satzzeichen verwenden.';
+  }
+
+  /**
+   * Liest ein Textfeld aus einem Eingabeereignis.
+   */
+  private leseEingabeZiel(ereignis: Event): HTMLInputElement | HTMLTextAreaElement {
+    return ereignis.target as HTMLInputElement | HTMLTextAreaElement;
   }
 
   private erzeugeDatumString(jahr: number, monatIndex: number, tagZahl: number): string {
