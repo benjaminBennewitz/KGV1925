@@ -66,6 +66,28 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "developerakademie": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "32kB",
+                  "maximumError": "40kB"
+                }
+              ],
+              "outputHashing": "all",
+              "baseHref": "/angular-projects/1925/",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.developerakademie.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -78,6 +100,9 @@
             },
             "development": {
               "buildTarget": "kgv1925:build:development"
+            },
+            "developerakademie": {
+              "buildTarget": "kgv1925:build:developerakademie"
             }
           },
           "defaultConfiguration": "development"
