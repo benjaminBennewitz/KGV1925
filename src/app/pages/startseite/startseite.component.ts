@@ -1,9 +1,10 @@
 /* src/app/pages/startseite/startseite.component.ts */
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BLOG_BEITRAEGE } from '../../shared/data/blog-beitraege.data';
 import { AdminContentService, StartseitenPopup } from '../../shared/services/admin-content.service';
+import { DialogA11yDirective } from '../../shared/directives/dialog-a11y.directive';
 
 interface StartseitenAnlagenHinweis {
   icon: string;
@@ -16,22 +17,24 @@ interface StartseitenAnlagenHinweis {
 
 @Component({
   selector: 'app-startseite',
-  imports: [RouterLink],
+  imports: [RouterLink, DialogA11yDirective],
   templateUrl: './startseite.component.html',
   styleUrl: './startseite.component.scss',
 })
-export class StartseiteComponent {
+export class StartseiteComponent implements OnInit, OnDestroy {
   private readonly adminContent = inject(AdminContentService);
 
   protected readonly aktuelleBeitraege = BLOG_BEITRAEGE.slice(0, 2);
   protected istStartseitenPopupSichtbar = true;
+  protected istStartseitenPopupBereit = false;
+  private popupTimerId: ReturnType<typeof setTimeout> | null = null;
 
   protected get naechsterTermin() {
     return [...this.adminContent.termine()].sort((erster, zweiter) => erster.datumISO.localeCompare(zweiter.datumISO))[0];
   }
 
   protected get startseitenPopup(): StartseitenPopup | null {
-    if (!this.istStartseitenPopupSichtbar) {
+    if (!this.istStartseitenPopupSichtbar || !this.istStartseitenPopupBereit) {
       return null;
     }
 
@@ -134,6 +137,26 @@ export class StartseiteComponent {
       label: 'Gemeinschaft',
     },
   ];
+
+
+  /**
+   * Startet das verzögerte Einblenden des Startseiten-Pop-ups.
+   */
+  ngOnInit(): void {
+    this.popupTimerId = setTimeout(() => {
+      this.istStartseitenPopupBereit = true;
+      this.popupTimerId = null;
+    }, 2000);
+  }
+
+  /**
+   * Räumt den offenen Timer beim Verlassen der Startseite auf.
+   */
+  ngOnDestroy(): void {
+    if (this.popupTimerId !== null) {
+      clearTimeout(this.popupTimerId);
+    }
+  }
 
   /**
    * Schließt das aktuelle Startseiten-Pop-up lokal für die laufende Ansicht.

@@ -3,6 +3,8 @@ KGV1925/
 │   └── ...
 ├── .vscode/
 │   └── ...
+├── dist/
+│   └── ...
 ├── node_modules/
 │   └── ...
 ├── public/
@@ -78,11 +80,14 @@ KGV1925/
 │   │   │   │       └── scroll-to-top.component.ts
 │   │   │   ├── data/
 │   │   │   │   ├── blog-beitraege.data.ts
+│   │   │   │   ├── feiertage-nrw.data.ts
 │   │   │   │   ├── gartenwissen.data.ts
 │   │   │   │   ├── navigation.data.ts
 │   │   │   │   ├── service.data.ts
 │   │   │   │   ├── termine.data.ts
 │   │   │   │   └── verein.data.ts
+│   │   │   ├── directives/
+│   │   │   │   └── dialog-a11y.directive.ts
 │   │   │   └── services/
 │   │   │       ├── admin-content.service.ts
 │   │   │       ├── mitglieder-session.service.ts

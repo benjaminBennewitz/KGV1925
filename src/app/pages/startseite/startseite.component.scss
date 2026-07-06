@@ -41,7 +41,7 @@
 
 .start-popup {
   align-items: center;
-  animation: start-popup-einblenden 420ms ease 2s forwards;
+  animation: start-popup-einblenden 420ms ease forwards;
   background: rgba(24, 33, 27, 0.58);
   display: grid;
   inset: 0;
@@ -160,7 +160,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .start-popup {
-    animation-delay: 0s;
     animation-duration: 1ms;
   }
 }

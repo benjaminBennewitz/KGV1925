@@ -319,8 +319,8 @@
 
 @if (ausgewaehlterGarten; as garten) {
   <div class="garden-modal" role="presentation" data-kgv-reveal-ignore (click)="schliesseGartenModal()">
-    <section class="garden-modal__panel kgv-card" role="dialog" aria-modal="true" aria-labelledby="garten-modal-titel" (click)="$event.stopPropagation()">
-      <button class="garden-modal__close" type="button" aria-label="Gartendetails schließen" (click)="schliesseGartenModal()">
+    <section class="garden-modal__panel kgv-card" appDialogA11y role="dialog" aria-modal="true" aria-labelledby="garten-modal-titel" aria-describedby="garten-modal-text" tabindex="-1" (dialogEscape)="schliesseGartenModal()" (click)="$event.stopPropagation()">
+      <button class="garden-modal__close" type="button" autofocus aria-label="Gartendetails schließen" (click)="schliesseGartenModal()">
         <span class="material-symbols-outlined" aria-hidden="true">close</span>
       </button>
 
@@ -349,7 +349,7 @@
       <div class="garden-modal__content">
         <p class="kgv-eyebrow">Parzelle {{ formatiereGartennummer(garten.nummer) }}</p>
         <h2 id="garten-modal-titel">{{ garten.titel }}</h2>
-        <p>{{ garten.beschreibung }}</p>
+        <p id="garten-modal-text">{{ garten.beschreibung }}</p>
 
         <dl class="garden-modal__details">
           <div>
@@ -386,8 +386,8 @@
 
 @if (ausgewaehltesVereinshaus; as haus) {
   <div class="garden-modal" role="presentation" data-kgv-reveal-ignore (click)="schliesseDetailModal()">
-    <section class="garden-modal__panel kgv-card" role="dialog" aria-modal="true" aria-labelledby="vereinshaus-modal-titel" (click)="$event.stopPropagation()">
-      <button class="garden-modal__close" type="button" aria-label="Vereinshausdetails schließen" (click)="schliesseDetailModal()">
+    <section class="garden-modal__panel kgv-card" appDialogA11y role="dialog" aria-modal="true" aria-labelledby="vereinshaus-modal-titel" aria-describedby="vereinshaus-modal-text" tabindex="-1" (dialogEscape)="schliesseDetailModal()" (click)="$event.stopPropagation()">
+      <button class="garden-modal__close" type="button" autofocus aria-label="Vereinshausdetails schließen" (click)="schliesseDetailModal()">
         <span class="material-symbols-outlined" aria-hidden="true">close</span>
       </button>
 
@@ -416,7 +416,7 @@
       <div class="garden-modal__content">
         <p class="kgv-eyebrow">{{ haus.eyebrow }}</p>
         <h2 id="vereinshaus-modal-titel">{{ haus.titel }}</h2>
-        <p>{{ haus.beschreibung }}</p>
+        <p id="vereinshaus-modal-text">{{ haus.beschreibung }}</p>
 
         <dl class="garden-modal__details">
           <div>

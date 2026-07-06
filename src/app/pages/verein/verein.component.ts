@@ -1,12 +1,13 @@
 /* src/app/pages/verein/verein.component.ts */
 
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ANLAGEN_INFOS, DetailBild, GARTEN_PARZELLEN, GartenFilter, GartenParzelle, GartenStatus, VEREINSHAUS_DETAIL, VereinshausDetail, VORSTANDSMITGLIEDER, Vorstandsmitglied } from '../../shared/data/verein.data';
+import { DialogA11yDirective } from '../../shared/directives/dialog-a11y.directive';
 
 @Component({
   selector: 'app-verein',
-  imports: [RouterLink],
+  imports: [RouterLink, DialogA11yDirective],
   templateUrl: './verein.component.html',
   styleUrl: './verein.component.scss',
 })
@@ -42,14 +43,6 @@ export class VereinComponent {
 
   protected get verpachteteGaerten(): number {
     return this.gaerten.filter((garten) => garten.status === 'verpachtet').length;
-  }
-
-  /**
-   * Schließt Detailfenster, sobald die Escape-Taste genutzt wird.
-   */
-  @HostListener('document:keydown.escape')
-  protected schliesseModalPerTaste(): void {
-    this.schliesseDetailModal();
   }
 
   /**
