@@ -84,6 +84,7 @@ KGV1925/
 │   │   │   │   ├── termine.data.ts
 │   │   │   │   └── verein.data.ts
 │   │   │   └── services/
+│   │   │       ├── admin-content.service.ts
 │   │   │       ├── mitglieder-session.service.ts
 │   │   │       └── reveal.service.ts
 │   │   ├── app.config.server.ts

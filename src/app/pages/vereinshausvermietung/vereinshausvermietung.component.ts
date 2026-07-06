@@ -4,6 +4,8 @@ import { DOCUMENT } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { FeiertagEintrag, feiertagNrwFuerDatum } from '../../shared/data/feiertage-nrw.data';
+import { AdminContentService, VereinshausBelegung } from '../../shared/services/admin-content.service';
 
 interface MietInfo {
   icon: string;
@@ -17,19 +19,8 @@ interface MietKalenderTag {
   istAktuellerMonat: boolean;
   istHeute: boolean;
   istWochenende: boolean;
-  belegung: MietBelegung | null;
-}
-
-type MietBelegungsArt = 'vermietung' | 'intern';
-
-interface MietBelegung {
-  datumISO: string;
-  titel: string;
-  kurztext: string;
-  zeit: string;
-  typ: string;
-  kalenderKurz: string;
-  art: MietBelegungsArt;
+  feiertag: FeiertagEintrag | null;
+  belegung: VereinshausBelegung | null;
 }
 
 interface MietAnfrage {
@@ -53,11 +44,11 @@ type MietFeld = Exclude<keyof MietAnfrage, 'wunschdatum'>;
 })
 export class VereinshausvermietungComponent {
   private readonly dokument = inject(DOCUMENT);
-  private readonly belegungsCache = new Map<string, MietBelegung[]>();
+  private readonly adminContent = inject(AdminContentService);
   private readonly textMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]{2,80}$/;
   private readonly textErsetzen = /[^A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:]/g;
-  private readonly nachrichtMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:\n\r]{10,800}$/;
-  private readonly nachrichtErsetzen = /[^A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:\n\r]/g;
+  private readonly nachrichtMuster = /^[A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:\r\n]{10,800}$/;
+  private readonly nachrichtErsetzen = /[^A-Za-zÄÖÜäöüß0-9 .,!?#*()\/\-:\r\n]/g;
   private readonly emailMuster = /^[A-Za-z0-9._+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/;
   private readonly emailErsetzen = /[^A-Za-z0-9._+\-@]/g;
   private readonly telefonMuster = /^[0-9 +()\/-]{6,30}$/;
@@ -67,6 +58,7 @@ export class VereinshausvermietungComponent {
   protected aktivesJahr = 2026;
   protected aktiverMonatIndex = 6;
   protected fokussierteBelegung: string | null = null;
+  protected vereinshausSuche = '';
   protected mietAnfrage: MietAnfrage = this.erstelleLeereMietAnfrage();
   protected mietFormularStatus = '';
   protected readonly wochentage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
@@ -110,11 +102,26 @@ export class VereinshausvermietungComponent {
   }
 
   protected get kalenderTage(): MietKalenderTag[] {
-    return this.baueKalenderTage(this.aktivesJahr, this.aktiverMonatIndex, this.belegungenImAktivenMonat);
+    return this.baueKalenderTage(this.aktivesJahr, this.aktiverMonatIndex);
   }
 
-  protected get belegungenImAktivenMonat(): MietBelegung[] {
-    return this.holeBelegungenFuerMonat(this.aktivesJahr, this.aktiverMonatIndex);
+  protected get belegungenImAktivenMonat(): VereinshausBelegung[] {
+    const monatsStart = this.erzeugeDatumString(this.aktivesJahr, this.aktiverMonatIndex, 1);
+    const monatsEnde = this.erzeugeDatumString(this.aktivesJahr, this.aktiverMonatIndex, new Date(this.aktivesJahr, this.aktiverMonatIndex + 1, 0).getDate());
+
+    return this.gefilterteBelegungen
+      .filter((belegung) => this.ueberschneidetZeitraum(belegung, monatsStart, monatsEnde))
+      .sort((erste, zweite) => erste.datumISO.localeCompare(zweite.datumISO));
+  }
+
+  protected get gefilterteBelegungen(): VereinshausBelegung[] {
+    const suche = this.normalisiereSuche(this.vereinshausSuche);
+
+    if (!suche) {
+      return this.adminContent.vereinshausBelegungen();
+    }
+
+    return this.adminContent.vereinshausBelegungen().filter((belegung) => this.passtBelegungZurSuche(belegung, suche));
   }
 
   protected get kannVorherigerMonat(): boolean {
@@ -123,6 +130,14 @@ export class VereinshausvermietungComponent {
 
   protected get kannNaechsterMonat(): boolean {
     return true;
+  }
+
+  /**
+   * Aktualisiert die Suche für Titel und Datum.
+   */
+  protected vereinshausSucheAktualisieren(wert: string): void {
+    this.vereinshausSuche = `${wert ?? ''}`.replace(/[^A-Za-zÄÖÜäöüß0-9 .\-:/]/g, '').slice(0, 80);
+    this.fokussierteBelegung = null;
   }
 
   /**
@@ -164,11 +179,11 @@ export class VereinshausvermietungComponent {
   /**
    * Springt aus dem Kalendertag zur passenden Monatslistenkarte.
    */
-  protected fokussiereBelegung(belegung: MietBelegung): void {
-    this.fokussierteBelegung = belegung.datumISO;
+  protected fokussiereBelegung(belegung: VereinshausBelegung): void {
+    this.fokussierteBelegung = belegung.id;
 
     this.dokument.defaultView?.setTimeout(() => {
-      const element = this.dokument.getElementById(`mietbelegung-${belegung.datumISO}`);
+      const element = this.dokument.getElementById(`mietbelegung-${belegung.id}`);
 
       if (!element) {
         return;
@@ -260,7 +275,18 @@ export class VereinshausvermietungComponent {
     return new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(`${datumISO}T12:00:00`));
   }
 
-  private baueKalenderTage(jahr: number, monatIndex: number, belegungen: MietBelegung[]): MietKalenderTag[] {
+  /**
+   * Formatiert einen Datumsbereich für die Listenansicht.
+   */
+  protected formatiereDatumsbereich(belegung: VereinshausBelegung): string {
+    if (!belegung.datumEndeISO || belegung.datumEndeISO === belegung.datumISO) {
+      return this.formatiereDatum(belegung.datumISO);
+    }
+
+    return `${this.formatiereDatum(belegung.datumISO)} bis ${this.formatiereDatum(belegung.datumEndeISO)}`;
+  }
+
+  private baueKalenderTage(jahr: number, monatIndex: number): MietKalenderTag[] {
     const tage: MietKalenderTag[] = [];
     const ersterTag = new Date(jahr, monatIndex, 1);
     const tageImMonat = new Date(jahr, monatIndex + 1, 0).getDate();
@@ -272,13 +298,13 @@ export class VereinshausvermietungComponent {
       const tagZahl = tageImVormonat - index;
       const datumISO = this.erzeugeDatumString(jahr, monatIndex - 1, tagZahl);
 
-      tage.push(this.baueKalenderTag(datumISO, tagZahl, false, heutigesDatum, belegungen));
+      tage.push(this.baueKalenderTag(datumISO, tagZahl, false, heutigesDatum));
     }
 
     for (let tagZahl = 1; tagZahl <= tageImMonat; tagZahl += 1) {
       const datumISO = this.erzeugeDatumString(jahr, monatIndex, tagZahl);
 
-      tage.push(this.baueKalenderTag(datumISO, tagZahl, true, heutigesDatum, belegungen));
+      tage.push(this.baueKalenderTag(datumISO, tagZahl, true, heutigesDatum));
     }
 
     let naechsterMonatTag = 1;
@@ -286,14 +312,14 @@ export class VereinshausvermietungComponent {
     while (tage.length % 7 !== 0 || tage.length < 35) {
       const datumISO = this.erzeugeDatumString(jahr, monatIndex + 1, naechsterMonatTag);
 
-      tage.push(this.baueKalenderTag(datumISO, naechsterMonatTag, false, heutigesDatum, belegungen));
+      tage.push(this.baueKalenderTag(datumISO, naechsterMonatTag, false, heutigesDatum));
       naechsterMonatTag += 1;
     }
 
     return tage;
   }
 
-  private baueKalenderTag(datumISO: string, tagZahl: number, istAktuellerMonat: boolean, heutigesDatum: string, belegungen: MietBelegung[]): MietKalenderTag {
+  private baueKalenderTag(datumISO: string, tagZahl: number, istAktuellerMonat: boolean, heutigesDatum: string): MietKalenderTag {
     const wochentag = new Date(`${datumISO}T12:00:00`).getDay();
 
     return {
@@ -302,132 +328,28 @@ export class VereinshausvermietungComponent {
       istAktuellerMonat,
       istHeute: datumISO === heutigesDatum,
       istWochenende: wochentag === 0 || wochentag === 6,
-      belegung: istAktuellerMonat ? belegungen.find((belegung) => belegung.datumISO === datumISO) ?? null : null,
+      feiertag: istAktuellerMonat ? feiertagNrwFuerDatum(datumISO) : null,
+      belegung: istAktuellerMonat ? this.belegungFuerDatum(datumISO) : null,
     };
   }
 
-  private holeBelegungenFuerMonat(jahr: number, monatIndex: number): MietBelegung[] {
-    const cacheKey = `${jahr}-${monatIndex}`;
-    const cacheTreffer = this.belegungsCache.get(cacheKey);
-
-    if (cacheTreffer) {
-      return cacheTreffer;
-    }
-
-    const belegungen = this.baueBelegungenFuerMonat(jahr, monatIndex).sort((erste, zweite) => erste.datumISO.localeCompare(zweite.datumISO));
-    this.belegungsCache.set(cacheKey, belegungen);
-
-    return belegungen;
+  private belegungFuerDatum(datumISO: string): VereinshausBelegung | null {
+    return this.gefilterteBelegungen.find((belegung) => belegung.datumISO <= datumISO && (belegung.datumEndeISO || belegung.datumISO) >= datumISO) ?? null;
   }
 
-  private baueBelegungenFuerMonat(jahr: number, monatIndex: number): MietBelegung[] {
-    const belegungen: MietBelegung[] = [];
-    const ersterSamstag = this.findeWochentagImMonat(jahr, monatIndex, 6, 1);
-    const zweiterSamstag = this.findeWochentagImMonat(jahr, monatIndex, 6, 2);
-    const dritterSamstag = this.findeWochentagImMonat(jahr, monatIndex, 6, 3);
-    const letzterSamstag = this.findeLetztenWochentagImMonat(jahr, monatIndex, 6);
-    const ersterDienstag = this.findeWochentagImMonat(jahr, monatIndex, 2, 1);
-    const dritterMittwoch = this.findeWochentagImMonat(jahr, monatIndex, 3, 3);
-    const vierterFreitag = this.findeWochentagImMonat(jahr, monatIndex, 5, 4);
+  private ueberschneidetZeitraum(belegung: VereinshausBelegung, startISO: string, endeISO: string): boolean {
+    const belegungStart = belegung.datumISO;
+    const belegungEnde = belegung.datumEndeISO || belegung.datumISO;
 
-    belegungen.push(this.baueInterneBelegung(this.erzeugeDatumString(jahr, monatIndex, ersterDienstag), 'Vorstandssitzung', 'Interne Abstimmung des Vorstands im Vereinshaus.', '18:00 bis 20:30 Uhr'));
-    belegungen.push(this.baueVermietung(this.erzeugeDatumString(jahr, monatIndex, ersterSamstag), '16:00 bis 23:00 Uhr'));
-    belegungen.push(this.baueInterneBelegung(this.erzeugeDatumString(jahr, monatIndex, dritterMittwoch), 'Vereinsversammlung', 'Interner Vereinstermin im Vereinshaus.', '18:00 bis 21:00 Uhr'));
-    belegungen.push(this.baueVermietung(this.erzeugeDatumString(jahr, monatIndex, zweiterSamstag), '15:00 bis 23:00 Uhr'));
-    belegungen.push(this.baueVermietung(this.erzeugeDatumString(jahr, monatIndex, vierterFreitag), '17:00 bis 23:00 Uhr'));
-    belegungen.push(this.baueVermietung(this.erzeugeDatumString(jahr, monatIndex, letzterSamstag), '15:00 bis 22:00 Uhr'));
-
-    if (dritterSamstag !== zweiterSamstag && dritterSamstag !== letzterSamstag) {
-      belegungen.push(this.baueVermietung(this.erzeugeDatumString(jahr, monatIndex, dritterSamstag), '14:00 bis 20:00 Uhr'));
-    }
-
-    this.ergänzeSaisonaleBelegungen(belegungen, jahr, monatIndex);
-
-    return this.entferneDoppelteBelegungen(belegungen);
+    return belegungStart <= endeISO && belegungEnde >= startISO;
   }
 
-  private ergänzeSaisonaleBelegungen(belegungen: MietBelegung[], jahr: number, monatIndex: number): void {
-    const saisonaleTermine: Record<string, MietBelegung> = {
-      [`${jahr}-07-31`]: this.baueInterneBelegung(this.erzeugeDatumString(jahr, 6, 31), 'Vorbereitung Sommerfest', 'Aufbau und Vorbereitung im Vereinshaus.', '17:00 bis 21:00 Uhr'),
-      [`${jahr}-08-01`]: this.baueInterneBelegung(this.erzeugeDatumString(jahr, 7, 1), 'Sommerfest', 'Vereinshaus und Außenbereich sind für das Sommerfest reserviert.', '10:00 bis 23:00 Uhr'),
-      [`${jahr}-12-18`]: this.baueInterneBelegung(this.erzeugeDatumString(jahr, 11, 18), 'Jahresabschluss', 'Interner Jahresabschluss des Vereins.', '18:00 bis 22:00 Uhr'),
-      [`${jahr}-12-31`]: this.baueVermietung(this.erzeugeDatumString(jahr, 11, 31), '18:00 bis 01:00 Uhr'),
-    };
-
-    Object.values(saisonaleTermine).forEach((belegung) => {
-      const datum = new Date(`${belegung.datumISO}T12:00:00`);
-
-      if (datum.getFullYear() === jahr && datum.getMonth() === monatIndex) {
-        belegungen.push(belegung);
-      }
-    });
+  private passtBelegungZurSuche(belegung: VereinshausBelegung, suche: string): boolean {
+    return [belegung.titel, belegung.datumISO, belegung.datumEndeISO ?? '', belegung.typ, belegung.kalenderKurz, this.formatiereDatumsbereich(belegung)].some((wert) => this.normalisiereSuche(wert).includes(suche));
   }
 
-  private entferneDoppelteBelegungen(belegungen: MietBelegung[]): MietBelegung[] {
-    const belegungenNachDatum = new Map<string, MietBelegung>();
-
-    belegungen.forEach((belegung) => {
-      const bestehendeBelegung = belegungenNachDatum.get(belegung.datumISO);
-
-      if (!bestehendeBelegung || bestehendeBelegung.art === 'vermietung') {
-        belegungenNachDatum.set(belegung.datumISO, belegung);
-      }
-    });
-
-    return Array.from(belegungenNachDatum.values());
-  }
-
-  private baueVermietung(datumISO: string, zeit: string): MietBelegung {
-    return {
-      datumISO,
-      titel: 'Vermietet',
-      kurztext: 'Das Vereinshaus ist an diesem Tag vermietet.',
-      zeit,
-      typ: 'Vermietung',
-      kalenderKurz: 'Vermietet',
-      art: 'vermietung',
-    };
-  }
-
-  private baueInterneBelegung(datumISO: string, titel: string, kurztext: string, zeit: string): MietBelegung {
-    return {
-      datumISO,
-      titel,
-      kurztext,
-      zeit,
-      typ: 'Verein',
-      kalenderKurz: 'Verein',
-      art: 'intern',
-    };
-  }
-
-  private findeWochentagImMonat(jahr: number, monatIndex: number, wochentag: number, vorkommen: number): number {
-    const tageImMonat = new Date(jahr, monatIndex + 1, 0).getDate();
-    let treffer = 0;
-
-    for (let tagZahl = 1; tagZahl <= tageImMonat; tagZahl += 1) {
-      if (new Date(jahr, monatIndex, tagZahl).getDay() === wochentag) {
-        treffer += 1;
-      }
-
-      if (treffer === vorkommen) {
-        return tagZahl;
-      }
-    }
-
-    return tageImMonat;
-  }
-
-  private findeLetztenWochentagImMonat(jahr: number, monatIndex: number, wochentag: number): number {
-    const tageImMonat = new Date(jahr, monatIndex + 1, 0).getDate();
-
-    for (let tagZahl = tageImMonat; tagZahl >= 1; tagZahl -= 1) {
-      if (new Date(jahr, monatIndex, tagZahl).getDay() === wochentag) {
-        return tagZahl;
-      }
-    }
-
-    return tageImMonat;
+  private normalisiereSuche(wert: string): string {
+    return `${wert ?? ''}`.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
   }
 
   private erstelleLeereMietAnfrage(): MietAnfrage {

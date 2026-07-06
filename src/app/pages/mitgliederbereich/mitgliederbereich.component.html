@@ -118,6 +118,7 @@
               </a>
             </article>
           }
+
         </section>
       }
 
@@ -222,8 +223,8 @@
         <section class="admin-section" aria-labelledby="admin-titel">
           <div class="section-head">
             <p class="kgv-eyebrow">Adminbereich</p>
-            <h2 id="admin-titel">Gärten, Rechnungen und Zählerstände</h2>
-            <p>Der Vorstand sieht neue Zählerstandsmeldungen, wählt einzelne Gärten aus und verwaltet Rechnungen direkt in der Gartenübersicht.</p>
+            <h2 id="admin-titel">Inhalte, Termine und Mitgliedsdaten pflegen</h2>
+            <p>Der Vorstand verwaltet hier Gärten, Rechnungen, Zählerstände, Vereinstermine, Vereinshausbelegungen und Gartenwissen. Bis zum Backend läuft alles lokal im Frontend-Store.</p>
           </div>
 
           <div class="admin-stats" aria-label="Admin Schnellübersicht">
@@ -234,152 +235,768 @@
             </article>
 
             <article class="admin-stat-card kgv-card admin-stat-card--lavender">
-              <span class="material-symbols-outlined" aria-hidden="true">yard</span>
-              <strong>{{ adminGaerten.length }}</strong>
-              <p>Gärten in der Übersicht</p>
+              <span class="material-symbols-outlined" aria-hidden="true">event_note</span>
+              <strong>{{ verwalteteTermine().length }}</strong>
+              <p>Vereinstermine</p>
+            </article>
+
+            <article class="admin-stat-card kgv-card admin-stat-card--sand">
+              <span class="material-symbols-outlined" aria-hidden="true">house</span>
+              <strong>{{ verwalteteVereinshausBelegungen().length }}</strong>
+              <p>Vereinshausbelegungen</p>
+            </article>
+
+            <article class="admin-stat-card kgv-card admin-stat-card--sage">
+              <span class="material-symbols-outlined" aria-hidden="true">local_florist</span>
+              <strong>{{ verwalteteGartenwissen().length }}</strong>
+              <p>Gartenwissen-Beiträge</p>
             </article>
           </div>
 
-          <div class="admin-layout">
-            <aside class="admin-garden-list kgv-card" aria-label="Gartenliste für den Vorstand">
-              <div class="admin-garden-list__head">
-                <h3>Gärten</h3>
-                <span>{{ adminGaerten.length }} Einträge</span>
-              </div>
+          <nav class="admin-tabs kgv-card" aria-label="Adminbereiche">
+            @for (bereich of adminBereiche; track bereich.id) {
+              <button class="admin-tab" [class.admin-tab--active]="aktiverAdminBereich === bereich.id" type="button" (click)="adminBereichWechseln(bereich.id)">
+                <span class="material-symbols-outlined" aria-hidden="true">{{ bereich.icon }}</span>
+                <strong>{{ bereich.titel }}</strong>
+                <small>{{ bereich.text }}</small>
+              </button>
+            }
+          </nav>
 
-              <div class="admin-garden-list__items">
-                @for (garten of adminGaerten; track garten.gartennummer) {
-                  <button class="admin-garden-card" [class.admin-garden-card--active]="ausgewaehlterGarten?.gartennummer === garten.gartennummer" type="button" (click)="adminGartenAuswaehlen(garten)">
-                    <strong>Garten {{ garten.gartennummer }}</strong>
-                    <span>{{ garten.name }}</span>
+          @if (aktiverAdminBereich === 'gaerten') {
+            <div class="admin-layout">
+              <aside class="admin-garden-list kgv-card" aria-label="Gartenliste für den Vorstand">
+                <div class="admin-garden-list__head">
+                  <h3>Gärten</h3>
+                  <span>{{ adminGaerten.length }} Einträge</span>
+                </div>
+
+                <div class="admin-garden-list__items">
+                  @for (garten of adminGaerten; track garten.gartennummer) {
+                    <button class="admin-garden-card" [class.admin-garden-card--active]="ausgewaehlterGarten?.gartennummer === garten.gartennummer" type="button" (click)="adminGartenAuswaehlen(garten)">
+                      <strong>Garten {{ garten.gartennummer }}</strong>
+                      <span>{{ garten.name }}</span>
+                      @if (adminGartenBenachrichtigung(garten.gartennummer) > 0) {
+                        <em>{{ adminGartenBenachrichtigung(garten.gartennummer) }} neu</em>
+                      }
+                    </button>
+                  }
+                </div>
+              </aside>
+
+              @if (ausgewaehlterGarten; as garten) {
+                <article class="admin-detail kgv-card" aria-label="Zusammenfassung ausgewählter Garten">
+                  <header class="admin-detail__head">
+                    <div>
+                      <p class="kgv-eyebrow">Ausgewählter Garten</p>
+                      <h3>Garten {{ garten.gartennummer }} · {{ garten.name }}</h3>
+                      <p>{{ garten.lage }}</p>
+                    </div>
+
                     @if (adminGartenBenachrichtigung(garten.gartennummer) > 0) {
-                      <em>{{ adminGartenBenachrichtigung(garten.gartennummer) }} neu</em>
+                      <span class="admin-new-pill">{{ adminGartenBenachrichtigung(garten.gartennummer) }} neue Meldung(en)</span>
                     }
-                  </button>
-                }
-              </div>
-            </aside>
+                  </header>
 
-            @if (ausgewaehlterGarten; as garten) {
-              <article class="admin-detail kgv-card" aria-label="Zusammenfassung ausgewählter Garten">
-                <header class="admin-detail__head">
-                  <div>
-                    <p class="kgv-eyebrow">Ausgewählter Garten</p>
-                    <h3>Garten {{ garten.gartennummer }} · {{ garten.name }}</h3>
-                    <p>{{ garten.lage }}</p>
+                  <div class="admin-detail-grid">
+                    <section class="admin-panel" aria-labelledby="admin-rechnungen-titel">
+                      <h4 id="admin-rechnungen-titel">Bisherige Rechnungen</h4>
+                      <div class="admin-invoice-list">
+                        @for (rechnung of rechnungenFuerGarten(garten.gartennummer); track rechnung.nummer) {
+                          <a class="admin-invoice-item" [href]="rechnung.url" [attr.download]="rechnung.dateiname">
+                            <span>{{ rechnung.datum }}</span>
+                            <strong>{{ rechnung.name }}</strong>
+                            <small>{{ rechnung.betrag }} · {{ rechnung.status }}</small>
+                          </a>
+                        }
+                      </div>
+                    </section>
+
+                    <section class="admin-panel admin-panel--upload" aria-labelledby="admin-upload-titel">
+                      <h4 id="admin-upload-titel">Neue Rechnung hochladen</h4>
+                      <form class="admin-upload-form kgv-form" (ngSubmit)="rechnungHochladen()">
+                        <label class="kgv-field">
+                          <span class="kgv-label">Rechnungsdatum</span>
+                          <input class="kgv-input" type="date" name="rechnungDatum" [ngModel]="rechnungUpload.datum" (ngModelChange)="rechnungUploadFeldAktualisieren('datum', $event)" required>
+                        </label>
+
+                        <label class="kgv-field">
+                          <span class="kgv-label">Bezeichnung</span>
+                          <input class="kgv-input" [class.kgv-input--invalid]="rechnungUploadHinweise.name" type="text" name="rechnungName" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="rechnungUpload.name" (ngModelChange)="rechnungUploadFeldAktualisieren('name', $event)" required>
+                          @if (rechnungUploadHinweise.name) {
+                            <span class="kgv-error-text" role="alert">{{ rechnungUploadHinweise.name }}</span>
+                          }
+                        </label>
+
+                        <label class="kgv-field">
+                          <span class="kgv-label">Betrag</span>
+                          <input class="kgv-input" [class.kgv-input--invalid]="rechnungUploadHinweise.betrag" type="text" name="rechnungBetrag" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="rechnungUpload.betrag" (ngModelChange)="rechnungUploadFeldAktualisieren('betrag', $event)" required>
+                          @if (rechnungUploadHinweise.betrag) {
+                            <span class="kgv-error-text" role="alert">{{ rechnungUploadHinweise.betrag }}</span>
+                          }
+                        </label>
+
+                        <div class="kgv-field">
+                          <span class="kgv-label">PDF-Datei</span>
+                          <div class="file-upload">
+                            <input id="rechnungDatei" class="file-upload__input" type="file" name="rechnungDatei" accept="application/pdf" (change)="rechnungDateiAuswaehlen($event)" required>
+                            <label class="file-upload__button" for="rechnungDatei">
+                              <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
+                              PDF auswählen
+                            </label>
+                            <span class="file-upload__name">{{ ausgewaehlteRechnungDatei || 'Keine Datei ausgewählt' }}</span>
+                          </div>
+                        </div>
+
+                        @if (uploadFehler) {
+                          <p class="kgv-error-text" role="alert">{{ uploadFehler }}</p>
+                        }
+
+                        @if (uploadBestaetigung) {
+                          <p class="form-status" role="status">{{ uploadBestaetigung }}</p>
+                        }
+
+                        <button class="kgv-button kgv-button--small" type="submit" [disabled]="!istRechnungUploadGueltig()">
+                          Rechnung übernehmen
+                          <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
+                        </button>
+                      </form>
+                    </section>
+
+                    <section class="admin-panel" aria-labelledby="admin-letzte-zaehler-titel">
+                      <h4 id="admin-letzte-zaehler-titel">Letzte Zählerstände</h4>
+                      <div class="admin-meter-values">
+                        <article>
+                          <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+                          <div>
+                            <strong>{{ letzteZaehlerstaendeFuerGarten(garten).strom }} kWh</strong>
+                            <p>Strom</p>
+                          </div>
+                        </article>
+
+                        <article>
+                          <span class="material-symbols-outlined" aria-hidden="true">water_drop</span>
+                          <div>
+                            <strong>{{ letzteZaehlerstaendeFuerGarten(garten).wasser }} m³</strong>
+                            <p>Wasser</p>
+                          </div>
+                        </article>
+                      </div>
+                    </section>
+
+                    <section class="admin-panel" aria-labelledby="admin-neue-zaehler-titel">
+                      <h4 id="admin-neue-zaehler-titel">Neu eingetroffene Zählerstände</h4>
+                      @if (neueZaehlerEingaengeFuerGarten(garten.gartennummer).length > 0) {
+                        <div class="admin-new-meter-list">
+                          @for (eintrag of neueZaehlerEingaengeFuerGarten(garten.gartennummer); track eintrag.id) {
+                            <article>
+                              <span>{{ eintrag.datum }}</span>
+                              <strong>{{ eintrag.typ === 'strom' ? 'Strom' : 'Wasser' }} · {{ eintrag.wert }} {{ eintrag.typ === 'strom' ? 'kWh' : 'm³' }}</strong>
+                              <p>{{ eintrag.name }}</p>
+                            </article>
+                          }
+                        </div>
+                      } @else {
+                        <p class="admin-empty">Für diesen Garten liegen keine neuen Zählerstandsmeldungen vor.</p>
+                      }
+                    </section>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+
+          @if (aktiverAdminBereich === 'termine') {
+            <section class="admin-crud kgv-card" aria-labelledby="admin-termine-titel">
+              <header class="admin-crud__head">
+                <div>
+                  <p class="kgv-eyebrow">Termine</p>
+                  <h3 id="admin-termine-titel">Vereinstermine und interne Veranstaltungen</h3>
+                  <p>Diese Einträge speisen direkt die öffentliche Terminseite. Kategorien sind fest vordefiniert und weisen ihre Kalenderfarbe automatisch zu.</p>
+                </div>
+                <button class="kgv-button kgv-button--secondary kgv-button--small" type="button" (click)="terminNeu()">
+                  <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                  Neuer Termin
+                </button>
+              </header>
+
+              <div class="admin-crud-tools">
+                <label class="admin-search kgv-field">
+                  <span class="kgv-label">Termine suchen</span>
+                  <input class="kgv-input" type="search" name="terminSuche" maxlength="80" placeholder="Titel oder Datum suchen" [ngModel]="terminSuche" (ngModelChange)="terminSucheAktualisieren($event)">
+                </label>
+
+                <div class="admin-color-legend" aria-label="Terminfarben nach Kategorie">
+                  @for (kategorie of terminKategorien; track kategorie) {
+                    <span class="admin-color-pill" [class.admin-color-pill--salbei]="terminAkzentFuerKategorie(kategorie) === 'salbei'" [class.admin-color-pill--lavendel]="terminAkzentFuerKategorie(kategorie) === 'lavendel'" [class.admin-color-pill--sand]="terminAkzentFuerKategorie(kategorie) === 'sand'" [class.admin-color-pill--nacht]="terminAkzentFuerKategorie(kategorie) === 'nacht'">{{ kategorie }}</span>
+                  }
+                </div>
+              </div>
+
+              <div class="admin-crud__layout">
+                <div class="admin-crud__list" aria-label="Verwaltete Termine">
+                  @if (verwalteteTermineGefiltert().length) {
+                    @for (termin of verwalteteTermineGefiltert(); track termin.slug) {
+                      <article class="admin-crud-item">
+                        <span>{{ formatiereDatumKurz(termin.datumISO) }}</span>
+                        <span class="admin-color-pill admin-color-pill--small" [class.admin-color-pill--salbei]="termin.akzent === 'salbei'" [class.admin-color-pill--lavendel]="termin.akzent === 'lavendel'" [class.admin-color-pill--sand]="termin.akzent === 'sand'" [class.admin-color-pill--nacht]="termin.akzent === 'nacht'">{{ termin.kategorie }}</span>
+                        <h4>{{ termin.titel }}</h4>
+                        <p>{{ termin.kurztext }}</p>
+                        <div class="admin-crud-item__actions">
+                          <button type="button" (click)="terminBearbeiten(termin)">Bearbeiten</button>
+                          <button type="button" (click)="terminLoeschen(termin.slug)">Löschen</button>
+                        </div>
+                      </article>
+                    }
+                  } @else {
+                    <p class="admin-empty-state">Keine Termine zur aktuellen Suche gefunden.</p>
+                  }
+                </div>
+
+                <form class="admin-crud-form kgv-form" (ngSubmit)="terminSpeichern()" aria-label="Terminformular">
+                  <div class="admin-crud-form__title">
+                    <h4>{{ terminModus === 'bearbeiten' ? 'Termin bearbeiten' : 'Termin erstellen' }}</h4>
+                    <span class="admin-color-pill" [class.admin-color-pill--salbei]="terminFormular.akzent === 'salbei'" [class.admin-color-pill--lavendel]="terminFormular.akzent === 'lavendel'" [class.admin-color-pill--sand]="terminFormular.akzent === 'sand'" [class.admin-color-pill--nacht]="terminFormular.akzent === 'nacht'">{{ terminFormular.kategorie }}</span>
                   </div>
 
-                  @if (adminGartenBenachrichtigung(garten.gartennummer) > 0) {
-                    <span class="admin-new-pill">{{ adminGartenBenachrichtigung(garten.gartennummer) }} neue Meldung(en)</span>
-                  }
-                </header>
-
-                <div class="admin-detail-grid">
-                  <section class="admin-panel" aria-labelledby="admin-rechnungen-titel">
-                    <h4 id="admin-rechnungen-titel">Bisherige Rechnungen</h4>
-                    <div class="admin-invoice-list">
-                      @for (rechnung of rechnungenFuerGarten(garten.gartennummer); track rechnung.nummer) {
-                        <a class="admin-invoice-item" [href]="rechnung.url" [attr.download]="rechnung.dateiname">
-                          <span>{{ rechnung.datum }}</span>
-                          <strong>{{ rechnung.name }}</strong>
-                          <small>{{ rechnung.betrag }} · {{ rechnung.status }}</small>
-                        </a>
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Titel</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="terminHinweise.titel" type="text" name="terminTitel" maxlength="80" [ngModel]="terminFormular.titel" (ngModelChange)="terminFeldAktualisieren('titel', $event)" required>
+                      @if (terminHinweise.titel) {
+                        <span class="kgv-error-text" role="alert">{{ terminHinweise.titel }}</span>
                       }
-                    </div>
-                  </section>
+                    </label>
 
-                  <section class="admin-panel admin-panel--upload" aria-labelledby="admin-upload-titel">
-                    <h4 id="admin-upload-titel">Neue Rechnung hochladen</h4>
-                    <form class="admin-upload-form kgv-form" (ngSubmit)="rechnungHochladen()">
-                      <label class="kgv-field">
-                        <span class="kgv-label">Rechnungsdatum</span>
-                        <input class="kgv-input" type="date" name="rechnungDatum" [ngModel]="rechnungUpload.datum" (ngModelChange)="rechnungUploadFeldAktualisieren('datum', $event)" required>
-                      </label>
-
-                      <label class="kgv-field">
-                        <span class="kgv-label">Bezeichnung</span>
-                        <input class="kgv-input" [class.kgv-input--invalid]="rechnungUploadHinweise.name" type="text" name="rechnungName" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="rechnungUpload.name" (ngModelChange)="rechnungUploadFeldAktualisieren('name', $event)" required>
-                        @if (rechnungUploadHinweise.name) {
-                          <span class="kgv-error-text" role="alert">{{ rechnungUploadHinweise.name }}</span>
-                        }
-                      </label>
-
-                      <label class="kgv-field">
-                        <span class="kgv-label">Betrag</span>
-                        <input class="kgv-input" [class.kgv-input--invalid]="rechnungUploadHinweise.betrag" type="text" name="rechnungBetrag" maxlength="50" pattern="[A-Za-z0-9!?#*]{1,50}" [ngModel]="rechnungUpload.betrag" (ngModelChange)="rechnungUploadFeldAktualisieren('betrag', $event)" required>
-                        @if (rechnungUploadHinweise.betrag) {
-                          <span class="kgv-error-text" role="alert">{{ rechnungUploadHinweise.betrag }}</span>
-                        }
-                      </label>
-
-                      <div class="kgv-field">
-                        <span class="kgv-label">PDF-Datei</span>
-                        <div class="file-upload">
-                          <input id="rechnungDatei" class="file-upload__input" type="file" name="rechnungDatei" accept="application/pdf" (change)="rechnungDateiAuswaehlen($event)" required>
-                          <label class="file-upload__button" for="rechnungDatei">
-                            <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
-                            PDF auswählen
-                          </label>
-                          <span class="file-upload__name">{{ ausgewaehlteRechnungDatei || 'Keine Datei ausgewählt' }}</span>
-                        </div>
-                      </div>
-
-                      @if (uploadFehler) {
-                        <p class="kgv-error-text" role="alert">{{ uploadFehler }}</p>
+                    <label class="kgv-field">
+                      <span class="kgv-label">Slug</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="terminHinweise.slug" type="text" name="terminSlug" maxlength="80" [ngModel]="terminFormular.slug" (ngModelChange)="terminFeldAktualisieren('slug', $event)" required>
+                      @if (terminHinweise.slug) {
+                        <span class="kgv-error-text" role="alert">{{ terminHinweise.slug }}</span>
                       }
+                    </label>
+                  </div>
 
-                      @if (uploadBestaetigung) {
-                        <p class="form-status" role="status">{{ uploadBestaetigung }}</p>
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Startdatum</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="terminHinweise.datumISO" type="date" name="terminDatum" [ngModel]="terminFormular.datumISO" (ngModelChange)="terminFeldAktualisieren('datumISO', $event)" required>
+                      @if (terminHinweise.datumISO) {
+                        <span class="kgv-error-text" role="alert">{{ terminHinweise.datumISO }}</span>
                       }
+                    </label>
 
-                      <button class="kgv-button kgv-button--small" type="submit" [disabled]="!istRechnungUploadGueltig()">
-                        Rechnung übernehmen
-                        <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
-                      </button>
-                    </form>
-                  </section>
+                    <label class="kgv-field">
+                      <span class="kgv-label">Enddatum optional</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="terminHinweise.datumEndeISO" type="date" name="terminDatumEnde" [ngModel]="terminFormular.datumEndeISO" (ngModelChange)="terminFeldAktualisieren('datumEndeISO', $event)">
+                      @if (terminHinweise.datumEndeISO) {
+                        <span class="kgv-error-text" role="alert">{{ terminHinweise.datumEndeISO }}</span>
+                      }
+                    </label>
+                  </div>
 
-                  <section class="admin-panel" aria-labelledby="admin-letzte-zaehler-titel">
-                    <h4 id="admin-letzte-zaehler-titel">Letzte Zählerstände</h4>
-                    <div class="admin-meter-values">
-                      <article>
-                        <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
-                        <div>
-                          <strong>{{ letzteZaehlerstaendeFuerGarten(garten).strom }} kWh</strong>
-                          <p>Strom</p>
-                        </div>
-                      </article>
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Zeit</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="terminHinweise.zeit" type="text" name="terminZeit" maxlength="80" [ngModel]="terminFormular.zeit" (ngModelChange)="terminFeldAktualisieren('zeit', $event)" required>
+                      @if (terminHinweise.zeit) {
+                        <span class="kgv-error-text" role="alert">{{ terminHinweise.zeit }}</span>
+                      }
+                    </label>
 
-                      <article>
-                        <span class="material-symbols-outlined" aria-hidden="true">water_drop</span>
-                        <div>
-                          <strong>{{ letzteZaehlerstaendeFuerGarten(garten).wasser }} m³</strong>
-                          <p>Wasser</p>
-                        </div>
-                      </article>
-                    </div>
-                  </section>
+                    <label class="kgv-field">
+                      <span class="kgv-label">Ort</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="terminHinweise.ort" type="text" name="terminOrt" maxlength="80" [ngModel]="terminFormular.ort" (ngModelChange)="terminFeldAktualisieren('ort', $event)" required>
+                      @if (terminHinweise.ort) {
+                        <span class="kgv-error-text" role="alert">{{ terminHinweise.ort }}</span>
+                      }
+                    </label>
+                  </div>
 
-                  <section class="admin-panel" aria-labelledby="admin-neue-zaehler-titel">
-                    <h4 id="admin-neue-zaehler-titel">Neu eingetroffene Zählerstände</h4>
-                    @if (neueZaehlerEingaengeFuerGarten(garten.gartennummer).length > 0) {
-                      <div class="admin-new-meter-list">
-                        @for (eintrag of neueZaehlerEingaengeFuerGarten(garten.gartennummer); track eintrag.id) {
-                          <article>
-                            <span>{{ eintrag.datum }}</span>
-                            <strong>{{ eintrag.typ === 'strom' ? 'Strom' : 'Wasser' }} · {{ eintrag.wert }} {{ eintrag.typ === 'strom' ? 'kWh' : 'm³' }}</strong>
-                            <p>{{ eintrag.name }}</p>
-                          </article>
-                        }
-                      </div>
-                    } @else {
-                      <p class="admin-empty">Für diesen Garten liegen keine neuen Zählerstandsmeldungen vor.</p>
+                  <div class="admin-choice admin-choice--colors" aria-label="Terminkategorie wählen">
+                    @for (kategorie of terminKategorien; track kategorie) {
+                      <button class="admin-choice__button admin-choice__button--color" [class.admin-choice__button--active]="terminFormular.kategorie === kategorie" [class.admin-color-pill--salbei]="terminAkzentFuerKategorie(kategorie) === 'salbei'" [class.admin-color-pill--lavendel]="terminAkzentFuerKategorie(kategorie) === 'lavendel'" [class.admin-color-pill--sand]="terminAkzentFuerKategorie(kategorie) === 'sand'" [class.admin-color-pill--nacht]="terminAkzentFuerKategorie(kategorie) === 'nacht'" type="button" (click)="terminKategorieSetzen(kategorie)">{{ kategorie }}</button>
                     }
-                  </section>
+                  </div>
+
+                  <label class="kgv-field">
+                    <span class="kgv-label">Kalender-Kurztext</span>
+                    <input class="kgv-input" [class.kgv-input--invalid]="terminHinweise.kalenderKurz" type="text" name="terminKalenderKurz" maxlength="80" [ngModel]="terminFormular.kalenderKurz" (ngModelChange)="terminFeldAktualisieren('kalenderKurz', $event)" required>
+                    @if (terminHinweise.kalenderKurz) {
+                      <span class="kgv-error-text" role="alert">{{ terminHinweise.kalenderKurz }}</span>
+                    }
+                  </label>
+
+                  <label class="kgv-field">
+                    <span class="kgv-label">Kurztext</span>
+                    <textarea class="kgv-textarea" [class.kgv-input--invalid]="terminHinweise.kurztext" name="terminKurztext" maxlength="220" [ngModel]="terminFormular.kurztext" (ngModelChange)="terminFeldAktualisieren('kurztext', $event)" required></textarea>
+                    @if (terminHinweise.kurztext) {
+                      <span class="kgv-error-text" role="alert">{{ terminHinweise.kurztext }}</span>
+                    }
+                  </label>
+
+                  @if (terminStatus.text) {
+                    <p class="admin-crud-status" [class.admin-crud-status--error]="terminStatus.typ === 'fehler'" role="status">{{ terminStatus.text }}</p>
+                  }
+
+                  <button class="kgv-button" type="submit" [disabled]="!istTerminFormularGueltig()">
+                    {{ terminModus === 'bearbeiten' ? 'Termin speichern' : 'Termin erstellen' }}
+                    <span class="material-symbols-outlined" aria-hidden="true">save</span>
+                  </button>
+                </form>
+              </div>
+            </section>
+          }
+
+          @if (aktiverAdminBereich === 'vereinshaus') {
+            <section class="admin-crud kgv-card" aria-labelledby="admin-vereinshaus-titel">
+              <header class="admin-crud__head">
+                <div>
+                  <p class="kgv-eyebrow">Vereinshausvermietung</p>
+                  <h3 id="admin-vereinshaus-titel">Vermietungen und Sperrzeiten</h3>
+                  <p>Für die öffentliche Vermietungsseite werden nur Vermietungen und Sperrzeiten gepflegt. Interne Vereinshaus-Termine laufen später über den gemeinsamen Kalender.</p>
                 </div>
-              </article>
-            }
-          </div>
+                <button class="kgv-button kgv-button--secondary kgv-button--small" type="button" (click)="vereinshausNeu()">
+                  <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                  Neue Belegung
+                </button>
+              </header>
+
+              <div class="admin-crud-tools">
+                <label class="admin-search kgv-field">
+                  <span class="kgv-label">Vereinshaus suchen</span>
+                  <input class="kgv-input" type="search" name="vereinshausSuche" maxlength="80" placeholder="Titel oder Datum suchen" [ngModel]="vereinshausSuche" (ngModelChange)="vereinshausSucheAktualisieren($event)">
+                </label>
+
+                <div class="admin-color-legend" aria-label="Vereinshausfarben">
+                  <span class="admin-color-pill admin-color-pill--lavendel">Vermietung</span>
+                  <span class="admin-color-pill admin-color-pill--sand">Sperrung</span>
+                </div>
+              </div>
+
+              <div class="admin-crud__layout">
+                <div class="admin-crud__list" aria-label="Verwaltete Vereinshausbelegungen">
+                  @if (verwalteteVereinshausBelegungenGefiltert().length) {
+                    @for (belegung of verwalteteVereinshausBelegungenGefiltert(); track belegung.id) {
+                      <article class="admin-crud-item" [class.admin-crud-item--internal]="belegung.art === 'sperrung'">
+                        <span>{{ formatiereDatumsbereichKurz(belegung.datumISO, belegung.datumEndeISO) }}</span>
+                        <span class="admin-color-pill admin-color-pill--small" [class.admin-color-pill--lavendel]="belegung.art === 'vermietung'" [class.admin-color-pill--sand]="belegung.art === 'sperrung'">{{ belegung.typ }}</span>
+                        <h4>{{ belegung.titel }}</h4>
+                        <p>{{ belegung.kurztext }}</p>
+                        <div class="admin-crud-item__actions">
+                          <button type="button" (click)="vereinshausBearbeiten(belegung)">Bearbeiten</button>
+                          <button type="button" (click)="vereinshausLoeschen(belegung.id)">Löschen</button>
+                        </div>
+                      </article>
+                    }
+                  } @else {
+                    <p class="admin-empty-state">Keine Vereinshausbelegung zur aktuellen Suche gefunden.</p>
+                  }
+                </div>
+
+                <form class="admin-crud-form kgv-form" (ngSubmit)="vereinshausSpeichern()" aria-label="Vereinshausformular">
+                  <div class="admin-crud-form__title">
+                    <h4>{{ vereinshausModus === 'bearbeiten' ? 'Belegung bearbeiten' : 'Belegung erstellen' }}</h4>
+                    <span class="admin-color-pill" [class.admin-color-pill--lavendel]="vereinshausFormular.art === 'vermietung'" [class.admin-color-pill--sand]="vereinshausFormular.art === 'sperrung'">{{ vereinshausFormular.typ }}</span>
+                  </div>
+
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Startdatum</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="vereinshausHinweise.datumISO" type="date" name="vereinshausDatum" [ngModel]="vereinshausFormular.datumISO" (ngModelChange)="vereinshausFeldAktualisieren('datumISO', $event)" required>
+                      @if (vereinshausHinweise.datumISO) {
+                        <span class="kgv-error-text" role="alert">{{ vereinshausHinweise.datumISO }}</span>
+                      }
+                    </label>
+
+                    <label class="kgv-field">
+                      <span class="kgv-label">Enddatum optional</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="vereinshausHinweise.datumEndeISO" type="date" name="vereinshausDatumEnde" [ngModel]="vereinshausFormular.datumEndeISO" (ngModelChange)="vereinshausFeldAktualisieren('datumEndeISO', $event)">
+                      @if (vereinshausHinweise.datumEndeISO) {
+                        <span class="kgv-error-text" role="alert">{{ vereinshausHinweise.datumEndeISO }}</span>
+                      }
+                    </label>
+                  </div>
+
+                  <div class="admin-choice admin-choice--colors" aria-label="Belegungsart wählen">
+                    <button class="admin-choice__button admin-choice__button--color admin-color-pill--lavendel" [class.admin-choice__button--active]="vereinshausFormular.art === 'vermietung'" type="button" (click)="vereinshausArtSetzen('vermietung')">Vermietung</button>
+                    <button class="admin-choice__button admin-choice__button--color admin-color-pill--sand" [class.admin-choice__button--active]="vereinshausFormular.art === 'sperrung'" type="button" (click)="vereinshausArtSetzen('sperrung')">Sperrung</button>
+                  </div>
+
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Titel</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="vereinshausHinweise.titel" type="text" name="vereinshausTitel" maxlength="80" [ngModel]="vereinshausFormular.titel" (ngModelChange)="vereinshausFeldAktualisieren('titel', $event)" required>
+                      @if (vereinshausHinweise.titel) {
+                        <span class="kgv-error-text" role="alert">{{ vereinshausHinweise.titel }}</span>
+                      }
+                    </label>
+
+                    <label class="kgv-field">
+                      <span class="kgv-label">Zeit</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="vereinshausHinweise.zeit" type="text" name="vereinshausZeit" maxlength="80" [ngModel]="vereinshausFormular.zeit" (ngModelChange)="vereinshausFeldAktualisieren('zeit', $event)" required>
+                      @if (vereinshausHinweise.zeit) {
+                        <span class="kgv-error-text" role="alert">{{ vereinshausHinweise.zeit }}</span>
+                      }
+                    </label>
+                  </div>
+
+                  <label class="kgv-field">
+                    <span class="kgv-label">Kurztext</span>
+                    <textarea class="kgv-textarea" [class.kgv-input--invalid]="vereinshausHinweise.kurztext" name="vereinshausKurztext" maxlength="220" [ngModel]="vereinshausFormular.kurztext" (ngModelChange)="vereinshausFeldAktualisieren('kurztext', $event)" required></textarea>
+                    @if (vereinshausHinweise.kurztext) {
+                      <span class="kgv-error-text" role="alert">{{ vereinshausHinweise.kurztext }}</span>
+                    }
+                  </label>
+
+                  <p class="admin-inline-note">Typ und Kalendertext werden automatisch gesetzt: Vermietung erscheint als „Vermietet“, Sperrzeiten als „Gesperrt“.</p>
+
+                  @if (vereinshausStatus.text) {
+                    <p class="admin-crud-status" [class.admin-crud-status--error]="vereinshausStatus.typ === 'fehler'" role="status">{{ vereinshausStatus.text }}</p>
+                  }
+
+                  <button class="kgv-button" type="submit" [disabled]="!istVereinshausFormularGueltig()">
+                    {{ vereinshausModus === 'bearbeiten' ? 'Belegung speichern' : 'Belegung erstellen' }}
+                    <span class="material-symbols-outlined" aria-hidden="true">save</span>
+                  </button>
+                </form>
+              </div>
+            </section>
+          }
+
+          @if (aktiverAdminBereich === 'gartenwissen') {
+            <section class="admin-crud kgv-card" aria-labelledby="admin-gartenwissen-titel">
+              <header class="admin-crud__head">
+                <div>
+                  <p class="kgv-eyebrow">Gartenwissen</p>
+                  <h3 id="admin-gartenwissen-titel">Beiträge erstellen, bearbeiten und löschen</h3>
+                  <p>Gartenwissen wird als strukturierter Inhalt gepflegt: Kategorie, Merksatz, Schritte, Hinweise und Tags bleiben sauber getrennt.</p>
+                </div>
+                <button class="kgv-button kgv-button--secondary kgv-button--small" type="button" (click)="gartenwissenNeu()">
+                  <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                  Neuer Beitrag
+                </button>
+              </header>
+
+              <div class="admin-crud__layout admin-crud__layout--wide-form">
+                <div class="admin-crud__list" aria-label="Verwaltete Gartenwissen-Beiträge">
+                  @for (beitrag of verwalteteGartenwissen(); track beitrag.slug) {
+                    <article class="admin-crud-item">
+                      <span>{{ beitrag.kategorie }} · {{ beitrag.aufwand }}</span>
+                      <h4>{{ beitrag.titel }}</h4>
+                      <p>{{ beitrag.kurztext }}</p>
+                      <div class="admin-crud-item__actions">
+                        <button type="button" (click)="gartenwissenBearbeiten(beitrag)">Bearbeiten</button>
+                        <button type="button" (click)="gartenwissenLoeschen(beitrag.slug)">Löschen</button>
+                      </div>
+                    </article>
+                  }
+                </div>
+
+                <form class="admin-crud-form kgv-form" (ngSubmit)="gartenwissenSpeichern()" aria-label="Gartenwissenformular">
+                  <div class="admin-crud-form__title">
+                    <h4>{{ gartenwissenModus === 'bearbeiten' ? 'Beitrag bearbeiten' : 'Beitrag erstellen' }}</h4>
+                    <span>{{ gartenwissenFormular.kategorie }}</span>
+                  </div>
+
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Titel</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.titel" type="text" name="wissenTitel" maxlength="120" [ngModel]="gartenwissenFormular.titel" (ngModelChange)="gartenwissenFeldAktualisieren('titel', $event)" required>
+                      @if (gartenwissenHinweise.titel) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.titel }}</span>
+                      }
+                    </label>
+
+                    <label class="kgv-field">
+                      <span class="kgv-label">Slug</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.slug" type="text" name="wissenSlug" maxlength="80" [ngModel]="gartenwissenFormular.slug" (ngModelChange)="gartenwissenFeldAktualisieren('slug', $event)" required>
+                      @if (gartenwissenHinweise.slug) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.slug }}</span>
+                      }
+                    </label>
+                  </div>
+
+                  <div class="admin-choice" aria-label="Gartenwissen-Kategorie wählen">
+                    @for (kategorie of gartenwissenKategorien; track kategorie) {
+                      <button class="admin-choice__button" [class.admin-choice__button--active]="gartenwissenFormular.kategorie === kategorie" type="button" (click)="gartenwissenKategorieSetzen(kategorie)">{{ kategorie }}</button>
+                    }
+                  </div>
+
+                  <div class="admin-choice" aria-label="Aufwand wählen">
+                    @for (aufwand of gartenwissenAufwand; track aufwand) {
+                      <button class="admin-choice__button" [class.admin-choice__button--active]="gartenwissenFormular.aufwand === aufwand" type="button" (click)="gartenwissenAufwandSetzen(aufwand)">{{ aufwand }}</button>
+                    }
+                  </div>
+
+                  <label class="kgv-field">
+                    <span class="kgv-label">Kurztext</span>
+                    <textarea class="kgv-textarea" [class.kgv-input--invalid]="gartenwissenHinweise.kurztext" name="wissenKurztext" maxlength="240" [ngModel]="gartenwissenFormular.kurztext" (ngModelChange)="gartenwissenFeldAktualisieren('kurztext', $event)" required></textarea>
+                    @if (gartenwissenHinweise.kurztext) {
+                      <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.kurztext }}</span>
+                    }
+                  </label>
+
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Saison</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.saison" type="text" name="wissenSaison" maxlength="120" [ngModel]="gartenwissenFormular.saison" (ngModelChange)="gartenwissenFeldAktualisieren('saison', $event)" required>
+                      @if (gartenwissenHinweise.saison) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.saison }}</span>
+                      }
+                    </label>
+
+                    <label class="kgv-field">
+                      <span class="kgv-label">Dauer</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.dauer" type="text" name="wissenDauer" maxlength="120" [ngModel]="gartenwissenFormular.dauer" (ngModelChange)="gartenwissenFeldAktualisieren('dauer', $event)" required>
+                      @if (gartenwissenHinweise.dauer) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.dauer }}</span>
+                      }
+                    </label>
+                  </div>
+
+                  <label class="kgv-field">
+                    <span class="kgv-label">Merksatz</span>
+                    <textarea class="kgv-textarea" [class.kgv-input--invalid]="gartenwissenHinweise.merksatz" name="wissenMerksatz" maxlength="240" [ngModel]="gartenwissenFormular.merksatz" (ngModelChange)="gartenwissenFeldAktualisieren('merksatz', $event)" required></textarea>
+                    @if (gartenwissenHinweise.merksatz) {
+                      <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.merksatz }}</span>
+                    }
+                  </label>
+
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Icon</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.icon" type="text" name="wissenIcon" maxlength="120" [ngModel]="gartenwissenFormular.icon" (ngModelChange)="gartenwissenFeldAktualisieren('icon', $event)" required>
+                      @if (gartenwissenHinweise.icon) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.icon }}</span>
+                      }
+                    </label>
+
+                    <label class="kgv-field">
+                      <span class="kgv-label">Tags</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.tagsText" type="text" name="wissenTags" maxlength="180" [ngModel]="gartenwissenFormular.tagsText" (ngModelChange)="gartenwissenFeldAktualisieren('tagsText', $event)" required>
+                      @if (gartenwissenHinweise.tagsText) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.tagsText }}</span>
+                      }
+                    </label>
+                  </div>
+
+                  <label class="kgv-field">
+                    <span class="kgv-label">Schritte, eine Zeile pro Schritt</span>
+                    <textarea class="kgv-textarea admin-crud-form__textarea-large" [class.kgv-input--invalid]="gartenwissenHinweise.schritteText" name="wissenSchritte" maxlength="900" [ngModel]="gartenwissenFormular.schritteText" (ngModelChange)="gartenwissenFeldAktualisieren('schritteText', $event)" required></textarea>
+                    @if (gartenwissenHinweise.schritteText) {
+                      <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.schritteText }}</span>
+                    }
+                  </label>
+
+                  <label class="kgv-field">
+                    <span class="kgv-label">Hinweise, eine Zeile pro Hinweis</span>
+                    <textarea class="kgv-textarea admin-crud-form__textarea-large" [class.kgv-input--invalid]="gartenwissenHinweise.hinweiseText" name="wissenHinweise" maxlength="900" [ngModel]="gartenwissenFormular.hinweiseText" (ngModelChange)="gartenwissenFeldAktualisieren('hinweiseText', $event)" required></textarea>
+                    @if (gartenwissenHinweise.hinweiseText) {
+                      <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.hinweiseText }}</span>
+                    }
+                  </label>
+
+                  <div class="kgv-form-row">
+                    <label class="kgv-field">
+                      <span class="kgv-label">Bildpfad</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.bild" type="text" name="wissenBild" maxlength="120" [ngModel]="gartenwissenFormular.bild" (ngModelChange)="gartenwissenFeldAktualisieren('bild', $event)" required>
+                      @if (gartenwissenHinweise.bild) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.bild }}</span>
+                      }
+                    </label>
+
+                    <label class="kgv-field">
+                      <span class="kgv-label">Bildbeschreibung</span>
+                      <input class="kgv-input" [class.kgv-input--invalid]="gartenwissenHinweise.bildAlt" type="text" name="wissenBildAlt" maxlength="120" [ngModel]="gartenwissenFormular.bildAlt" (ngModelChange)="gartenwissenFeldAktualisieren('bildAlt', $event)" required>
+                      @if (gartenwissenHinweise.bildAlt) {
+                        <span class="kgv-error-text" role="alert">{{ gartenwissenHinweise.bildAlt }}</span>
+                      }
+                    </label>
+                  </div>
+
+                  @if (gartenwissenStatus.text) {
+                    <p class="admin-crud-status" [class.admin-crud-status--error]="gartenwissenStatus.typ === 'fehler'" role="status">{{ gartenwissenStatus.text }}</p>
+                  }
+
+                  <button class="kgv-button" type="submit" [disabled]="!istGartenwissenFormularGueltig()">
+                    {{ gartenwissenModus === 'bearbeiten' ? 'Beitrag speichern' : 'Beitrag erstellen' }}
+                    <span class="material-symbols-outlined" aria-hidden="true">save</span>
+                  </button>
+                </form>
+              </div>
+            </section>
+          }
+
+          @if (aktiverAdminBereich === 'popup') {
+            <section class="admin-crud admin-crud--popup kgv-card" aria-labelledby="admin-popup-titel">
+              <header class="admin-crud__head">
+                <div>
+                  <p class="kgv-eyebrow">Startseiten-Pop-up</p>
+                  <h3 id="admin-popup-titel">Pop-up-Inhalte pflegen</h3>
+                  <p>Das Startseiten-Template bleibt fest zweispaltig: links Bild, rechts Text und Aktion. Alte Pop-ups können bearbeitet oder als Vorlage für das nächste Jahr übernommen werden.</p>
+                </div>
+                <button class="kgv-button kgv-button--secondary kgv-button--small" type="button" (click)="popupNeu()">
+                  <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                  Neues Pop-up
+                </button>
+              </header>
+
+              <div class="admin-crud__layout admin-crud__layout--popup">
+                <div class="admin-crud__list" aria-label="Verwaltete Startseiten-Pop-ups">
+                  @for (popup of verwalteteStartseitenPopups(); track popup.id) {
+                    <article class="admin-crud-item admin-popup-list-item">
+                      <img [src]="popup.bild" [alt]="popup.bildAlt" loading="lazy">
+                      <div class="admin-popup-list-item__content">
+                        <span>{{ formatiereDatumKurz(popup.datumISO) }} · gültig bis {{ formatiereDatumKurz(popup.gueltigBisISO) }}</span>
+                        <span class="admin-color-pill admin-color-pill--small" [class.admin-color-pill--salbei]="popup.aktiv" [class.admin-color-pill--sand]="!popup.aktiv">{{ popup.aktiv ? 'Aktiv' : 'Inaktiv' }}</span>
+                        <h4>{{ popup.titel }}</h4>
+                        <p>{{ popup.text }}</p>
+                        <small>Jahr {{ popup.jahr }} · {{ popup.buttonText }}</small>
+                        <div class="admin-crud-item__actions">
+                          <button type="button" (click)="popupBearbeiten(popup)">Bearbeiten</button>
+                          <button type="button" (click)="popupAlsVorlageNutzen(popup)">Als Vorlage nutzen</button>
+                          <button type="button" (click)="popupLoeschen(popup.id)">Löschen</button>
+                        </div>
+                      </div>
+                    </article>
+                  }
+                </div>
+
+                <div class="admin-popup-workspace">
+                  <form class="admin-crud-form kgv-form" (ngSubmit)="popupSpeichern()" aria-label="Pop-up-Formular">
+                    <div class="admin-crud-form__title">
+                      <h4>{{ popupModus === 'bearbeiten' ? 'Pop-up bearbeiten' : 'Pop-up erstellen' }}</h4>
+                      <span class="admin-color-pill" [class.admin-color-pill--salbei]="popupFormular.aktiv" [class.admin-color-pill--sand]="!popupFormular.aktiv">{{ popupFormular.aktiv ? 'Veröffentlicht' : 'Entwurf' }}</span>
+                    </div>
+
+                    <div class="admin-choice" aria-label="Pop-up-Status wählen">
+                      <button class="admin-choice__button" [class.admin-choice__button--active]="popupFormular.aktiv" type="button" (click)="popupAktivSetzen(true)">Veröffentlichen</button>
+                      <button class="admin-choice__button" [class.admin-choice__button--active]="!popupFormular.aktiv" type="button" (click)="popupAktivSetzen(false)">Als Entwurf speichern</button>
+                    </div>
+
+                    <div class="kgv-form-row">
+                      <label class="kgv-field">
+                        <span class="kgv-label">ID</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.id" type="text" name="popupId" maxlength="80" [ngModel]="popupFormular.id" (ngModelChange)="popupFeldAktualisieren('id', $event)" required>
+                        @if (popupHinweise.id) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.id }}</span>
+                        }
+                      </label>
+
+                      <label class="kgv-field">
+                        <span class="kgv-label">Jahr</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.jahr" type="text" name="popupJahr" inputmode="numeric" maxlength="4" [ngModel]="popupFormular.jahr" (ngModelChange)="popupFeldAktualisieren('jahr', $event)" required>
+                        @if (popupHinweise.jahr) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.jahr }}</span>
+                        }
+                      </label>
+                    </div>
+
+                    <div class="kgv-form-row">
+                      <label class="kgv-field">
+                        <span class="kgv-label">Kicker</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.kicker" type="text" name="popupKicker" maxlength="120" [ngModel]="popupFormular.kicker" (ngModelChange)="popupFeldAktualisieren('kicker', $event)" required>
+                        @if (popupHinweise.kicker) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.kicker }}</span>
+                        }
+                      </label>
+
+                      <label class="kgv-field">
+                        <span class="kgv-label">Titel</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.titel" type="text" name="popupTitel" maxlength="120" [ngModel]="popupFormular.titel" (ngModelChange)="popupFeldAktualisieren('titel', $event)" required>
+                        @if (popupHinweise.titel) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.titel }}</span>
+                        }
+                      </label>
+                    </div>
+
+                    <label class="kgv-field">
+                      <span class="kgv-label">Text</span>
+                      <textarea class="kgv-textarea" [class.kgv-input--invalid]="popupHinweise.text" name="popupText" maxlength="520" [ngModel]="popupFormular.text" (ngModelChange)="popupFeldAktualisieren('text', $event)" required></textarea>
+                      @if (popupHinweise.text) {
+                        <span class="kgv-error-text" role="alert">{{ popupHinweise.text }}</span>
+                      }
+                    </label>
+
+                    <div class="kgv-form-row">
+                      <label class="kgv-field">
+                        <span class="kgv-label">Pop-up-Datum</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.datumISO" type="date" name="popupDatum" [ngModel]="popupFormular.datumISO" (ngModelChange)="popupFeldAktualisieren('datumISO', $event)" required>
+                        @if (popupHinweise.datumISO) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.datumISO }}</span>
+                        }
+                      </label>
+
+                      <label class="kgv-field">
+                        <span class="kgv-label">Gültig bis</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.gueltigBisISO" type="date" name="popupGueltigBis" [ngModel]="popupFormular.gueltigBisISO" (ngModelChange)="popupFeldAktualisieren('gueltigBisISO', $event)" required>
+                        @if (popupHinweise.gueltigBisISO) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.gueltigBisISO }}</span>
+                        }
+                      </label>
+                    </div>
+
+                    <div class="kgv-form-row">
+                      <label class="kgv-field">
+                        <span class="kgv-label">Button-Text</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.buttonText" type="text" name="popupButtonText" maxlength="120" [ngModel]="popupFormular.buttonText" (ngModelChange)="popupFeldAktualisieren('buttonText', $event)" required>
+                        @if (popupHinweise.buttonText) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.buttonText }}</span>
+                        }
+                      </label>
+
+                      <label class="kgv-field">
+                        <span class="kgv-label">Interne Route</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.buttonRoute" type="text" name="popupButtonRoute" maxlength="120" [ngModel]="popupFormular.buttonRoute" (ngModelChange)="popupFeldAktualisieren('buttonRoute', $event)" required>
+                        @if (popupHinweise.buttonRoute) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.buttonRoute }}</span>
+                        }
+                      </label>
+                    </div>
+
+                    <div class="kgv-form-row">
+                      <label class="kgv-field">
+                        <span class="kgv-label">Bildpfad</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.bild" type="text" name="popupBild" maxlength="180" [ngModel]="popupFormular.bild" (ngModelChange)="popupFeldAktualisieren('bild', $event)" required>
+                        @if (popupHinweise.bild) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.bild }}</span>
+                        }
+                      </label>
+
+                      <label class="kgv-field">
+                        <span class="kgv-label">Bildbeschreibung</span>
+                        <input class="kgv-input" [class.kgv-input--invalid]="popupHinweise.bildAlt" type="text" name="popupBildAlt" maxlength="160" [ngModel]="popupFormular.bildAlt" (ngModelChange)="popupFeldAktualisieren('bildAlt', $event)" required>
+                        @if (popupHinweise.bildAlt) {
+                          <span class="kgv-error-text" role="alert">{{ popupHinweise.bildAlt }}</span>
+                        }
+                      </label>
+                    </div>
+
+                    @if (popupStatus.text) {
+                      <p class="admin-crud-status" [class.admin-crud-status--error]="popupStatus.typ === 'fehler'" role="status">{{ popupStatus.text }}</p>
+                    }
+
+                    <button class="kgv-button" type="submit" [disabled]="!istPopupFormularGueltig()">
+                      {{ popupModus === 'bearbeiten' ? 'Pop-up speichern' : 'Pop-up erstellen' }}
+                      <span class="material-symbols-outlined" aria-hidden="true">save</span>
+                    </button>
+                  </form>
+
+                  <aside class="admin-popup-preview" aria-label="Vorschau des Startseiten-Pop-ups">
+                    <img [src]="popupFormular.bild" [alt]="popupFormular.bildAlt">
+                    <div>
+                      <p class="kgv-eyebrow">{{ popupFormular.kicker }}</p>
+                      <h4>{{ popupFormular.titel }}</h4>
+                      <p>{{ popupFormular.text }}</p>
+                      <span>{{ formatiereDatumKurz(popupFormular.datumISO) }} · Jahr {{ popupFormular.jahr }}</span>
+                      <button class="kgv-button kgv-button--small" type="button" disabled>{{ popupFormular.buttonText }}</button>
+                    </div>
+                  </aside>
+                </div>
+              </div>
+            </section>
+          }
         </section>
       }
     </section>

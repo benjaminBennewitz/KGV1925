@@ -173,7 +173,7 @@
 .kalender-section {
   display: grid;
   gap: clamp(0.65rem, 1.2vw, 1rem);
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto auto minmax(0, 1fr);
   height: calc(100svh - var(--kgv-header-height) - 1rem);
   min-height: 42rem;
   overflow: hidden;
@@ -277,6 +277,66 @@
   transform: translateY(-1px);
 }
 
+.kalender-tools {
+  align-items: center;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(16rem, 0.34fr) minmax(0, 1fr);
+}
+
+.kalender-search {
+  gap: 0.35rem;
+}
+
+.kalender-legende {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: end;
+}
+
+.kalender-legende__pill,
+.termin-kompakt__kategorie {
+  border: 1px solid transparent;
+  border-radius: var(--kgv-radius-round);
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 950;
+  line-height: 1;
+  padding: 0.45rem 0.65rem;
+  width: fit-content;
+}
+
+.kalender-legende__pill--salbei,
+.termin-kompakt__kategorie--salbei {
+  background: var(--kgv-surface-sage);
+  color: var(--kgv-primary);
+}
+
+.kalender-legende__pill--lavendel,
+.termin-kompakt__kategorie--lavendel {
+  background: var(--kgv-surface-lavender);
+  color: var(--kgv-secondary-hover);
+}
+
+.kalender-legende__pill--sand,
+.termin-kompakt__kategorie--sand {
+  background: color-mix(in srgb, var(--kgv-accent-sand) 24%, white);
+  color: #604300;
+}
+
+.kalender-legende__pill--nacht,
+.termin-kompakt__kategorie--nacht {
+  background: linear-gradient(135deg, #2f3f73 0%, #536aa6 100%);
+  color: var(--kgv-text-inverse);
+}
+
+.kalender-legende__pill--feiertag {
+  background: rgba(180, 35, 24, 0.1);
+  border-color: rgba(180, 35, 24, 0.22);
+  color: var(--kgv-error);
+}
+
 .kalender-layout {
   align-items: stretch;
   display: grid;
@@ -359,6 +419,24 @@
 .kalender-tag--today {
   border-color: var(--kgv-secondary);
   box-shadow: 0 0 0 3px rgba(201, 184, 232, 0.24);
+}
+
+.kalender-tag--holiday {
+  background: color-mix(in srgb, var(--kgv-accent-sand) 18%, white);
+  border-color: rgba(180, 35, 24, 0.2);
+}
+
+.kalender-holiday {
+  background: rgba(180, 35, 24, 0.1);
+  border-radius: var(--kgv-radius-sm);
+  color: var(--kgv-error);
+  font-size: clamp(0.58rem, 0.72vw, 0.68rem);
+  font-weight: 900;
+  line-height: 1.16;
+  overflow: hidden;
+  padding: 0.24rem 0.34rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .kalender-tag__kopf {
@@ -666,6 +744,16 @@
 
   .ausblick-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .kalender-tools {
+    grid-template-columns: 1fr;
+  }
+
+  .kalender-legende {
+    justify-content: start;
   }
 }
 

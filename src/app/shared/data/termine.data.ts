@@ -1,6 +1,17 @@
 /* src/app/shared/data/termine.data.ts */
 
 export type TerminAkzent = 'salbei' | 'lavendel' | 'sand' | 'nacht';
+export type TerminKategorie = 'HJ-Versammlung' | 'Vorstandssitzung' | 'Gemeinschaftsarbeit' | 'Vereinsleben';
+
+export const TERMIN_KATEGORIEN: TerminKategorie[] = ['HJ-Versammlung', 'Vorstandssitzung', 'Gemeinschaftsarbeit', 'Vereinsleben'];
+
+export const TERMIN_KATEGORIE_AKZENTE: Record<TerminKategorie, TerminAkzent> = {
+  'HJ-Versammlung': 'lavendel',
+  Vorstandssitzung: 'salbei',
+  Gemeinschaftsarbeit: 'sand',
+  Vereinsleben: 'nacht',
+};
+
 
 export interface TerminEintrag {
   slug: string;
@@ -11,7 +22,7 @@ export interface TerminEintrag {
   zeit: string;
   ort: string;
   kurztext: string;
-  kategorie: string;
+  kategorie: TerminKategorie;
   kalenderKurz: string;
   akzent: TerminAkzent;
 }
@@ -49,7 +60,7 @@ export const TERMINE: TerminEintrag[] = [
     zeit: '19:00 Uhr',
     ort: 'Vereinshaus',
     kurztext: 'Nachbesprechung Sommerfest, Planung Begehung und Sonstiges.',
-    kategorie: 'Vorstand',
+    kategorie: 'Vorstandssitzung',
     kalenderKurz: 'Vorstandssitzung',
     akzent: 'salbei',
   },
@@ -62,9 +73,9 @@ export const TERMINE: TerminEintrag[] = [
     zeit: 'ganztägig',
     ort: 'Mönchengladbach',
     kurztext: 'Bewertungszeitraum des 75. Kleingartenwettbewerbs in Mönchengladbach.',
-    kategorie: 'Wettbewerb',
+    kategorie: 'Vereinsleben',
     kalenderKurz: 'Kleingartenwettbewerb',
-    akzent: 'lavendel',
+    akzent: 'nacht',
   },
   {
     slug: 'siegerehrung-kleingartenwettbewerb-2026',
@@ -74,9 +85,9 @@ export const TERMINE: TerminEintrag[] = [
     zeit: 'Uhrzeit nach Bekanntgabe',
     ort: 'Mönchengladbach',
     kurztext: 'Bekanntgabe der Ergebnisse und Siegerehrung zum 75. Kleingartenwettbewerb.',
-    kategorie: 'Wettbewerb',
+    kategorie: 'Vereinsleben',
     kalenderKurz: 'Siegerehrung',
-    akzent: 'lavendel',
+    akzent: 'nacht',
   },
   {
     slug: 'gemeinschaftsarbeit-25-juli-2026',
@@ -134,9 +145,9 @@ export const TERMINE: TerminEintrag[] = [
     zeit: 'Uhrzeit nach Bekanntgabe',
     ort: 'Mönchengladbach',
     kurztext: 'Offizielle Ehrung der platzierten Vereine, unter anderem in Kooperation mit der mags AöR.',
-    kategorie: 'Wettbewerb',
+    kategorie: 'Vereinsleben',
     kalenderKurz: 'Offizielle Ehrung',
-    akzent: 'lavendel',
+    akzent: 'nacht',
   },
   {
     slug: 'gemeinschaftsarbeit-26-september-2026',
@@ -182,9 +193,9 @@ export const TERMINE: TerminEintrag[] = [
     zeit: '14:00–22:00 Uhr',
     ort: 'Vereinsanlage',
     kurztext: 'Sommerfest auf der Vereinsanlage mit Begegnung, Gemeinschaft und Gartenatmosphäre.',
-    kategorie: 'Rückblick',
+    kategorie: 'Vereinsleben',
     kalenderKurz: 'Sommerfest',
-    akzent: 'salbei',
+    akzent: 'nacht',
   },
   {
     slug: 'gemeinschaftsarbeit-28-maerz-2026',

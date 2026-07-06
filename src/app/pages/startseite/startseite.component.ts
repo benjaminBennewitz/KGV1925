@@ -1,9 +1,9 @@
 /* src/app/pages/startseite/startseite.component.ts */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BLOG_BEITRAEGE } from '../../shared/data/blog-beitraege.data';
-import { TERMINE } from '../../shared/data/termine.data';
+import { AdminContentService, StartseitenPopup } from '../../shared/services/admin-content.service';
 
 interface StartseitenAnlagenHinweis {
   icon: string;
@@ -21,8 +21,22 @@ interface StartseitenAnlagenHinweis {
   styleUrl: './startseite.component.scss',
 })
 export class StartseiteComponent {
+  private readonly adminContent = inject(AdminContentService);
+
   protected readonly aktuelleBeitraege = BLOG_BEITRAEGE.slice(0, 2);
-  protected readonly naechsterTermin = TERMINE[0];
+  protected istStartseitenPopupSichtbar = true;
+
+  protected get naechsterTermin() {
+    return [...this.adminContent.termine()].sort((erster, zweiter) => erster.datumISO.localeCompare(zweiter.datumISO))[0];
+  }
+
+  protected get startseitenPopup(): StartseitenPopup | null {
+    if (!this.istStartseitenPopupSichtbar) {
+      return null;
+    }
+
+    return this.adminContent.aktivesStartseitenPopup(this.heutigesDatumISO());
+  }
   protected readonly heroBild = {
     pfad: 'assets/img/hero-vereinsgarten-mock.webp',
     alt: 'Blick in eine grüne Kleingartenanlage mit Vereinshaus und bepflanztem Weg',
@@ -120,4 +134,27 @@ export class StartseiteComponent {
       label: 'Gemeinschaft',
     },
   ];
+
+  /**
+   * Schließt das aktuelle Startseiten-Pop-up lokal für die laufende Ansicht.
+   */
+  protected startseitenPopupSchliessen(): void {
+    this.istStartseitenPopupSichtbar = false;
+  }
+
+  /**
+   * Formatiert ein ISO-Datum für das Pop-up.
+   */
+  protected formatierePopupDatum(datumISO: string): string {
+    return new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(`${datumISO}T12:00:00`));
+  }
+
+  private heutigesDatumISO(): string {
+    const heute = new Date();
+    const monat = `${heute.getMonth() + 1}`.padStart(2, '0');
+    const tag = `${heute.getDate()}`.padStart(2, '0');
+
+    return `${heute.getFullYear()}-${monat}-${tag}`;
+  }
+
 }

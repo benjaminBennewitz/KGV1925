@@ -59,6 +59,20 @@
       }
     </div>
 
+    <div class="kalender-tools">
+      <label class="kalender-search kgv-field">
+        <span class="kgv-label">Termine suchen</span>
+        <input class="kgv-input" type="search" name="terminSuche" maxlength="80" placeholder="Titel oder Datum suchen" [ngModel]="terminSuche" (ngModelChange)="terminSucheAktualisieren($event)">
+      </label>
+
+      <div class="kalender-legende" aria-label="Legende der Terminfarben">
+        @for (kategorie of terminKategorien; track kategorie) {
+          <span class="kalender-legende__pill" [class.kalender-legende__pill--salbei]="farbeFuerKategorie(kategorie) === 'salbei'" [class.kalender-legende__pill--lavendel]="farbeFuerKategorie(kategorie) === 'lavendel'" [class.kalender-legende__pill--sand]="farbeFuerKategorie(kategorie) === 'sand'" [class.kalender-legende__pill--nacht]="farbeFuerKategorie(kategorie) === 'nacht'">{{ kategorie }}</span>
+        }
+        <span class="kalender-legende__pill kalender-legende__pill--feiertag">Feiertag NRW</span>
+      </div>
+    </div>
+
     <div class="kalender-layout">
       <div class="kalender-card kgv-card" aria-label="Monatskalender">
         <div class="kalender-wochentage" aria-hidden="true">
@@ -69,13 +83,19 @@
 
         <div class="kalender-grid">
           @for (tag of kalenderTage; track tag.datumISO) {
-            <article class="kalender-tag" [class.kalender-tag--muted]="!tag.istAktuellerMonat" [class.kalender-tag--today]="tag.istHeute" [class.kalender-tag--weekend]="tag.istWochenende" [class.kalender-tag--has-events]="tag.termine.length > 0">
+            <article class="kalender-tag" [class.kalender-tag--muted]="!tag.istAktuellerMonat" [class.kalender-tag--today]="tag.istHeute" [class.kalender-tag--weekend]="tag.istWochenende" [class.kalender-tag--has-events]="tag.termine.length > 0" [class.kalender-tag--holiday]="tag.feiertag">
               <header class="kalender-tag__kopf">
                 <span>{{ tag.tagZahl }}</span>
                 @if (tag.istHeute) {
                   <small>Heute</small>
+                } @else if (tag.feiertag) {
+                  <small>Feiertag</small>
                 }
               </header>
+
+              @if (tag.feiertag) {
+                <span class="kalender-holiday">{{ tag.feiertag.name }}</span>
+              }
 
               @if (tag.termine.length) {
                 <div class="kalender-tag__events">
@@ -100,6 +120,7 @@
             @for (termin of termineImAktivenMonat; track termin.slug) {
               <article class="termin-kompakt" [id]="'termin-' + termin.slug" tabindex="-1" [class.termin-kompakt--salbei]="termin.akzent === 'salbei'" [class.termin-kompakt--lavendel]="termin.akzent === 'lavendel'" [class.termin-kompakt--sand]="termin.akzent === 'sand'" [class.termin-kompakt--nacht]="termin.akzent === 'nacht'" [class.termin-kompakt--active]="termin.slug === fokussierterTerminSlug">
                 <span class="termin-kompakt__datum">{{ terminDauer(termin) }}</span>
+                <span class="termin-kompakt__kategorie" [class.termin-kompakt__kategorie--salbei]="termin.akzent === 'salbei'" [class.termin-kompakt__kategorie--lavendel]="termin.akzent === 'lavendel'" [class.termin-kompakt__kategorie--sand]="termin.akzent === 'sand'" [class.termin-kompakt__kategorie--nacht]="termin.akzent === 'nacht'">{{ termin.kategorie }}</span>
                 <h4>{{ termin.titel }}</h4>
                 <p>{{ termin.kurztext }}</p>
                 <dl>

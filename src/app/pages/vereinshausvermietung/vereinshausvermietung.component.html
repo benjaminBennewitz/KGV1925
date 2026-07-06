@@ -38,7 +38,7 @@
       <div>
         <p class="kgv-eyebrow">Verfügbarkeit</p>
         <h2 id="vermietung-kalender-titel">{{ aktiverMonatName }}</h2>
-        <p>Belegte Tage sind direkt im Kalender markiert. Vermietungen werden aus Datenschutzgründen nur als vermietet angezeigt; interne Vereinstermine bleiben benannt.</p>
+        <p>Belegte Tage sind direkt im Kalender markiert. Vermietungen und Sperrzeiten werden getrennt dargestellt; Feiertage in NRW sind zusätzlich gekennzeichnet.</p>
       </div>
 
       <div class="vermietung-kalender__switch" aria-label="Monat wechseln">
@@ -60,11 +60,19 @@
       }
     </div>
 
-    <div class="vermietung-kalender__legend" aria-label="Legende zur Verfügbarkeit">
-      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--free" aria-hidden="true"></i>Frei</span>
-      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--booked" aria-hidden="true"></i>Vermietet</span>
-      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--internal" aria-hidden="true"></i>Verein</span>
-      <span><i class="vermietung-kalender__dot vermietung-kalender__dot--weekend" aria-hidden="true"></i>Wochenende</span>
+    <div class="vermietung-kalender__tools">
+      <label class="vermietung-kalender__search kgv-field">
+        <span class="kgv-label">Belegungen durchsuchen</span>
+        <input class="kgv-input" type="search" maxlength="80" placeholder="Titel oder Datum suchen" [ngModel]="vereinshausSuche" (ngModelChange)="vereinshausSucheAktualisieren($event)" aria-label="Vereinshausbelegungen nach Titel oder Datum suchen">
+      </label>
+
+      <div class="vermietung-kalender__legend" aria-label="Legende zur Verfügbarkeit">
+        <span><i class="vermietung-kalender__dot vermietung-kalender__dot--free" aria-hidden="true"></i>Frei</span>
+        <span><i class="vermietung-kalender__dot vermietung-kalender__dot--booked" aria-hidden="true"></i>Vermietung</span>
+        <span><i class="vermietung-kalender__dot vermietung-kalender__dot--blocked" aria-hidden="true"></i>Sperrung</span>
+        <span><i class="vermietung-kalender__dot vermietung-kalender__dot--holiday" aria-hidden="true"></i>Feiertag NRW</span>
+        <span><i class="vermietung-kalender__dot vermietung-kalender__dot--weekend" aria-hidden="true"></i>Wochenende</span>
+      </div>
     </div>
 
     <div class="vermietung-kalender__layout">
@@ -77,16 +85,22 @@
 
         <div class="vermietung-kalender__grid">
           @for (tag of kalenderTage; track tag.datumISO) {
-            <article class="vermietung-kalender__tag" [class.vermietung-kalender__tag--muted]="!tag.istAktuellerMonat" [class.vermietung-kalender__tag--today]="tag.istHeute" [class.vermietung-kalender__tag--weekend]="tag.istWochenende" [class.vermietung-kalender__tag--booked]="tag.belegung?.art === 'vermietung'" [class.vermietung-kalender__tag--internal]="tag.belegung?.art === 'intern'">
+            <article class="vermietung-kalender__tag" [class.vermietung-kalender__tag--muted]="!tag.istAktuellerMonat" [class.vermietung-kalender__tag--today]="tag.istHeute" [class.vermietung-kalender__tag--weekend]="tag.istWochenende" [class.vermietung-kalender__tag--booked]="tag.belegung?.art === 'vermietung'" [class.vermietung-kalender__tag--blocked]="tag.belegung?.art === 'sperrung'" [class.vermietung-kalender__tag--holiday]="tag.feiertag">
               <header class="vermietung-kalender__tag-head">
                 <span>{{ tag.tagZahl }}</span>
                 @if (tag.istHeute) {
                   <small>Heute</small>
+                } @else if (tag.feiertag) {
+                  <small>Feiertag</small>
                 }
               </header>
 
+              @if (tag.feiertag; as feiertag) {
+                <span class="vermietung-kalender__holiday">{{ feiertag.name }}</span>
+              }
+
               @if (tag.belegung; as belegung) {
-                <button class="vermietung-kalender__event" type="button" [class.vermietung-kalender__event--internal]="belegung.art === 'intern'" (click)="fokussiereBelegung(belegung)">
+                <button class="vermietung-kalender__event" type="button" [class.vermietung-kalender__event--blocked]="belegung.art === 'sperrung'" (click)="fokussiereBelegung(belegung)">
                   {{ belegung.kalenderKurz }}
                 </button>
               } @else if (tag.istAktuellerMonat) {
@@ -105,9 +119,9 @@
         <h3 id="belegte-termine-titel">Belegte Termine</h3>
 
         <div class="vermietung-kalender__eintraege">
-          @for (belegung of belegungenImAktivenMonat; track belegung.datumISO) {
-            <article class="vermietung-kalender__eintrag" [id]="'mietbelegung-' + belegung.datumISO" tabindex="-1" [class.vermietung-kalender__eintrag--active]="belegung.datumISO === fokussierteBelegung" [class.vermietung-kalender__eintrag--internal]="belegung.art === 'intern'">
-              <span>{{ formatiereDatum(belegung.datumISO) }} · {{ belegung.typ }}</span>
+          @for (belegung of belegungenImAktivenMonat; track belegung.id) {
+            <article class="vermietung-kalender__eintrag" [id]="'mietbelegung-' + belegung.id" tabindex="-1" [class.vermietung-kalender__eintrag--active]="belegung.id === fokussierteBelegung" [class.vermietung-kalender__eintrag--blocked]="belegung.art === 'sperrung'">
+              <span>{{ formatiereDatumsbereich(belegung) }} · {{ belegung.typ }}</span>
               <h4>{{ belegung.titel }}</h4>
               <p>{{ belegung.kurztext }}</p>
               <dl>

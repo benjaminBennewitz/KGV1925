@@ -1,8 +1,9 @@
 /* src/app/pages/gartenwissen/gartenwissen.component.ts */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { GARTENWISSEN_BEITRAEGE, GARTENWISSEN_KATEGORIEN, GARTENWISSEN_MONATSCHECK, GartenwissenBeitrag, GartenwissenKategorie } from '../../shared/data/gartenwissen.data';
+import { AdminContentService } from '../../shared/services/admin-content.service';
 
 @Component({
   selector: 'app-gartenwissen',
@@ -11,12 +12,17 @@ import { GARTENWISSEN_BEITRAEGE, GARTENWISSEN_KATEGORIEN, GARTENWISSEN_MONATSCHE
   styleUrl: './gartenwissen.component.scss',
 })
 export class GartenwissenComponent {
-  protected readonly beitraege = GARTENWISSEN_BEITRAEGE;
+  private readonly adminContent = inject(AdminContentService);
+
   protected readonly kategorien = GARTENWISSEN_KATEGORIEN;
   protected readonly monatscheck = GARTENWISSEN_MONATSCHECK;
   protected aktiveKategorie: GartenwissenKategorie | 'Alle' = 'Alle';
   protected suchbegriff = '';
-  protected ausgewaehlterBeitrag = this.beitraege[0];
+  protected ausgewaehlterBeitrag = GARTENWISSEN_BEITRAEGE[0];
+
+  protected get beitraege(): GartenwissenBeitrag[] {
+    return this.adminContent.gartenwissen();
+  }
 
   protected get gefilterteBeitraege(): GartenwissenBeitrag[] {
     const suche = this.suchbegriff.trim().toLowerCase();
@@ -71,6 +77,7 @@ export class GartenwissenComponent {
     const ergebnisse = this.gefilterteBeitraege;
 
     if (!ergebnisse.length) {
+      this.ausgewaehlterBeitrag = this.beitraege[0] ?? this.ausgewaehlterBeitrag;
       return;
     }
 

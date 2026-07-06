@@ -64,6 +64,26 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
   },
   {
+    path: 'mitgliederbereich/admin/termine',
+    title: 'Termine verwalten | Adminbereich | KGV1925',
+    loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
+  },
+  {
+    path: 'mitgliederbereich/admin/vereinshaus',
+    title: 'Vereinshaus verwalten | Adminbereich | KGV1925',
+    loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
+  },
+  {
+    path: 'mitgliederbereich/admin/gartenwissen',
+    title: 'Gartenwissen verwalten | Adminbereich | KGV1925',
+    loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
+  },
+  {
+    path: 'mitgliederbereich/admin/popup',
+    title: 'Startseiten-Pop-up verwalten | Adminbereich | KGV1925',
+    loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
+  },
+  {
     path: 'mitgliederbereich/admin',
     title: 'Adminbereich | Mitgliederbereich | KGV1925',
     loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),

@@ -38,6 +38,103 @@
   gap: clamp(1.35rem, 3.5vw, 2.4rem);
 }
 
+
+.start-popup {
+  bottom: clamp(1rem, 3vw, 2rem);
+  left: clamp(1rem, 3vw, 2rem);
+  position: fixed;
+  width: min(48rem, calc(100vw - 2rem));
+  z-index: 40;
+}
+
+.start-popup__inner {
+  align-items: stretch;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(238, 245, 239, 0.98));
+  border-color: rgba(169, 191, 168, 0.72);
+  box-shadow: 0 1.4rem 3rem rgba(31, 42, 32, 0.2);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(10rem, 0.78fr) minmax(0, 1fr);
+  padding: clamp(0.78rem, 2.2vw, 1rem);
+  position: relative;
+}
+
+.start-popup__close {
+  align-items: center;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-round);
+  color: var(--kgv-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  height: 2.25rem;
+  justify-content: center;
+  position: absolute;
+  right: 0.7rem;
+  top: 0.7rem;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+  width: 2.25rem;
+}
+
+.start-popup__close:hover,
+.start-popup__close:focus-visible {
+  background: var(--kgv-primary);
+  color: var(--kgv-text-inverse);
+  outline: 2px solid rgba(49, 92, 69, 0.2);
+  outline-offset: 2px;
+  transform: translateY(-1px);
+}
+
+.start-popup__image {
+  border-radius: var(--kgv-radius-lg);
+  margin: 0;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.start-popup__image img {
+  aspect-ratio: 4 / 3;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.start-popup__content {
+  align-content: center;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.3rem 2rem 0.3rem 0;
+}
+
+.start-popup__content h2 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  line-height: 1.08;
+  margin: 0;
+}
+
+.start-popup__content p:not(.kgv-eyebrow) {
+  color: var(--kgv-text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.start-popup__date {
+  color: var(--kgv-primary);
+  font-size: 0.86rem;
+  font-weight: 950;
+  margin-top: 0.15rem;
+  text-transform: uppercase;
+}
+
+.start-popup .kgv-button {
+  justify-self: start;
+  margin-top: 0.6rem;
+}
+
 /* ==========================================================================
    02   Hero
    ========================================================================== */
@@ -710,5 +807,25 @@
 
   .stats__item:not(:last-child) {
     border-bottom: 1px solid var(--kgv-border-soft);
+  }
+}
+
+@media (max-width: 560px) {
+  .start-popup {
+    bottom: 0.75rem;
+    left: 0.75rem;
+    width: calc(100vw - 1.5rem);
+  }
+
+  .start-popup__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .start-popup__image img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .start-popup__content {
+    padding: 0;
   }
 }

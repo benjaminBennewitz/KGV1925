@@ -2,8 +2,11 @@
 
 import { DOCUMENT } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TerminEintrag, TERMINE } from '../../shared/data/termine.data';
+import { FeiertagEintrag, feiertagNrwFuerDatum } from '../../shared/data/feiertage-nrw.data';
+import { TERMIN_KATEGORIEN, TERMIN_KATEGORIE_AKZENTE, TerminEintrag, TerminKategorie } from '../../shared/data/termine.data';
+import { AdminContentService } from '../../shared/services/admin-content.service';
 
 interface KalenderTag {
   datumISO: string;
@@ -11,6 +14,7 @@ interface KalenderTag {
   istAktuellerMonat: boolean;
   istHeute: boolean;
   istWochenende: boolean;
+  feiertag: FeiertagEintrag | null;
   termine: TerminEintrag[];
 }
 
@@ -21,15 +25,18 @@ interface KalenderKurzinfo {
 
 @Component({
   selector: 'app-termine',
-  imports: [RouterLink],
+  imports: [FormsModule, RouterLink],
   templateUrl: './termine.component.html',
   styleUrl: './termine.component.scss',
 })
 export class TermineComponent {
   private readonly dokument = inject(DOCUMENT);
+  private readonly adminContent = inject(AdminContentService);
 
   protected readonly jahr = 2026;
+  protected readonly terminKategorien = TERMIN_KATEGORIEN;
   protected aktiverMonatIndex = 6;
+  protected terminSuche = '';
 
   protected readonly wochentage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
   protected readonly monate = [
@@ -46,22 +53,38 @@ export class TermineComponent {
     'November',
     'Dezember',
   ];
-  protected readonly alleTermine = TERMINE;
   protected fokussierterTerminSlug: string | null = null;
-  protected readonly heroKurzinfos: KalenderKurzinfo[] = [
-    {
-      label: 'Kalenderjahr',
-      wert: '2026',
-    },
-    {
-      label: 'Termine',
-      wert: String(TERMINE.length),
-    },
-    {
-      label: 'Monatsansicht',
-      wert: '12',
-    },
-  ];
+
+  protected get alleTermine(): TerminEintrag[] {
+    return this.adminContent.termine();
+  }
+
+  protected get gefilterteTermine(): TerminEintrag[] {
+    const suche = this.normalisiereSuche(this.terminSuche);
+
+    if (!suche) {
+      return this.alleTermine;
+    }
+
+    return this.alleTermine.filter((termin) => this.passtTerminZurSuche(termin, suche));
+  }
+
+  protected get heroKurzinfos(): KalenderKurzinfo[] {
+    return [
+      {
+        label: 'Kalenderjahr',
+        wert: '2026',
+      },
+      {
+        label: 'Termine',
+        wert: String(this.alleTermine.length),
+      },
+      {
+        label: 'Monatsansicht',
+        wert: '12',
+      },
+    ];
+  }
 
   protected get aktiverMonatName(): string {
     return `${this.monate[this.aktiverMonatIndex]} ${this.jahr}`;
@@ -75,13 +98,13 @@ export class TermineComponent {
     const monatsStart = this.erzeugeDatumString(this.jahr, this.aktiverMonatIndex, 1);
     const monatsEnde = this.erzeugeDatumString(this.jahr, this.aktiverMonatIndex, new Date(this.jahr, this.aktiverMonatIndex + 1, 0).getDate());
 
-    return this.alleTermine
+    return this.gefilterteTermine
       .filter((termin) => this.terminUeberschneidetZeitraum(termin, monatsStart, monatsEnde))
       .sort((erstes, zweites) => erstes.datumISO.localeCompare(zweites.datumISO));
   }
 
   protected get naechsteTermine(): TerminEintrag[] {
-    return this.alleTermine.slice(0, 4);
+    return this.gefilterteTermine.slice(0, 4);
   }
 
   protected get kannVorherigerMonat(): boolean {
@@ -90,6 +113,21 @@ export class TermineComponent {
 
   protected get kannNaechsterMonat(): boolean {
     return this.aktiverMonatIndex < 11;
+  }
+
+  /**
+   * Aktualisiert die Suche für Titel und Datum.
+   */
+  protected terminSucheAktualisieren(wert: string): void {
+    this.terminSuche = `${wert ?? ''}`.replace(/[^A-Za-zÄÖÜäöüß0-9 .\-:/]/g, '').slice(0, 80);
+    this.fokussierterTerminSlug = null;
+  }
+
+  /**
+   * Gibt die automatische Farbstufe einer Terminkategorie zurück.
+   */
+  protected farbeFuerKategorie(kategorie: TerminKategorie): string {
+    return TERMIN_KATEGORIE_AKZENTE[kategorie];
   }
 
   protected waehleMonat(monatIndex: number): void {
@@ -180,12 +218,13 @@ export class TermineComponent {
       istAktuellerMonat,
       istHeute: datumISO === heutigesDatum,
       istWochenende: wochentag === 0 || wochentag === 6,
+      feiertag: istAktuellerMonat ? feiertagNrwFuerDatum(datumISO) : null,
       termine: istAktuellerMonat ? this.termineFuerTag(datumISO) : [],
     };
   }
 
   private termineFuerTag(datumISO: string): TerminEintrag[] {
-    return this.alleTermine.filter((termin) => this.terminLiegtAnDatum(termin, datumISO));
+    return this.gefilterteTermine.filter((termin) => this.terminLiegtAnDatum(termin, datumISO));
   }
 
   private terminLiegtAnDatum(termin: TerminEintrag, datumISO: string): boolean {
@@ -200,6 +239,14 @@ export class TermineComponent {
     const terminEnde = termin.datumEndeISO || termin.datumISO;
 
     return terminStart <= ende && terminEnde >= start;
+  }
+
+  private passtTerminZurSuche(termin: TerminEintrag, suche: string): boolean {
+    return [termin.titel, termin.datum, termin.datumISO, termin.datumEndeISO ?? ''].some((wert) => this.normalisiereSuche(wert).includes(suche));
+  }
+
+  private normalisiereSuche(wert: string): string {
+    return `${wert ?? ''}`.toLocaleLowerCase('de-DE').replace(/\s+/g, ' ').trim();
   }
 
   private erzeugeDatumString(jahr: number, monatIndex: number, tagZahl: number): string {
