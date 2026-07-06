@@ -142,6 +142,22 @@ html.kgv-route-switching--instant .app-main__route {
   }
 }
 
+
+@media (max-width: 620px) {
+  .kgv-reveal-ready .is-kgv-reveal-pending[data-kgv-reveal='left'],
+  .kgv-reveal-ready .is-kgv-reveal-pending[data-kgv-reveal='right'] {
+    transform: translate3d(0, var(--kgv-reveal-y, 1.35rem), 0);
+  }
+
+  .kgv-reveal-ready .is-kgv-revealed[data-kgv-reveal='left'],
+  .kgv-reveal-ready .is-kgv-revealed[data-kgv-reveal='right'] {
+    @starting-style {
+      opacity: 0;
+      transform: translate3d(0, var(--kgv-reveal-y, 1.35rem), 0);
+    }
+  }
+}
+
 /* ========================================================================== 
    04   Footer Schutz
    05   Motion Reductions

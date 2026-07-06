@@ -276,7 +276,7 @@
     </div>
   </section>
 
-  <section class="kgv-section kgv-section--wide garden-section" aria-labelledby="gaerten-titel">
+  <section class="kgv-section kgv-section--wide garden-section" data-kgv-reveal-ignore aria-labelledby="gaerten-titel">
     <div class="garden-panel kgv-card">
       <div class="garden-panel__header">
         <div class="section-head">
@@ -310,7 +310,7 @@
         }
       </div>
 
-      <div class="garden-grid" data-kgv-reveal-ignore>
+      <div class="garden-grid">
         @for (garten of gefilterteGaerten; track garten.nummer) {
           <button class="garden-card kgv-card kgv-card--interactive" type="button" [class.garden-card--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
             <img [src]="garten.bild" [alt]="garten.alt">
