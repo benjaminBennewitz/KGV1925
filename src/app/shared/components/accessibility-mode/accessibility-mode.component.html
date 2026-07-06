@@ -6,7 +6,9 @@
   </button>
 
   @if (istGeoeffnet()) {
-    <div id="accessibility-panel" class="accessibility__panel" role="dialog" aria-modal="false" aria-labelledby="accessibility-title">
+    <button class="accessibility__backdrop" type="button" aria-label="Barrierefreiheit schließen" (click)="schliesseBedienfeld()"></button>
+
+    <div id="accessibility-panel" class="accessibility__panel" role="dialog" aria-modal="true" aria-labelledby="accessibility-title">
       <div class="accessibility__head">
         <div>
           <p class="accessibility__kicker">Ansicht anpassen</p>

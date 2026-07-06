@@ -35,7 +35,9 @@
 
 .site-footer {
   background: var(--kgv-primary-active);
+  margin-inline: auto;
   margin-top: clamp(3rem, 7vw, 6rem);
+  max-width: 120rem;
   min-height: 100dvh;
   overflow: hidden;
   padding: 0;

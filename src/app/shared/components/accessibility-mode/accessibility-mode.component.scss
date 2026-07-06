@@ -52,7 +52,20 @@
   justify-content: center;
   padding: 0;
   transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
+  position: relative;
   width: var(--kgv-floating-button-size, 3rem);
+  z-index: 2;
+}
+
+.accessibility__backdrop {
+  appearance: none;
+  background: rgba(24, 33, 27, 0.42);
+  border: 0;
+  display: block;
+  inset: 0;
+  padding: 0;
+  position: fixed;
+  z-index: 1;
 }
 
 .accessibility__trigger:hover,
@@ -89,6 +102,7 @@
   position: fixed;
   right: var(--kgv-floating-button-right, 1rem);
   width: min(38rem, calc(100vw - 2rem));
+  z-index: 3;
 }
 
 .accessibility__head {

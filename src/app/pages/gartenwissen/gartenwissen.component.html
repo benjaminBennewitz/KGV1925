@@ -67,24 +67,6 @@
       </div>
 
       <div class="wissen-layout">
-        <div class="wissen-grid" aria-live="polite">
-          @for (beitrag of gefilterteBeitraege; track beitrag.slug) {
-            <button type="button" class="wissen-card kgv-card kgv-card--interactive" [class.wissen-card--active]="istAusgewaehlt(beitrag)" (click)="zeigeBeitrag(beitrag)">
-              <span class="wissen-card__icon material-symbols-outlined" aria-hidden="true">{{ beitrag.icon }}</span>
-              <span class="wissen-card__category">{{ beitrag.kategorie }}</span>
-              <h3>{{ beitrag.titel }}</h3>
-              <p>{{ beitrag.kurztext }}</p>
-              <span class="wissen-card__meta">{{ beitrag.saison }} · {{ beitrag.aufwand }}</span>
-            </button>
-          } @empty {
-            <div class="wissen-empty kgv-card">
-              <span class="material-symbols-outlined" aria-hidden="true">search_off</span>
-              <h3>Keine passenden Gartentipps gefunden.</h3>
-              <p>Eine allgemeinere Suche oder eine andere Kategorie zeigt weitere Themen.</p>
-            </div>
-          }
-        </div>
-
         <article class="wissen-detail kgv-card" aria-labelledby="wissen-detail-titel">
           <div class="wissen-detail__media">
             <img [src]="ausgewaehlterBeitrag.bild" [alt]="ausgewaehlterBeitrag.bildAlt">
@@ -127,6 +109,27 @@
             </div>
           </div>
         </article>
+
+        <details class="wissen-beitraege" open>
+          <summary class="wissen-beitraege__summary">Beitragsliste öffnen</summary>
+          <div class="wissen-grid" aria-live="polite">
+            @for (beitrag of gefilterteBeitraege; track beitrag.slug) {
+              <button type="button" class="wissen-card kgv-card kgv-card--interactive" [class.wissen-card--active]="istAusgewaehlt(beitrag)" (click)="zeigeBeitrag(beitrag)">
+                <span class="wissen-card__icon material-symbols-outlined" aria-hidden="true">{{ beitrag.icon }}</span>
+                <span class="wissen-card__category">{{ beitrag.kategorie }}</span>
+                <h3>{{ beitrag.titel }}</h3>
+                <p>{{ beitrag.kurztext }}</p>
+                <span class="wissen-card__meta">{{ beitrag.saison }} · {{ beitrag.aufwand }}</span>
+              </button>
+            } @empty {
+              <div class="wissen-empty kgv-card">
+                <span class="material-symbols-outlined" aria-hidden="true">search_off</span>
+                <h3>Keine passenden Gartentipps gefunden.</h3>
+                <p>Eine allgemeinere Suche oder eine andere Kategorie zeigt weitere Themen.</p>
+              </div>
+            }
+          </div>
+        </details>
       </div>
     </section>
 

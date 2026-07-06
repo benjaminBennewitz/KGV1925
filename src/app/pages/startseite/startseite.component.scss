@@ -177,7 +177,7 @@
   display: grid;
   min-height: calc(100svh - var(--kgv-header-height));
   overflow: hidden;
-  padding: 0 clamp(1rem, 4vw, 5rem) clamp(2rem, 4vw, 3.5rem);
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 5rem) clamp(2rem, 4vw, 3.5rem);
   position: relative;
   width: 100%;
 }
