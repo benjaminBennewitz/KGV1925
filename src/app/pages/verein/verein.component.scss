@@ -62,6 +62,7 @@
   display: grid;
   gap: clamp(1.5rem, 4vw, 3rem);
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.42fr);
+  min-width: 0;
   overflow: hidden;
   padding: clamp(1.5rem, 4vw, 3rem);
   position: relative;
@@ -99,10 +100,13 @@
 
 .verein-hero__content {
   max-width: 50rem;
+  min-width: 0;
 }
 
-.verein-hero__content .kgv-heading {
+.verein-hero__content .kgv-heading,
+.verein-hero__content .kgv-subline {
   max-width: 48rem;
+  overflow-wrap: anywhere;
 }
 
 .verein-hero__badges {
@@ -114,6 +118,7 @@
 
 .verein-hero__badges span {
   align-items: center;
+  min-width: 0;
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid var(--kgv-border-soft);
   border-radius: var(--kgv-radius-round);
@@ -122,6 +127,7 @@
   font-size: 0.86rem;
   font-weight: 900;
   gap: 0.38rem;
+  overflow-wrap: anywhere;
   padding: 0.48rem 0.72rem;
 }
 
@@ -295,18 +301,75 @@
 }
 
 .person-card {
-  align-items: start;
   display: grid;
-  gap: 1rem;
-  grid-template-columns: auto 1fr;
-  padding: clamp(1rem, 2.5vw, 1.35rem);
+  gap: 0;
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(0.85rem, 2vw, 1.1rem);
+}
+
+.person-card__summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  list-style: none;
+  min-width: 0;
+}
+
+.person-card__summary::-webkit-details-marker {
+  display: none;
+}
+
+.person-card__summary-text {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.person-card__summary-text strong {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(1.08rem, 1.7vw, 1.35rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+
+.person-card__position {
+  color: var(--kgv-primary);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.person-card__toggle {
+  color: var(--kgv-text-soft);
+  font-size: 1.35rem;
+  transition: transform 180ms ease;
+}
+
+.person-card[open] .person-card__toggle {
+  transform: rotate(180deg);
+}
+
+.person-card__details {
+  display: grid;
+  gap: 0.75rem;
+  padding-top: 0.9rem;
+}
+
+details.person-card:not([open]) > .person-card__details {
+  display: none;
 }
 
 .person-card--executive {
   background:
     radial-gradient(circle at 100% 0%, rgba(169, 191, 168, 0.2), transparent 10rem),
     rgba(255, 255, 255, 0.92);
-  min-height: 14rem;
+  min-height: auto;
 }
 
 .person-card__icon {
@@ -1161,6 +1224,25 @@
   justify-self: start;
 }
 
+
+@media (min-width: 1440px) {
+  .person-card--executive {
+    min-height: 14rem;
+  }
+
+  .person-card__summary {
+    cursor: default;
+  }
+
+  .person-card__toggle {
+    display: none;
+  }
+
+  details.person-card:not([open]) > .person-card__details {
+    display: grid;
+  }
+}
+
 /* ==========================================================================
    11   Responsive
    ========================================================================== */
@@ -1291,8 +1373,24 @@
     padding: 1rem;
   }
 
+  .verein-hero__badges {
+    display: grid;
+    gap: 0.45rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .verein-hero__badges span {
-    width: 100%;
+    border-radius: var(--kgv-radius-md);
+    font-size: 0.72rem;
+    justify-content: center;
+    line-height: 1.15;
+    padding: 0.45rem 0.25rem;
+    text-align: center;
+    width: auto;
+  }
+
+  .verein-hero__badges .material-symbols-outlined {
+    font-size: 0.95rem;
   }
 
   .verein-hero__facts span {
@@ -1358,6 +1456,50 @@
 
   .garden-modal__thumbs {
     display: none;
+  }
+
+  .person-card {
+    padding: 0.78rem;
+  }
+
+  .person-card__summary {
+    gap: 0.55rem;
+  }
+
+  .person-card__icon {
+    height: 2.55rem;
+    width: 2.55rem;
+  }
+
+  .person-card__meta {
+    display: none;
+  }
+
+  .garden-modal {
+    overflow-x: hidden;
+    padding: 0.5rem;
+  }
+
+  .garden-modal__panel {
+    max-height: calc(100dvh - 1rem);
+    max-width: calc(100vw - 1rem);
+    min-width: 0;
+    overflow-x: hidden;
+    width: calc(100vw - 1rem);
+  }
+
+  .garden-modal__content {
+    overflow-wrap: anywhere;
+    padding: 1rem;
+  }
+
+  .garden-modal__close {
+    height: 2.75rem;
+    position: fixed;
+    right: 0.85rem;
+    top: 0.85rem;
+    width: 2.75rem;
+    z-index: 1302;
   }
 
   .garden-modal .kgv-button {

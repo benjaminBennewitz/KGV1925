@@ -412,10 +412,12 @@
   }
 
   .site-footer__wordmark {
-    font-size: clamp(2.75rem, 17vw, 4rem);
-    letter-spacing: 0.055em;
-    padding-top: 1.5rem;
-    text-indent: 0.055em;
+    font-size: clamp(2.65rem, 16vw, 3.65rem);
+    letter-spacing: 0.045em;
+    line-height: 0.64;
+    padding-top: 0.75rem;
+    text-indent: 0.045em;
+    transform: translateY(-0.15rem);
   }
 
   .site-footer__content {

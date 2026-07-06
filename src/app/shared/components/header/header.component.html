@@ -1,6 +1,10 @@
 <!-- src/app/shared/components/header/header.component.html -->
 
-<header class="site-header">
+@if (istMenueOffen()) {
+  <button class="nav-backdrop" type="button" aria-label="Menü schließen" (click)="schliesseMenue()"></button>
+}
+
+<header class="site-header" [class.site-header--menu-open]="istMenueOffen()">
   <a class="brand" routerLink="/" aria-label="Zur Startseite des Kleingartenvereins am Steinberg">
     <img class="brand__logo" src="assets/img/KGV1925_Logo_Marke.webp" alt="" width="72" height="72">
     <span class="brand__text">
@@ -11,10 +15,15 @@
 
   <button class="nav-toggle" type="button" [attr.aria-expanded]="istMenueOffen()" aria-controls="hauptnavigation" (click)="schalteMenue()">
     <span class="material-symbols-outlined" aria-hidden="true">menu</span>
-    <span>Menü</span>
+    <span class="nav-toggle__text">Menü</span>
   </button>
 
   <nav id="hauptnavigation" class="site-nav" [class.site-nav--open]="istMenueOffen()" aria-label="Hauptnavigation">
+    <button class="site-nav__close" type="button" aria-label="Menü schließen" (click)="schliesseMenue()">
+      <span>Navigation</span>
+      <span class="material-symbols-outlined" aria-hidden="true">close</span>
+    </button>
+
     @for (punkt of navigation; track punkt.pfad) {
       <a class="site-nav__link" [routerLink]="punkt.pfad" routerLinkActive="site-nav__link--active" [routerLinkActiveOptions]="{ exact: punkt.pfad === '/' }" [attr.title]="punkt.kurztext" (click)="schliesseMenue()">
         {{ punkt.label }}
@@ -25,7 +34,7 @@
   <div class="member-actions">
     <a class="member-link" routerLink="/mitgliederbereich">
       <span class="material-symbols-outlined" aria-hidden="true">person</span>
-      <span>Mitgliederbereich</span>
+      <span class="member-link__text">Mitgliederbereich</span>
     </a>
 
     @if (mitgliederSession.session()) {

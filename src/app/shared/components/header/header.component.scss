@@ -48,7 +48,7 @@
   position: sticky;
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: 70;
   -webkit-backdrop-filter: blur(30px) saturate(1.2);
 }
 
@@ -63,6 +63,19 @@
 
 
 .nav-backdrop {
+  appearance: none;
+  background: rgba(24, 33, 27, 0.54);
+  border: 0;
+  display: block;
+  inset: 0;
+  min-height: 100dvh;
+  padding: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 60;
+}
+
+.site-nav__close {
   display: none;
 }
 
@@ -229,6 +242,13 @@
   transform: translateY(0);
 }
 
+
+@media (min-width: 981px) {
+  .nav-backdrop {
+    display: none;
+  }
+}
+
 /* ==========================================================================
    06   Mobile Navigation
    ========================================================================== */
@@ -256,24 +276,13 @@
     grid-row: 1;
   }
 
-  .nav-backdrop {
-    appearance: none;
-    background: rgba(24, 33, 27, 0.42);
-    border: 0;
-    display: block;
-    inset: 0;
-    padding: 0;
-    position: fixed;
-    z-index: 1;
-  }
-
   .site-nav {
     align-items: stretch;
     backdrop-filter: blur(18px) saturate(1.12);
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.92);
     border: 1px solid var(--kgv-border-soft);
     border-radius: 1rem;
-    box-shadow: var(--kgv-shadow-soft);
+    box-shadow: 0 1.25rem 3rem rgba(24, 33, 27, 0.18);
     display: none;
     grid-column: 1 / -1;
     grid-row: 2;
@@ -281,6 +290,29 @@
     padding: 0.75rem;
     z-index: 3;
     -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  }
+
+  .site-nav__close {
+    align-items: center;
+    appearance: none;
+    background: var(--kgv-surface-sage);
+    border: 1px solid var(--kgv-border-soft);
+    border-radius: 0.8rem;
+    color: var(--kgv-primary);
+    display: flex;
+    font: inherit;
+    font-weight: 900;
+    gap: 0.75rem;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+    min-height: 2.75rem;
+    padding: 0.62rem 0.85rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  .site-nav__close .material-symbols-outlined {
+    font-size: 1.25rem;
   }
 
   .site-nav--open {

@@ -63,9 +63,16 @@
 
         <div class="executive-grid">
           @for (mitglied of geschaeftsfuehrenderVorstand; track mitglied.position) {
-            <article class="person-card person-card--executive kgv-card kgv-card--interactive">
-              <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
-              <div class="person-card__content">
+            <details class="person-card person-card--executive kgv-card kgv-card--interactive">
+              <summary class="person-card__summary">
+                <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
+                <span class="person-card__summary-text">
+                  <span class="person-card__position">{{ mitglied.position }}</span>
+                  <strong>{{ ermittleVorstandsname(mitglied) }}</strong>
+                </span>
+                <span class="person-card__toggle material-symbols-outlined" aria-hidden="true">expand_more</span>
+              </summary>
+              <div class="person-card__details">
                 <dl class="person-card__meta">
                   <div>
                     <dt>Position</dt>
@@ -76,10 +83,9 @@
                     <dd>{{ ermittleVorstandsname(mitglied) }}</dd>
                   </div>
                 </dl>
-                <h4>{{ ermittleVorstandsname(mitglied) }}</h4>
                 <p>{{ mitglied.taetigkeitsbeschreibung }}</p>
               </div>
-            </article>
+            </details>
           }
         </div>
       </div>
@@ -92,9 +98,16 @@
 
         <div class="assessor-grid">
           @for (mitglied of beisitzende; track $index) {
-            <article class="person-card kgv-card kgv-card--interactive">
-              <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
-              <div class="person-card__content">
+            <details class="person-card kgv-card kgv-card--interactive">
+              <summary class="person-card__summary">
+                <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
+                <span class="person-card__summary-text">
+                  <span class="person-card__position">{{ mitglied.position }}</span>
+                  <strong>{{ ermittleVorstandsname(mitglied) }}</strong>
+                </span>
+                <span class="person-card__toggle material-symbols-outlined" aria-hidden="true">expand_more</span>
+              </summary>
+              <div class="person-card__details">
                 <dl class="person-card__meta">
                   <div>
                     <dt>Position</dt>
@@ -105,10 +118,9 @@
                     <dd>{{ ermittleVorstandsname(mitglied) }}</dd>
                   </div>
                 </dl>
-                <h4>{{ ermittleVorstandsname(mitglied) }}</h4>
                 <p>{{ mitglied.taetigkeitsbeschreibung }}</p>
               </div>
-            </article>
+            </details>
           }
         </div>
       </div>
@@ -298,10 +310,10 @@
         }
       </div>
 
-      <div class="garden-grid">
+      <div class="garden-grid" data-kgv-reveal-ignore>
         @for (garten of gefilterteGaerten; track garten.nummer) {
           <button class="garden-card kgv-card kgv-card--interactive" type="button" [class.garden-card--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
-            <img [src]="garten.bild" [alt]="garten.alt" loading="lazy">
+            <img [src]="garten.bild" [alt]="garten.alt">
             <span class="garden-card__content">
               <span class="garden-card__number">Parzelle {{ formatiereGartennummer(garten.nummer) }}</span>
               <span class="garden-card__title">{{ garten.titel }}</span>

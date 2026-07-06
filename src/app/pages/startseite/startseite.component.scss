@@ -765,7 +765,11 @@
 @media (max-width: 760px) {
   .hero {
     min-height: auto;
-    padding-block: 0 clamp(2rem, 12vw, 4rem);
+    padding-block: 2rem clamp(2rem, 12vw, 4rem);
+  }
+
+  .hero__content {
+    padding-top: 0;
   }
 
   .hero::before {
