@@ -8,7 +8,7 @@
       </button>
 
       <figure class="start-popup__image">
-        <img [src]="popup.bild" [alt]="popup.bildAlt">
+        <img [src]="popup.bild" [alt]="popup.bildAlt" decoding="async" fetchpriority="low">
       </figure>
 
       <div class="start-popup__content">
@@ -58,7 +58,7 @@
       </div>
 
       <figure class="hero__visual" data-kgv-reveal="right">
-        <img [src]="heroBild.pfad" [alt]="heroBild.alt">
+        <img [src]="heroBild.pfad" [alt]="heroBild.alt" width="593" height="266" decoding="async" fetchpriority="high">
         <figcaption class="event-card">
           <span class="event-card__icon material-symbols-outlined" aria-hidden="true">calendar_month</span>
           <span class="event-card__content">
@@ -93,7 +93,7 @@
       <div class="news-list">
         @for (beitrag of aktuelleBeitraege; track beitrag.slug) {
           <article class="news-item">
-            <img [src]="beitrag.bild" alt="">
+            <img [src]="beitrag.bild" alt="" loading="lazy" decoding="async">
             <div>
               <h3><a [routerLink]="['/aktuelles', beitrag.slug]">{{ beitrag.titel }}</a></h3>
               <p>{{ beitrag.kurztext }}</p>
@@ -105,7 +105,7 @@
     </div>
 
     <aside class="welcome-card" aria-label="Willkommen im Grünen">
-      <img src="assets/img/lavendel-2_aquarell.webp" alt="" width="160">
+      <img src="assets/img/lavendel-2_aquarell.webp" alt="" width="160" height="368" loading="lazy" decoding="async">
       <h2>Willkommen im Grünen</h2>
       <p>Unsere Anlage ist mehr als nur ein Ort zum Gärtnern. Sie ist ein Raum zum Entspannen, Austauschen und Wachsen – für Jung und Alt.</p>
       <a class="kgv-button" routerLink="/verein">

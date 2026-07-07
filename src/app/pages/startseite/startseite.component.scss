@@ -183,7 +183,7 @@
 }
 
 .hero::before {
-  background: url('/assets/img/lavendel-1_aquarell.webp') left bottom / contain no-repeat;
+  background: url('assets/img/lavendel-1_aquarell.webp') left bottom / contain no-repeat;
   bottom: -2rem;
   content: '';
   height: min(30rem, 64vh);
@@ -508,7 +508,7 @@
 
 .welcome-card {
   background:
-    url('/assets/img/lavendel-2_aquarell.webp') right 1.5rem bottom 0.5rem / min(15rem, 46%) auto no-repeat,
+    url('assets/img/lavendel-2_aquarell.webp') right 1.5rem bottom 0.5rem / min(15rem, 46%) auto no-repeat,
     radial-gradient(circle at 95% 10%, rgba(201, 184, 232, 0.22), transparent 14rem),
     linear-gradient(135deg, var(--kgv-surface-sage), var(--kgv-surface));
   display: grid;

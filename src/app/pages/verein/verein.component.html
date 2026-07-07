@@ -47,7 +47,7 @@
   </section>
 
   <section class="kgv-section kgv-section--wide board-section" aria-labelledby="vorstand-titel">
-    <img class="board-section__lavendel" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
+    <img class="board-section__lavendel" src="assets/img/lavendel-2_aquarell.webp" alt="" width="641" height="1476" loading="lazy" decoding="async" aria-hidden="true">
     <div class="section-head">
       <p class="kgv-eyebrow">Vorstand</p>
       <h2 id="vorstand-titel">Ansprechpartner im Verein.</h2>
@@ -128,7 +128,7 @@
   </section>
 
   <section class="kgv-section kgv-section--wide info-section" aria-labelledby="anlage-infos-titel">
-    <img class="info-section__lavendel" src="assets/img/lavendel-1_aquarell.webp" alt="" aria-hidden="true">
+    <img class="info-section__lavendel" src="assets/img/lavendel-1_aquarell.webp" alt="" width="583" height="1476" loading="lazy" decoding="async" aria-hidden="true">
     <div class="info-section__head section-head">
       <p class="kgv-eyebrow">Anlage</p>
       <h2 id="anlage-infos-titel">Wichtige Infos für Mitglieder und Gäste.</h2>
@@ -313,7 +313,7 @@
       <div class="garden-grid">
         @for (garten of gefilterteGaerten; track garten.nummer) {
           <button class="garden-card kgv-card kgv-card--interactive" type="button" [class.garden-card--free]="garten.status === 'frei'" [attr.aria-label]="'Details zu Parzelle ' + formatiereGartennummer(garten.nummer) + ' öffnen'" (click)="oeffneGartenModal(garten)">
-            <img [src]="garten.bild" [alt]="garten.alt">
+            <img [src]="garten.bild" [alt]="garten.alt" loading="lazy" decoding="async">
             <span class="garden-card__content">
               <span class="garden-card__number">Parzelle {{ formatiereGartennummer(garten.nummer) }}</span>
               <span class="garden-card__title">{{ garten.titel }}</span>
@@ -337,7 +337,7 @@
       </button>
 
       <div class="garden-modal__media">
-        <img [src]="ermittleAktivesBild(garten.bilder).pfad" [alt]="ermittleAktivesBild(garten.bilder).alt">
+        <img [src]="ermittleAktivesBild(garten.bilder).pfad" [alt]="ermittleAktivesBild(garten.bilder).alt" loading="lazy" decoding="async">
         <span class="garden-modal__status" [class.garden-modal__status--free]="garten.status === 'frei'">
           <span class="material-symbols-outlined" aria-hidden="true">{{ ermittleStatusIcon(garten.status) }}</span>
           {{ ermittleStatusText(garten.status) }}
@@ -404,7 +404,7 @@
       </button>
 
       <div class="garden-modal__media">
-        <img [src]="ermittleAktivesBild(haus.bilder).pfad" [alt]="ermittleAktivesBild(haus.bilder).alt">
+        <img [src]="ermittleAktivesBild(haus.bilder).pfad" [alt]="ermittleAktivesBild(haus.bilder).alt" loading="lazy" decoding="async">
         <span class="garden-modal__status garden-modal__status--house">
           <span class="material-symbols-outlined" aria-hidden="true">{{ haus.icon }}</span>
           Vereinshaus

@@ -14,7 +14,7 @@
       </div>
 
       <aside class="service-hero-card kgv-card" data-kgv-reveal="right" aria-label="Service kompakt">
-        <img class="service-hero-card__lavendel" src="assets/img/lavendel-2_aquarell.webp" alt="" aria-hidden="true">
+        <img class="service-hero-card__lavendel" src="assets/img/lavendel-2_aquarell.webp" alt="" width="641" height="1476" loading="lazy" decoding="async" aria-hidden="true">
         <span class="service-hero-card__icon material-symbols-outlined" aria-hidden="true">folder_open</span>
         <p class="kgv-eyebrow">Dokumente</p>
         <h2>Unterlagen schnell finden</h2>
@@ -60,7 +60,7 @@
       @for (download of gefilterteDownloads; track download.titel) {
         <article class="download-card kgv-card kgv-card--interactive">
           <div class="download-card__media">
-            <img [src]="download.bild" [alt]="download.bildAlt">
+            <img [src]="download.bild" [alt]="download.bildAlt" loading="lazy" decoding="async">
             <span>{{ download.kategorie }}</span>
           </div>
           <div class="download-card__body">

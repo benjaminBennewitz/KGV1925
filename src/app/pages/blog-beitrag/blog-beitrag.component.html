@@ -9,7 +9,7 @@
     <p class="kgv-subline">{{ beitrag().kurztext }}</p>
   </header>
 
-  <img class="blog-detail__image" [src]="beitrag().bild" [alt]="beitrag().bildAlt">
+  <img class="blog-detail__image" [src]="beitrag().bild" [alt]="beitrag().bildAlt" loading="lazy" decoding="async">
 
   @if (beitrag().details?.length) {
     <ul class="blog-detail__facts" aria-label="Eckdaten zum Beitrag">

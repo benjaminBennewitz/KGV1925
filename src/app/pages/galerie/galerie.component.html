@@ -17,7 +17,7 @@
     <div class="masonry-gallery">
       @for (bild of bilder; track bild.titel) {
         <article class="gallery-card kgv-card" [class.gallery-card--hoch]="bild.format === 'hoch'" [class.gallery-card--gross]="bild.format === 'gross'">
-          <img [src]="bild.bild" [alt]="bild.titel">
+          <img [src]="bild.bild" [alt]="bild.titel" loading="lazy" decoding="async">
           <div class="gallery-card__content">
             <span>{{ bild.kategorie }}</span>
             <h2>{{ bild.titel }}</h2>

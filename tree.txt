@@ -120,8 +120,8 @@ KGV1925/
 │   │   │   ├── license/
 │   │   │   │   ├── OFL.txt
 │   │   │   │   └── README.txt
-│   │   │   ├── Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf
-│   │   │   ├── inter-variable.ttf
+│   │   │   ├── fraunces-variable.woff2
+│   │   │   ├── inter-variable.woff2
 │   │   │   └── material-symbols-outlined-latin-fill-normal.woff2
 │   │   └── img/
 │   │       ├── aktuelles/

@@ -33,7 +33,7 @@
   align-items: center;
   direction: ltr;
   display: inline-flex;
-  flex: 0 0 auto;
+  flex: 0 0 1em;
   font-family: 'Material Symbols Outlined', sans-serif;
   font-feature-settings: 'liga';
   font-size: 1.25em;
@@ -43,9 +43,13 @@
   justify-content: center;
   letter-spacing: normal;
   line-height: 1;
+  max-width: 1em;
+  min-width: 1em;
+  overflow: hidden;
   text-rendering: optimizeLegibility;
   text-transform: none;
   white-space: nowrap;
+  width: 1em;
   word-wrap: normal;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;

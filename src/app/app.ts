@@ -101,10 +101,6 @@ export class App implements OnInit {
         this.springeZumSeitenanfang();
         this.beendeRoutenTransition();
         this.revealService.aktualisiere();
-
-        fenster.setTimeout(() => {
-          this.revealService.aktualisiere();
-        }, 90);
       });
     });
   }
@@ -122,12 +118,6 @@ export class App implements OnInit {
     }
 
     this.revealService.aktualisiere();
-
-    const fenster = this.document.defaultView;
-
-    fenster?.setTimeout(() => {
-      this.revealService.aktualisiere();
-    }, 120);
   }
 
   /**

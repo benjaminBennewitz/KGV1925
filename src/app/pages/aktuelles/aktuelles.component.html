@@ -2,8 +2,8 @@
 
 <div class="kgv-page aktuelles-page">
   <section class="aktuelles-hero kgv-section kgv-section--wide" data-kgv-reveal-static aria-labelledby="aktuelles-titel">
-    <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--eins" src="assets/img/lavendel-1_aquarell.webp" alt="" aria-hidden="true">
-    <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--zwei" src="assets/img/lavendel-3_aquarell.webp" alt="" aria-hidden="true">
+    <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--eins" src="assets/img/lavendel-1_aquarell.webp" alt="" width="583" height="1476" loading="lazy" decoding="async" aria-hidden="true">
+    <img class="aktuelles-hero__lavendel aktuelles-hero__lavendel--zwei" src="assets/img/lavendel-3_aquarell.webp" alt="" width="1054" height="1476" loading="lazy" decoding="async" aria-hidden="true">
 
     <div class="aktuelles-hero__content">
       <p class="kgv-eyebrow">Aktuelles</p>
@@ -35,7 +35,7 @@
   <section class="kgv-section kgv-section--wide spotlight-section" aria-labelledby="hauptmeldung-titel">
     <article class="spotlight-card kgv-card">
       <a class="spotlight-card__image" [routerLink]="['/aktuelles', hauptbeitrag.slug]" [attr.aria-label]="hauptbeitrag.titel + ' öffnen'">
-        <img [src]="hauptbeitrag.bild" [alt]="hauptbeitrag.bildAlt">
+        <img [src]="hauptbeitrag.bild" [alt]="hauptbeitrag.bildAlt" loading="lazy" decoding="async">
       </a>
 
       <div class="spotlight-card__content">
@@ -77,7 +77,7 @@
       @for (beitrag of weitereBeitraege; track beitrag.slug) {
         <article class="news-card kgv-card kgv-card--interactive" [class.news-card--lavendel]="beitrag.akzent === 'lavendel'" [class.news-card--sand]="beitrag.akzent === 'sand'" [class.news-card--plan]="beitrag.slug === 'gemeinschaftsarbeit-2026'">
           <a class="news-card__image" [routerLink]="['/aktuelles', beitrag.slug]" [attr.aria-label]="beitrag.titel + ' öffnen'">
-            <img [src]="beitrag.bild" [alt]="beitrag.bildAlt">
+            <img [src]="beitrag.bild" [alt]="beitrag.bildAlt" loading="lazy" decoding="async">
           </a>
 
           <div class="news-card__content">
@@ -110,7 +110,7 @@
   </section>
 
   <section class="kgv-section kgv-section--wide lavender-note" aria-label="Hinweis zu neuen Meldungen">
-    <img src="assets/img/lavendel-4_aquarell.webp" alt="" aria-hidden="true">
+    <img src="assets/img/lavendel-4_aquarell.webp" alt="" width="748" height="1476" loading="lazy" decoding="async" aria-hidden="true">
     <div>
       <p class="kgv-eyebrow">Hinweise einreichen</p>
       <h2>Neue Meldung für die Website?</h2>

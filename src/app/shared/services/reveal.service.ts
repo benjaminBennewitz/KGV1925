@@ -26,6 +26,7 @@ export class RevealService {
   ].join(',');
 
   private observer: IntersectionObserver | null = null;
+  private updateGeplant = false;
   private readonly beobachteteElemente = new WeakSet<HTMLElement>();
 
   /**
@@ -38,8 +39,7 @@ export class RevealService {
 
     this.document.documentElement.classList.add('kgv-reveal-ready');
     this.aktualisiere();
-    this.planeNachgelagerteAktualisierung(90);
-    this.planeNachgelagerteAktualisierung(220);
+    this.planeNachgelagerteAktualisierung(160);
   }
 
   /**
@@ -56,7 +56,14 @@ export class RevealService {
       return;
     }
 
+    if (this.updateGeplant) {
+      return;
+    }
+
+    this.updateGeplant = true;
+
     fenster.requestAnimationFrame(() => {
+      this.updateGeplant = false;
       this.aktualisiereRevealElemente();
     });
   }
@@ -106,7 +113,7 @@ export class RevealService {
     }
 
     elemente.forEach((element) => {
-      if (this.istElementImViewport(element)) {
+      if (this.sollInitialDirektSichtbarSein(element)) {
         this.zeigeInitialSichtbaresElement(element);
         return;
       }
@@ -245,20 +252,10 @@ export class RevealService {
   }
 
   /**
-   * Prüft, ob ein Element schon im sichtbaren Browserbereich liegt.
+   * Prüft, ob ein Element im statischen Hero-Bereich ohne Layout-Messung sichtbar bleiben soll.
    */
-  private istElementImViewport(element: HTMLElement): boolean {
-    const fenster = this.document.defaultView;
-
-    if (!fenster) {
-      return false;
-    }
-
-    const box = element.getBoundingClientRect();
-    const viewportHoehe = fenster.innerHeight || this.document.documentElement.clientHeight;
-    const viewportBreite = fenster.innerWidth || this.document.documentElement.clientWidth;
-
-    return box.bottom >= 0 && box.right >= 0 && box.top <= viewportHoehe * 0.96 && box.left <= viewportBreite;
+  private sollInitialDirektSichtbarSein(element: HTMLElement): boolean {
+    return Boolean(element.closest('[data-kgv-reveal-static]'));
   }
 
   /**
