@@ -42,6 +42,9 @@ export class StartseiteComponent implements OnInit, OnDestroy {
   }
   protected readonly heroBild = {
     pfad: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock.webp',
+    tabletPfad: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock-820.webp',
+    mobilPfad: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock-640.webp',
+    kompaktPfad: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock-430.webp',
     alt: 'Blick in eine grüne Kleingartenanlage mit Vereinshaus und bepflanztem Weg',
   };
   protected readonly heroKurzinfos = [

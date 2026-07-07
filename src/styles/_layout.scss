@@ -148,3 +148,14 @@
     width: min(100% - 0.85rem, var(--kgv-content-width));
   }
 }
+
+@media (max-width: 1024px) {
+  .aktuelles-hero__lavendel,
+  .kontakt-hero__lavendel,
+  .mitglieder-hero__lavendel,
+  .termine-hero__lavendel,
+  .board-section__lavendel,
+  .info-section__lavendel {
+    display: none !important;
+  }
+}
