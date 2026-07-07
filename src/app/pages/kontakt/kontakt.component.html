@@ -23,7 +23,7 @@
     </div>
 
     <aside class="kontakt-hero__panel kgv-card" data-kgv-reveal="right" aria-label="Kontakt kurz zusammengefasst">
-      <span class="kontakt-hero__panel-icon material-symbols-outlined" aria-hidden="true">support_agent</span>
+      <span class="kontakt-hero__panel-icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">support_agent</span>
       <h2>Schnelle Zuordnung</h2>
       <p>Anliegen mit Gartennummer, Rückrufnummer und kurzer Beschreibung können schneller an Vorstand oder Gartenfachberatung weitergegeben werden.</p>
       <ul>
@@ -45,7 +45,7 @@
       @for (person of kontaktpersonen; track person.rolle) {
         <article class="kontakt-card kgv-card kgv-card--interactive">
           <div class="kontakt-card__top">
-            <span class="kontakt-card__icon material-symbols-outlined" aria-hidden="true">{{ person.icon }}</span>
+            <span class="kontakt-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ person.icon }}</span>
             <span class="kgv-pill">{{ person.rolle }}</span>
           </div>
           <h3>{{ person.name }}</h3>
@@ -92,7 +92,7 @@
     <div class="kontakt-info-grid">
       @for (info of kontaktInfos; track info.titel) {
         <article class="kontakt-info-card">
-          <span class="material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
+          <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
           <div>
             <h3>{{ info.titel }}</h3>
             <p>{{ info.text }}</p>

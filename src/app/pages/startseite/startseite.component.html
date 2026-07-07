@@ -47,7 +47,7 @@
         <div class="hero__facts" aria-label="Kurzinfos zum Verein">
           @for (info of heroKurzinfos; track info.titel) {
             <article class="hero__fact">
-              <span class="hero__fact-icon material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
+              <span class="hero__fact-icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
               <span>
                 <strong>{{ info.titel }}</strong>
                 <small>{{ info.text }}</small>
@@ -60,7 +60,7 @@
       <figure class="hero__visual" data-kgv-reveal="right">
         <img [src]="heroBild.pfad" [alt]="heroBild.alt" width="593" height="266" decoding="async" fetchpriority="high">
         <figcaption class="event-card">
-          <span class="event-card__icon material-symbols-outlined" aria-hidden="true">calendar_month</span>
+          <span class="event-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">calendar_month</span>
           <span class="event-card__content">
             <span class="event-card__eyebrow">Nächster Termin</span>
             <strong>{{ naechsterTermin.titel }}</strong>
@@ -75,7 +75,7 @@
   <section class="feature-grid kgv-section" aria-label="Schnelleinstiege">
     @for (karte of funktionskarten; track karte.titel) {
       <article class="feature-card kgv-card">
-        <span class="feature-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+        <span class="feature-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
         <h2>{{ karte.titel }}</h2>
         <p>{{ karte.text }}</p>
         <a [routerLink]="karte.pfad">{{ karte.linkText }} <span aria-hidden="true">→</span></a>
@@ -118,7 +118,7 @@
   <section class="stats kgv-section" aria-label="Vereinskennzahlen">
     @for (zahl of kennzahlen; track zahl.label) {
       <article class="stats__item">
-        <span class="stats__icon material-symbols-outlined" aria-hidden="true">{{ zahl.icon }}</span>
+        <span class="stats__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ zahl.icon }}</span>
         <span class="stats__content">
           <strong>{{ zahl.wert }}</strong>
           <span>{{ zahl.label }}</span>
@@ -137,7 +137,7 @@
     <div class="site-notice__grid">
       @for (hinweis of anlagenHinweise; track hinweis.titel) {
         <article class="site-notice__card">
-          <span class="site-notice__icon material-symbols-outlined" aria-hidden="true">{{ hinweis.icon }}</span>
+          <span class="site-notice__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ hinweis.icon }}</span>
           <div>
             <h3>{{ hinweis.titel }}</h3>
             <p>{{ hinweis.text }}</p>

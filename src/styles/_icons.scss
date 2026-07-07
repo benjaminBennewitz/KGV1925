@@ -71,12 +71,17 @@
   --kgv-icon-size: 3rem;
 
   align-items: center;
+  aspect-ratio: 1 / 1;
   background: var(--kgv-surface-sage);
   border-radius: var(--kgv-radius-round);
+  box-sizing: border-box;
   color: var(--kgv-primary);
   display: inline-flex;
+  flex: 0 0 auto;
   height: 3rem;
   justify-content: center;
+  max-width: none;
+  min-width: 0;
   width: 3rem;
 }
 

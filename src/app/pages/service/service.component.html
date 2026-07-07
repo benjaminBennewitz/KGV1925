@@ -15,7 +15,7 @@
 
       <aside class="service-hero-card kgv-card" data-kgv-reveal="right" aria-label="Service kompakt">
         <img class="service-hero-card__lavendel" src="/angular-projects/1925/assets/img/lavendel-2_aquarell.webp" alt="" width="641" height="1476" loading="lazy" decoding="async" aria-hidden="true">
-        <span class="service-hero-card__icon material-symbols-outlined" aria-hidden="true">folder_open</span>
+        <span class="service-hero-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">folder_open</span>
         <p class="kgv-eyebrow">Dokumente</p>
         <h2>Unterlagen schnell finden</h2>
         <p>Hausordnung, Satzung, Gartenordnung und aktuelle Planungen sind im Downloadbereich gebündelt und nach Thema durchsuchbar.</p>
@@ -31,7 +31,7 @@
   <section class="kgv-section service-grid" aria-label="Servicebereiche">
     @for (karte of serviceKarten; track karte.titel) {
       <article class="service-card kgv-card kgv-card--interactive">
-        <span class="service-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+        <span class="service-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
         <h2>{{ karte.titel }}</h2>
         <p>{{ karte.text }}</p>
         @if (karte.istAnker) {

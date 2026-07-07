@@ -26,7 +26,7 @@
   <section class="kgv-section vermietung__grid" aria-label="Ablauf der Vereinshausvermietung">
     @for (info of infos; track info.titel) {
       <article class="kgv-card vermietung-card">
-        <span class="material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
+        <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
         <h2>{{ info.titel }}</h2>
         <p>{{ info.text }}</p>
       </article>

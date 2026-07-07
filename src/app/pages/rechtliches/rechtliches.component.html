@@ -16,7 +16,7 @@
       </div>
 
       <aside class="rechtliches-notice kgv-card" data-kgv-reveal="right" aria-label="Kurzinformation">
-        <span class="rechtliches-notice__icon material-symbols-outlined" aria-hidden="true">info</span>
+        <span class="rechtliches-notice__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">info</span>
         <p class="kgv-eyebrow">Kurzinfo</p>
         <h2>{{ seite.hinweisTitel }}</h2>
         <p>{{ seite.hinweis }}</p>
@@ -27,7 +27,7 @@
   <section class="kgv-section rechtliches-overview" aria-label="Kurzüberblick">
     @for (karte of seite.karten; track karte.titel) {
       <article class="rechtliches-card kgv-card">
-        <span class="rechtliches-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+        <span class="rechtliches-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
         <h2>{{ karte.titel }}</h2>
         <p>{{ karte.text }}</p>
       </article>
@@ -74,7 +74,7 @@
               @for (link of abschnitt.aktionen; track link.label) {
                 @if (link.pfad) {
                   <a class="rechtliches-action" [class.rechtliches-action--highlight]="link.hervorgehoben" [routerLink]="link.pfad" [fragment]="link.fragment || undefined">
-                    <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                    <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
                     <span>
                       <strong>{{ link.label }}</strong>
                       <small>{{ link.text }}</small>
@@ -82,7 +82,7 @@
                   </a>
                 } @else {
                   <a class="rechtliches-action" [class.rechtliches-action--highlight]="link.hervorgehoben" [href]="link.href">
-                    <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                    <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
                     <span>
                       <strong>{{ link.label }}</strong>
                       <small>{{ link.text }}</small>
@@ -105,7 +105,7 @@
           @for (link of seite.kontaktLinks; track link.label) {
             @if (link.pfad) {
               <a [routerLink]="link.pfad" [fragment]="link.fragment || undefined" [class.rechtliches-sidebar__link--highlight]="link.hervorgehoben">
-                <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
                 <span>
                   <strong>{{ link.label }}</strong>
                   <small>{{ link.text }}</small>
@@ -113,7 +113,7 @@
               </a>
             } @else {
               <a [href]="link.href" [class.rechtliches-sidebar__link--highlight]="link.hervorgehoben">
-                <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
                 <span>
                   <strong>{{ link.label }}</strong>
                   <small>{{ link.text }}</small>

@@ -9,7 +9,7 @@
 
       <div class="verein-hero__badges" data-kgv-reveal="soft" aria-label="Schwerpunkte der Vereinsseite">
         <span>
-          <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+          <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">verified_user</span>
           <span class="verein-hero__badge-label">Vorstand</span>
         </span>
         <span>
@@ -25,7 +25,7 @@
 
     <aside class="verein-hero__panel kgv-card" data-kgv-reveal="right" aria-label="Kurzüberblick zum Verein">
       <div class="verein-hero__panel-head">
-        <span class="verein-hero__icon material-symbols-outlined" aria-hidden="true">park</span>
+        <span class="verein-hero__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">park</span>
         <p>Auf einen Blick</p>
       </div>
 
@@ -57,7 +57,7 @@
     <div class="board-layout">
       <div class="board-group" aria-labelledby="geschaeftsfuehrender-vorstand">
         <div class="board-group__title">
-          <span class="material-symbols-outlined" aria-hidden="true">verified_user</span>
+          <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">verified_user</span>
           <h3 id="geschaeftsfuehrender-vorstand">Geschäftsführender Vorstand</h3>
         </div>
 
@@ -65,7 +65,7 @@
           @for (mitglied of geschaeftsfuehrenderVorstand; track mitglied.position) {
             <details class="person-card person-card--executive kgv-card kgv-card--interactive" [attr.open]="istVorstandAufDesktopAusgeklappt() ? '' : null">
               <summary class="person-card__summary">
-                <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
+                <span class="person-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
                 <span class="person-card__summary-text">
                   <span class="person-card__position">{{ mitglied.position }}</span>
                   <strong>{{ ermittleVorstandsname(mitglied) }}</strong>
@@ -92,7 +92,7 @@
 
       <div class="board-group" aria-labelledby="beisitzende-vorstand">
         <div class="board-group__title">
-          <span class="material-symbols-outlined" aria-hidden="true">groups</span>
+          <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">groups</span>
           <h3 id="beisitzende-vorstand">Weitere Beisitzende</h3>
         </div>
 
@@ -100,7 +100,7 @@
           @for (mitglied of beisitzende; track $index) {
             <details class="person-card kgv-card kgv-card--interactive" [attr.open]="istVorstandAufDesktopAusgeklappt() ? '' : null">
               <summary class="person-card__summary">
-                <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
+                <span class="person-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
                 <span class="person-card__summary-text">
                   <span class="person-card__position">{{ mitglied.position }}</span>
                   <strong>{{ ermittleVorstandsname(mitglied) }}</strong>
@@ -138,7 +138,7 @@
     <div class="info-grid">
       @for (info of anlagenInfos; track info.titel) {
         <article class="info-card kgv-card kgv-card--interactive">
-          <span class="info-card__icon material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
+          <span class="info-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ info.icon }}</span>
           <div>
             <h3>{{ info.titel }}</h3>
             <p>{{ info.text }}</p>
@@ -161,7 +161,7 @@
       }
 
       <article class="rental-callout kgv-card">
-        <span class="rental-callout__icon material-symbols-outlined" aria-hidden="true">celebration</span>
+        <span class="rental-callout__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">celebration</span>
         <div>
           <p class="kgv-eyebrow">Vereinshaus</p>
           <h3>Feiern oder Treffen planen?</h3>
@@ -265,7 +265,7 @@
         </div>
 
         <article class="map-placeholder kgv-card" aria-label="Bereich für einen topografischen Lageplan">
-          <span class="map-placeholder__icon material-symbols-outlined" aria-hidden="true">travel_explore</span>
+          <span class="map-placeholder__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">travel_explore</span>
           <div>
             <p class="kgv-eyebrow">Full-View Lageplan</p>
             <h3>Topografischer Detailplan der Anlage</h3>

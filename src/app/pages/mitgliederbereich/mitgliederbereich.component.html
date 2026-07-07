@@ -108,7 +108,7 @@
 
           @for (karte of uebersichtskarten; track karte.titel) {
             <article class="dashboard-card kgv-card kgv-card--interactive">
-              <span class="dashboard-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+              <span class="dashboard-card__icon kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
               <span class="kgv-pill">{{ karte.meta }}</span>
               <h3>{{ karte.titel }}</h3>
               <p>{{ karte.text }}</p>
@@ -164,7 +164,7 @@
           <div class="meter-grid">
             <article class="meter-card kgv-card">
               <div class="meter-card__head">
-                <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+                <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">bolt</span>
                 <div>
                   <h3>Stromzählerstand</h3>
                   <p>Letzter Wert: {{ gespeicherteZaehlerstaende.strom }} kWh</p>
@@ -191,7 +191,7 @@
 
             <article class="meter-card kgv-card meter-card--water">
               <div class="meter-card__head">
-                <span class="material-symbols-outlined" aria-hidden="true">water_drop</span>
+                <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">water_drop</span>
                 <div>
                   <h3>Wasserzählerstand</h3>
                   <p>Letzter Wert: {{ gespeicherteZaehlerstaende.wasser }} m³</p>
@@ -229,25 +229,25 @@
 
           <div class="admin-stats" aria-label="Admin Schnellübersicht">
             <article class="admin-stat-card kgv-card">
-              <span class="material-symbols-outlined" aria-hidden="true">notifications_active</span>
+              <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">notifications_active</span>
               <strong>{{ neueZaehlerstaende().length }}</strong>
               <p>neue Zählerstandsmeldungen</p>
             </article>
 
             <article class="admin-stat-card kgv-card admin-stat-card--lavender">
-              <span class="material-symbols-outlined" aria-hidden="true">event_note</span>
+              <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">event_note</span>
               <strong>{{ verwalteteTermine().length }}</strong>
               <p>Vereinstermine</p>
             </article>
 
             <article class="admin-stat-card kgv-card admin-stat-card--sand">
-              <span class="material-symbols-outlined" aria-hidden="true">house</span>
+              <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">house</span>
               <strong>{{ verwalteteVereinshausBelegungen().length }}</strong>
               <p>Vereinshausbelegungen</p>
             </article>
 
             <article class="admin-stat-card kgv-card admin-stat-card--sage">
-              <span class="material-symbols-outlined" aria-hidden="true">local_florist</span>
+              <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">local_florist</span>
               <strong>{{ verwalteteGartenwissen().length }}</strong>
               <p>Gartenwissen-Beiträge</p>
             </article>
@@ -256,7 +256,7 @@
           <nav class="admin-tabs kgv-card" aria-label="Adminbereiche">
             @for (bereich of adminBereiche; track bereich.id) {
               <button class="admin-tab" [class.admin-tab--active]="aktiverAdminBereich === bereich.id" type="button" (click)="adminBereichWechseln(bereich.id)">
-                <span class="material-symbols-outlined" aria-hidden="true">{{ bereich.icon }}</span>
+                <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">{{ bereich.icon }}</span>
                 <strong>{{ bereich.titel }}</strong>
                 <small>{{ bereich.text }}</small>
               </button>
@@ -367,7 +367,7 @@
                       <h4 id="admin-letzte-zaehler-titel">Letzte Zählerstände</h4>
                       <div class="admin-meter-values">
                         <article>
-                          <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+                          <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">bolt</span>
                           <div>
                             <strong>{{ letzteZaehlerstaendeFuerGarten(garten).strom }} kWh</strong>
                             <p>Strom</p>
@@ -375,7 +375,7 @@
                         </article>
 
                         <article>
-                          <span class="material-symbols-outlined" aria-hidden="true">water_drop</span>
+                          <span class="kgv-icon-badge material-symbols-outlined" aria-hidden="true">water_drop</span>
                           <div>
                             <strong>{{ letzteZaehlerstaendeFuerGarten(garten).wasser }} m³</strong>
                             <p>Wasser</p>
