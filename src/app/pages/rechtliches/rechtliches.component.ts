@@ -3,70 +3,113 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
+/**
+ * Erlaubte Kennungen der rechtlichen Inhaltsseiten.
+ */
 type RechtlicheSeitenId = 'impressum' | 'datenschutz' | 'barrierefreiheit';
 
+/**
+ * Beschreibt eine kurze Übersichtskarte im Kopfbereich.
+ */
 interface RechtlichesKartenElement {
-  icon: string;
-  titel: string;
-  text: string;
+  icon: string;  // Material-Symbol der Karte.
+  titel: string; // Überschrift der Karte.
+  text: string;  // Kurzbeschreibung der Karte.
 }
 
+/**
+ * Beschreibt einen internen oder externen Aktionslink.
+ */
+interface RechtlichesAktionsLink {
+  label: string;           // Sichtbare Linküberschrift.
+  text: string;            // Ergänzender Linktext.
+  icon: string;            // Material-Symbol des Links.
+  pfad?: string;           // Optionaler interner Router-Pfad.
+  fragment?: string;       // Optionaler Sprunganker für interne Links.
+  href?: string;           // Optionaler externer Link oder Protokoll-Link.
+  hervorgehoben?: boolean; // Markiert besonders wichtige Kontaktwege.
+}
+
+/**
+ * Beschreibt einen vollständigen Inhaltsabschnitt der rechtlichen Seiten.
+ */
 interface RechtlichesAbschnitt {
-  titel: string;
-  text: string[];
-  liste?: string[];
+  titel: string;                         // Überschrift des Abschnitts.
+  text: string[];                        // Textabsätze des Abschnitts.
+  liste?: string[];                      // Optionale Zusatzliste.
+  aktionen?: RechtlichesAktionsLink[];   // Optionale Handlungslinks.
+  accessButtonDemo?: boolean;            // Aktiviert die Button-Darstellung im Barrierefreiheitsbereich.
+  designerCredit?: boolean;              // Blendet den Designer-Credit als hervorgehobenen Link ein.
 }
 
-interface RechtlichesKontaktLink {
-  label: string;
-  pfad: string;
-  text: string;
-}
-
+/**
+ * Beschreibt eine komplette rechtliche Seite inklusive Navigation und Content.
+ */
 interface RechtlicheSeite {
-  id: RechtlicheSeitenId;
-  eyebrow: string;
-  titel: string;
-  subline: string;
-  stand: string;
-  hinweis: string;
-  karten: RechtlichesKartenElement[];
-  abschnitte: RechtlichesAbschnitt[];
-  kontaktLinks: RechtlichesKontaktLink[];
+  id: RechtlicheSeitenId;                // Technische Seitenkennung.
+  eyebrow: string;                       // Kleine Bereichskennzeichnung.
+  titel: string;                         // Hauptüberschrift.
+  subline: string;                       // Einleitung unterhalb der Hauptüberschrift.
+  stand: string;                         // Aktualitätsangabe der Seite.
+  meta: string[];                        // Kurze Metainformationen im Hero.
+  hinweisTitel: string;                  // Überschrift der Infokarte.
+  hinweis: string;                       // Text der Infokarte.
+  karten: RechtlichesKartenElement[];    // Übersichtskarten im Kopfbereich.
+  abschnitte: RechtlichesAbschnitt[];    // Hauptinhalt der Seite.
+  kontaktLinks: RechtlichesAktionsLink[]; // Sidebar-Links und Kontaktwege.
 }
+
+const VEREINSNAME = 'Kleingartenverein am Steinberg e.V. 1925';                 // Vollständiger Vereinsname.
+const VEREINSADRESSE = 'Klagenfurter Straße 47, 41063 Mönchengladbach';          // Vereinsanschrift.
+const VEREINSMAIL = 'kgvamsteinberg@gmail.com';                                 // Zentrale Vereinsmailadresse.
+const VEREINSTEL = '015234027333';                                               // Zentrale Telefonnummer.
+
+/**
+ * Zentraler Kontaktformular-Link für rechtliche Seiten.
+ */
+const KONTAKTFORMULAR_LINK: RechtlichesAktionsLink = {
+  label: 'Kontaktformular öffnen',
+  text: 'Direkt zur Kontaktseite springen und eine Nachricht an den Verein senden.',
+  icon: 'forward_to_inbox',
+  pfad: '/kontakt',
+  fragment: 'kontaktformular',
+  hervorgehoben: true,
+};
 
 const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
   impressum: {
     id: 'impressum',
     eyebrow: 'Rechtliches',
     titel: 'Impressum',
-    subline: 'Anbieterkennzeichnung für die Website des Kleingartenverein am Steinberg e.V. 1925.',
+    subline: 'Anbieterkennzeichnung für die Website des Kleingartenvereins am Steinberg e.V. 1925.',
     stand: 'Stand: Juli 2026',
-    hinweis: 'Bitte Vereinsanschrift, Registerdaten, vertretungsberechtigte Personen und Kontaktdaten vor Veröffentlichung final prüfen und einsetzen.',
+    meta: ['Anbieterkennzeichnung', 'Verein', 'Kontakt'],
+    hinweisTitel: 'Direkter Kontakt zum Verein',
+    hinweis: 'Für Fragen zum Verein, zu Inhalten dieser Website oder zu rechtlichen Angaben ist der Vorstand über Telefon, E-Mail oder das Kontaktformular erreichbar.',
     karten: [
       {
         icon: 'badge',
         titel: 'Vereinsangaben',
-        text: 'Die Seite bündelt die Pflichtangaben zum Verein, zur Vertretung und zur Kontaktaufnahme.',
+        text: 'Name, Anschrift, Vorstand und Kontaktwege sind zentral aufgeführt.',
       },
       {
         icon: 'verified_user',
         titel: 'Verantwortung',
-        text: 'Inhaltliche Verantwortlichkeiten und redaktionelle Hinweise sind transparent aufgeführt.',
+        text: 'Verantwortlich für die Anbieterkennzeichnung und die Vereinsinhalte ist der Verein, vertreten durch den Vorstand.',
       },
       {
-        icon: 'edit_note',
-        titel: 'Platzhalter prüfen',
-        text: 'Offene Angaben sind sichtbar markiert und können vor dem Livegang sauber ersetzt werden.',
+        icon: 'copyright',
+        titel: 'Bild- und Urheberrechte',
+        text: 'Eigene Gestaltung, eigene Bilder und bereitgestellte Vereinsunterlagen werden transparent benannt.',
       },
     ],
     abschnitte: [
       {
         titel: 'Angaben gemäß § 5 DDG',
         text: [
-          'Kleingartenverein am Steinberg e.V. 1925',
-          '[Straße und Hausnummer ergänzen]',
-          '[PLZ und Ort ergänzen]',
+          VEREINSNAME,
+          'Klagenfurter Straße 47',
+          '41063 Mönchengladbach',
           'Deutschland',
         ],
       },
@@ -74,44 +117,70 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
         titel: 'Vertreten durch den Vorstand',
         text: [
           'Der Verein wird durch den Vorstand nach § 26 BGB vertreten.',
-          '1. Vorsitzende/r: [Name ergänzen]',
-          '2. Vorsitzende/r: [Name ergänzen]',
+          '1. Vorsitzender: Bülent Kaplan',
+          '2. Vorsitzender: Lars Andersen',
+          'Kasse: Martina Kliemann',
         ],
       },
       {
         titel: 'Kontakt',
         text: [
-          'Telefon: [Telefonnummer ergänzen]',
-          'E-Mail: [E-Mail-Adresse ergänzen]',
-          'Kontaktformular: erreichbar über die Kontaktseite dieser Website',
+          `Telefon: ${VEREINSTEL}`,
+          `E-Mail: ${VEREINSMAIL}`,
+          'Für Nachrichten an den Verein kann zusätzlich das Kontaktformular dieser Website genutzt werden.',
+        ],
+        aktionen: [
+          KONTAKTFORMULAR_LINK,
+          {
+            label: 'E-Mail schreiben',
+            text: VEREINSMAIL,
+            icon: 'mail',
+            href: `mailto:${VEREINSMAIL}`,
+          },
+          {
+            label: 'Telefonisch kontaktieren',
+            text: VEREINSTEL,
+            icon: 'call',
+            href: `tel:${VEREINSTEL}`,
+          },
         ],
       },
       {
         titel: 'Registerangaben',
         text: [
-          'Eintragung im Vereinsregister: [Registergericht ergänzen]',
-          'Registernummer: [VR-Nummer ergänzen]',
+          'Eintragung im Vereinsregister.',
+          'Registergericht: Amtsgericht Mönchengladbach',
+          'Registernummer: VR 689',
         ],
       },
       {
         titel: 'Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV',
         text: [
-          '[Name der verantwortlichen Person ergänzen]',
-          '[Anschrift ergänzen, falls abweichend von der Vereinsanschrift]',
+          'Bülent Kaplan',
+          VEREINSNAME,
+          VEREINSADRESSE,
         ],
+      },
+      {
+        titel: 'Webdesign, technische Umsetzung und Bildmaterial',
+        text: [
+          'Konzeption, Webdesign, technische Umsetzung sowie eigenes Bild- und Grafikmaterial:',
+          'Vereinsbezogene Inhalte, Logos, Formulare, Dokumente und bereitgestellte Unterlagen liegen beim Verein beziehungsweise bei den jeweils benannten Rechteinhabern.',
+        ],
+        designerCredit: true,
       },
       {
         titel: 'Haftung für Inhalte',
         text: [
           'Die Inhalte dieser Website werden mit Sorgfalt erstellt und regelmäßig gepflegt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann dennoch keine Gewähr übernommen werden.',
-          'Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.',
+          'Als Diensteanbieter ist der Verein für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.',
         ],
       },
       {
         titel: 'Haftung für Links',
         text: [
-          'Diese Website kann Links zu externen Websites enthalten. Auf deren Inhalte haben wir keinen Einfluss. Für fremde Inhalte übernehmen wir daher keine Gewähr.',
-          'Zum Zeitpunkt der Verlinkung waren keine rechtswidrigen Inhalte erkennbar. Bei Bekanntwerden entsprechender Rechtsverletzungen entfernen wir solche Links umgehend.',
+          'Diese Website kann Links zu externen Websites enthalten. Auf deren Inhalte hat der Verein keinen Einfluss. Für fremde Inhalte übernimmt der Verein daher keine Gewähr.',
+          'Zum Zeitpunkt der Verlinkung waren keine rechtswidrigen Inhalte erkennbar. Bei Bekanntwerden entsprechender Rechtsverletzungen werden solche Links umgehend entfernt.',
         ],
       },
       {
@@ -123,15 +192,12 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
       },
     ],
     kontaktLinks: [
-      {
-        label: 'Kontaktseite öffnen',
-        pfad: '/kontakt',
-        text: 'Für Rückfragen zum Verein oder zu den Angaben im Impressum.',
-      },
+      KONTAKTFORMULAR_LINK,
       {
         label: 'Datenschutz lesen',
-        pfad: '/datenschutz',
         text: 'Informationen zur Verarbeitung personenbezogener Daten.',
+        icon: 'shield_lock',
+        pfad: '/datenschutz',
       },
     ],
   },
@@ -141,17 +207,19 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
     titel: 'Datenschutzerklärung',
     subline: 'Klare Information darüber, welche Daten auf dieser Website verarbeitet werden und welche bewusst nicht erhoben werden.',
     stand: 'Stand: Juli 2026',
-    hinweis: 'Der finale Hostinganbieter muss nach Vertragsschluss verbindlich ergänzt werden. Bis dahin ist Hetzner als voraussichtlicher Anbieter kenntlich gemacht.',
+    meta: ['Datensparsam', 'Ohne Tracking', 'Eigene Formulare'],
+    hinweisTitel: 'Datensparsame Website',
+    hinweis: 'Die Website ist ohne Analyse-Tools, Werbetracker, externe Schriftanbieter und nicht notwendige Cookies aufgebaut. Personenbezogene Daten entstehen nur technisch beim Seitenaufruf oder durch aktiv abgesendete Formulare.',
     karten: [
       {
         icon: 'cookie_off',
         titel: 'Keine Cookies',
-        text: 'Die Website ist ohne Tracking, Werbenetzwerke, externe Schriftanbieter und nicht notwendige Cookies geplant.',
+        text: 'Es werden keine Tracking-Cookies, Werbenetzwerke oder externen Schriftanbieter eingesetzt.',
       },
       {
         icon: 'mail_lock',
         titel: 'Eigene Formulare',
-        text: 'Kontakt- und Anfrageformulare übermitteln nur die Angaben, die Besucher aktiv absenden.',
+        text: 'Kontakt- und Anfrageformulare übermitteln nur Angaben, die Besucher aktiv absenden.',
       },
       {
         icon: 'dns',
@@ -163,11 +231,13 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
       {
         titel: 'Verantwortlicher',
         text: [
-          'Kleingartenverein am Steinberg e.V. 1925',
-          '[Straße und Hausnummer ergänzen]',
-          '[PLZ und Ort ergänzen]',
-          'E-Mail: [E-Mail-Adresse ergänzen]',
+          VEREINSNAME,
+          'Klagenfurter Straße 47',
+          '41063 Mönchengladbach',
+          `E-Mail: ${VEREINSMAIL}`,
+          `Telefon: ${VEREINSTEL}`,
         ],
+        aktionen: [KONTAKTFORMULAR_LINK],
       },
       {
         titel: 'Grundsatz unserer Website',
@@ -181,18 +251,18 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
         text: [
           'Beim Aufruf der Website verarbeitet der Webserver technisch notwendige Zugriffsdaten. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Datei, übertragene Datenmenge, Browser- und Betriebssysteminformationen, Referrer-URL sowie Statuscodes gehören.',
           'Diese Verarbeitung ist notwendig, um die Website auszuliefern, Stabilität und Sicherheit zu gewährleisten und technische Fehler nachvollziehen zu können.',
-          'Die Website wird voraussichtlich bei Hetzner Online GmbH gehostet. Der endgültige Hostinganbieter wird nach Vertragsabschluss an dieser Stelle aktualisiert.',
+          'Die Website wird nach aktueller Planung bei Hetzner Online GmbH gehostet. Sollte der Verein einen anderen Hostinganbieter beauftragen, gelten die gleichen Grundsätze für technisch notwendige Serverdaten.',
         ],
         liste: [
           'Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO, berechtigtes Interesse an einer sicheren und funktionsfähigen Website.',
-          'Speicherdauer: Server-Logfiles werden nur so lange gespeichert, wie es für technische Sicherheit und Fehleranalyse erforderlich ist. Die konkrete Speicherdauer richtet sich nach der finalen Hostingkonfiguration.',
+          'Speicherdauer: Server-Logfiles werden nur so lange gespeichert, wie es für technische Sicherheit und Fehleranalyse erforderlich ist.',
         ],
       },
       {
         titel: 'Kontaktformular und E-Mail-Kommunikation',
         text: [
           'Wenn Besucher das Kontaktformular oder ein Anfrageformular nutzen, verarbeiten wir die dort eingegebenen Angaben. Dazu können Name, E-Mail-Adresse, Telefonnummer, Nachrichtentext und weitere freiwillige Angaben zum Anliegen gehören.',
-          'Die Daten werden ausschließlich zur Bearbeitung der Anfrage, zur Rückmeldung und zur vereinsbezogenen Kommunikation verwendet. Die Nachricht kann als E-Mail an die zuständigen Personen des Vereins weitergeleitet werden. Dabei werden die Daten technisch über den E-Mail- beziehungsweise Hostinganbieter verarbeitet.',
+          'Die Daten werden ausschließlich zur Bearbeitung der Anfrage, zur Rückmeldung und zur vereinsbezogenen Kommunikation verwendet. Die Nachricht kann als E-Mail an die zuständigen Personen des Vereins weitergeleitet werden. Dabei werden die Daten technisch über den Hostinganbieter und den vom Verein verwendeten E-Mail-Dienst verarbeitet.',
           'Nicht abgesendete Formulareingaben werden nicht dauerhaft gespeichert.',
         ],
         liste: [
@@ -200,6 +270,7 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
           'Rechtsgrundlage bei konkreten Anfragen zur Vereinshausvermietung oder vorvertraglichen Anliegen: Art. 6 Abs. 1 lit. b DSGVO.',
           'Speicherdauer: Anfragen werden gelöscht, sobald sie abschließend bearbeitet sind und keine gesetzlichen oder vereinsorganisatorischen Aufbewahrungsgründe entgegenstehen.',
         ],
+        aktionen: [KONTAKTFORMULAR_LINK],
       },
       {
         titel: 'Vereinshausvermietung',
@@ -236,15 +307,12 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
       },
     ],
     kontaktLinks: [
-      {
-        label: 'Kontakt aufnehmen',
-        pfad: '/kontakt',
-        text: 'Für Datenschutzfragen oder Auskunftsanfragen an den Verein.',
-      },
+      KONTAKTFORMULAR_LINK,
       {
         label: 'Impressum öffnen',
-        pfad: '/impressum',
         text: 'Alle Anbieter- und Kontaktangaben an einer Stelle.',
+        icon: 'badge',
+        pfad: '/impressum',
       },
     ],
   },
@@ -254,12 +322,14 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
     titel: 'Erklärung zur Zugänglichkeit',
     subline: 'Gärten, Vereinsleben und digitale Informationen sollen für möglichst viele Menschen verständlich und erreichbar sein.',
     stand: 'Stand: Juli 2026',
-    hinweis: 'Diese Seite ist als allgemeines Barrierefreiheitsstatement formuliert. Eine formale Prüfung nach WCAG beziehungsweise BFSG sollte vor dem Livegang zusätzlich dokumentiert werden.',
+    meta: ['Zugänglichkeit', 'A11y-Modus', 'Feedback'],
+    hinweisTitel: 'Zugang beginnt mit Verständlichkeit',
+    hinweis: 'Der Verein möchte digitale Informationen so anbieten, dass Mitglieder, Besucher und Interessierte sie möglichst leicht finden, verstehen und nutzen können.',
     karten: [
       {
         icon: 'accessibility_new',
         titel: 'Zugang für alle',
-        text: 'Barrierefreiheit bedeutet für uns verständliche Informationen, klare Wege und respektvolle Teilhabe.',
+        text: 'Barrierefreiheit bedeutet verständliche Informationen, klare Wege und respektvolle Teilhabe.',
       },
       {
         icon: 'contrast',
@@ -298,9 +368,11 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
       {
         titel: 'Accessibility-Button',
         text: [
-          'Über den Accessibility-Button der Website können unterstützende Darstellungen aktiviert werden. Der Modus soll die Nutzung erleichtern, wenn Besucher stärkere Kontraste, reduzierte visuelle Reize oder eine klarere Darstellung bevorzugen.',
+          'Über den Accessibility-Button der Website können unterstützende Darstellungen aktiviert werden. Der Button befindet sich am rechten Bildschirmrand im unteren Bereich oberhalb des Scroll-to-Top-Buttons.',
+          'Das Symbol zeigt eine Person mit ausgestreckten Armen. Es öffnet ein Bedienfeld für größere Schrift, höheren Kontrast, reduzierte Bewegung, Farbfilter und weitere Darstellungsoptionen.',
           'Der Button ist als zusätzliche Hilfe gedacht und ersetzt keine saubere barrierearme Grundgestaltung. Deshalb werden Kontraste, Fokuszustände, Formularhinweise und mobile Bedienbarkeit direkt im Design berücksichtigt.',
         ],
+        accessButtonDemo: true,
       },
       {
         titel: 'Gärten und Vereinsleben',
@@ -322,18 +394,16 @@ const RECHTLICHE_SEITEN: Record<RechtlicheSeitenId, RechtlicheSeite> = {
           'Wenn eine Barriere auffällt, ein Inhalt nicht verständlich ist oder ein Formular nicht gut bedienbar ist, kann der Verein über die Kontaktseite informiert werden.',
           'Hilfreich sind dabei eine kurze Beschreibung des Problems, das genutzte Gerät, der Browser und die betroffene Seite. So können Fehler gezielter nachvollzogen und verbessert werden.',
         ],
+        aktionen: [KONTAKTFORMULAR_LINK],
       },
     ],
     kontaktLinks: [
-      {
-        label: 'Barriere melden',
-        pfad: '/kontakt',
-        text: 'Hinweise zu Problemen, Formularen oder schwer lesbaren Bereichen senden.',
-      },
+      KONTAKTFORMULAR_LINK,
       {
         label: 'Servicebereich öffnen',
-        pfad: '/service',
         text: 'Downloads, Formulare und zentrale Unterlagen des Vereins finden.',
+        icon: 'inventory_2',
+        pfad: '/service',
       },
     ],
   },

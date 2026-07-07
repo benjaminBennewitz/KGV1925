@@ -3,7 +3,7 @@
 @if (startseitenPopup; as popup) {
   <aside class="start-popup" role="presentation" data-kgv-reveal-static (click)="startseitenPopupSchliessen()">
     <div class="start-popup__inner kgv-card" appDialogA11y role="dialog" aria-modal="true" aria-labelledby="start-popup-titel" aria-describedby="start-popup-text" tabindex="-1" (dialogEscape)="startseitenPopupSchliessen()" (click)="$event.stopPropagation()">
-      <button class="start-popup__close" type="button" autofocus (click)="startseitenPopupSchliessen()" aria-label="Startseiten-Pop-up schließen">
+      <button class="start-popup__close" type="button" autofocus (click)="startseitenPopupSchliessen()" aria-label="Startseiten-Pop-up schließen" data-kgv-tooltip="Pop-up schließen" data-kgv-tooltip-position="left">
         <span class="material-symbols-outlined" aria-hidden="true">close</span>
       </button>
 

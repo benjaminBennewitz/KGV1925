@@ -332,7 +332,7 @@
 @if (ausgewaehlterGarten; as garten) {
   <div class="garden-modal" role="presentation" data-kgv-reveal-ignore (click)="schliesseGartenModal()">
     <section class="garden-modal__panel kgv-card" appDialogA11y role="dialog" aria-modal="true" aria-labelledby="garten-modal-titel" aria-describedby="garten-modal-text" tabindex="-1" (dialogEscape)="schliesseGartenModal()" (click)="$event.stopPropagation()">
-      <button class="garden-modal__close" type="button" autofocus aria-label="Gartendetails schließen" (click)="schliesseGartenModal()">
+      <button class="garden-modal__close" type="button" autofocus aria-label="Gartendetails schließen" data-kgv-tooltip="Gartendetails schließen" data-kgv-tooltip-position="left" (click)="schliesseGartenModal()">
         <span class="material-symbols-outlined" aria-hidden="true">close</span>
       </button>
 
@@ -343,17 +343,17 @@
           {{ ermittleStatusText(garten.status) }}
         </span>
         <div class="garden-modal__gallery-nav" aria-label="Bildergalerie der Parzelle">
-          <button type="button" aria-label="Vorheriges Bild anzeigen" (click)="vorherigesModalBild(garten.bilder)">
+          <button type="button" aria-label="Vorheriges Bild anzeigen" data-kgv-tooltip="Vorheriges Bild" data-kgv-tooltip-position="top" (click)="vorherigesModalBild(garten.bilder)">
             <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
           </button>
           <span>{{ aktiverBildIndex + 1 }} / {{ garten.bilder.length }}</span>
-          <button type="button" aria-label="Nächstes Bild anzeigen" (click)="naechstesModalBild(garten.bilder)">
+          <button type="button" aria-label="Nächstes Bild anzeigen" data-kgv-tooltip="Nächstes Bild" data-kgv-tooltip-position="top" (click)="naechstesModalBild(garten.bilder)">
             <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
           </button>
         </div>
         <div class="garden-modal__thumbs" aria-label="Bild direkt auswählen">
           @for (bild of garten.bilder; track bild.pfad; let bildIndex = $index) {
-            <button type="button" [class.garden-modal__thumb--active]="bildIndex === aktiverBildIndex" [attr.aria-label]="'Bild ' + (bildIndex + 1) + ' anzeigen'" [attr.aria-current]="bildIndex === aktiverBildIndex ? 'true' : null" (click)="setzeModalBild(bildIndex)"></button>
+            <button type="button" [class.garden-modal__thumb--active]="bildIndex === aktiverBildIndex" [attr.aria-label]="'Bild ' + (bildIndex + 1) + ' anzeigen'" [attr.data-kgv-tooltip]="'Bild ' + (bildIndex + 1)" data-kgv-tooltip-position="top" [attr.aria-current]="bildIndex === aktiverBildIndex ? 'true' : null" (click)="setzeModalBild(bildIndex)"></button>
           }
         </div>
       </div>
@@ -399,7 +399,7 @@
 @if (ausgewaehltesVereinshaus; as haus) {
   <div class="garden-modal" role="presentation" data-kgv-reveal-ignore (click)="schliesseDetailModal()">
     <section class="garden-modal__panel kgv-card" appDialogA11y role="dialog" aria-modal="true" aria-labelledby="vereinshaus-modal-titel" aria-describedby="vereinshaus-modal-text" tabindex="-1" (dialogEscape)="schliesseDetailModal()" (click)="$event.stopPropagation()">
-      <button class="garden-modal__close" type="button" autofocus aria-label="Vereinshausdetails schließen" (click)="schliesseDetailModal()">
+      <button class="garden-modal__close" type="button" autofocus aria-label="Vereinshausdetails schließen" data-kgv-tooltip="Vereinshausdetails schließen" data-kgv-tooltip-position="left" (click)="schliesseDetailModal()">
         <span class="material-symbols-outlined" aria-hidden="true">close</span>
       </button>
 
@@ -410,17 +410,17 @@
           Vereinshaus
         </span>
         <div class="garden-modal__gallery-nav" aria-label="Bildergalerie des Vereinshauses">
-          <button type="button" aria-label="Vorheriges Bild anzeigen" (click)="vorherigesModalBild(haus.bilder)">
+          <button type="button" aria-label="Vorheriges Bild anzeigen" data-kgv-tooltip="Vorheriges Bild" data-kgv-tooltip-position="top" (click)="vorherigesModalBild(haus.bilder)">
             <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
           </button>
           <span>{{ aktiverBildIndex + 1 }} / {{ haus.bilder.length }}</span>
-          <button type="button" aria-label="Nächstes Bild anzeigen" (click)="naechstesModalBild(haus.bilder)">
+          <button type="button" aria-label="Nächstes Bild anzeigen" data-kgv-tooltip="Nächstes Bild" data-kgv-tooltip-position="top" (click)="naechstesModalBild(haus.bilder)">
             <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
           </button>
         </div>
         <div class="garden-modal__thumbs" aria-label="Bild direkt auswählen">
           @for (bild of haus.bilder; track bild.pfad; let bildIndex = $index) {
-            <button type="button" [class.garden-modal__thumb--active]="bildIndex === aktiverBildIndex" [attr.aria-label]="'Bild ' + (bildIndex + 1) + ' anzeigen'" [attr.aria-current]="bildIndex === aktiverBildIndex ? 'true' : null" (click)="setzeModalBild(bildIndex)"></button>
+            <button type="button" [class.garden-modal__thumb--active]="bildIndex === aktiverBildIndex" [attr.aria-label]="'Bild ' + (bildIndex + 1) + ' anzeigen'" [attr.data-kgv-tooltip]="'Bild ' + (bildIndex + 1)" data-kgv-tooltip-position="top" [attr.aria-current]="bildIndex === aktiverBildIndex ? 'true' : null" (click)="setzeModalBild(bildIndex)"></button>
           }
         </div>
       </div>

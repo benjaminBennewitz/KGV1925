@@ -42,11 +42,11 @@
       </div>
 
       <div class="vermietung-kalender__switch" aria-label="Monat wechseln">
-        <button type="button" (click)="vorherigerMonat()" [disabled]="!kannVorherigerMonat" aria-label="Vorheriger Monat">
+        <button type="button" (click)="vorherigerMonat()" [disabled]="!kannVorherigerMonat" aria-label="Vorheriger Monat" data-kgv-tooltip="Vorheriger Monat" data-kgv-tooltip-position="top">
           <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
         </button>
         <strong>{{ aktiverMonatName }}</strong>
-        <button type="button" (click)="naechsterMonat()" [disabled]="!kannNaechsterMonat" aria-label="Nächster Monat">
+        <button type="button" (click)="naechsterMonat()" [disabled]="!kannNaechsterMonat" aria-label="Nächster Monat" data-kgv-tooltip="Nächster Monat" data-kgv-tooltip-position="top">
           <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
         </button>
       </div>

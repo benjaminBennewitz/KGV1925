@@ -281,6 +281,10 @@
   padding-inline: 0.65rem;
 }
 
+.site-footer__social--tooltip-slow {
+  --kgv-tooltip-delay: 4s;
+}
+
 /* ==========================================================================
    06   Linkgruppen
    ========================================================================== */
@@ -340,14 +344,33 @@
   z-index: 1;
 }
 
-.site-footer__bottom strong {
+.site-footer__bottom strong,
+.site-footer__bottom a {
   color: var(--kgv-secondary-hover);
   font-size: 0.96em;
   font-weight: 800;
 }
 
 .site-footer__designer {
+  align-items: baseline;
   color: var(--kgv-secondary-hover);
+  display: inline-flex;
+  gap: 0.28rem;
+  text-decoration: none;
+}
+
+.site-footer__designer:hover,
+.site-footer__designer:focus-visible {
+  color: var(--kgv-secondary);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+.site-footer__designer:focus-visible {
+  border-radius: 0.25rem;
+  outline: 3px solid var(--kgv-focus);
+  outline-offset: 4px;
 }
 
 .site-footer__designer > span {

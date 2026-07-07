@@ -1,7 +1,7 @@
 <!-- src/app/shared/components/accessibility-mode/accessibility-mode.component.html -->
 
 <section class="accessibility" aria-label="Barrierefreiheit Einstellungen">
-  <button class="accessibility__trigger" type="button" [attr.aria-expanded]="istGeoeffnet()" aria-controls="accessibility-panel" aria-label="Barrierefreiheit öffnen" aria-haspopup="dialog" (click)="schalteBedienfeld()">
+  <button class="accessibility__trigger" type="button" [attr.aria-expanded]="istGeoeffnet()" aria-controls="accessibility-panel" aria-label="Barrierefreiheit öffnen" data-kgv-tooltip="Barrierefreiheit anpassen" data-kgv-tooltip-position="left" aria-haspopup="dialog" (click)="schalteBedienfeld()">
     <span class="material-symbols-outlined" aria-hidden="true">accessibility_new</span>
   </button>
 
@@ -14,7 +14,7 @@
           <p class="accessibility__kicker">Ansicht anpassen</p>
           <h2 id="accessibility-title">Barrierefreiheit</h2>
         </div>
-        <button class="accessibility__close" type="button" aria-label="Barrierefreiheit schließen" (click)="schliesseBedienfeld()">
+        <button class="accessibility__close" type="button" aria-label="Barrierefreiheit schließen" data-kgv-tooltip="Schließen" data-kgv-tooltip-position="left" (click)="schliesseBedienfeld()">
           <span class="material-symbols-outlined" aria-hidden="true">close</span>
         </button>
       </div>

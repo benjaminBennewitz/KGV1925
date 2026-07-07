@@ -9,15 +9,16 @@
         <p class="kgv-subline">{{ seite.subline }}</p>
         <div class="rechtliches-hero__meta" aria-label="Dokumentinformationen">
           <span>{{ seite.stand }}</span>
-          <span>Ohne Tracking</span>
-          <span>Verein</span>
+          @for (meta of seite.meta; track meta) {
+            <span>{{ meta }}</span>
+          }
         </div>
       </div>
 
-      <aside class="rechtliches-notice kgv-card" data-kgv-reveal="right" aria-label="Wichtiger Hinweis">
+      <aside class="rechtliches-notice kgv-card" data-kgv-reveal="right" aria-label="Kurzinformation">
         <span class="rechtliches-notice__icon material-symbols-outlined" aria-hidden="true">info</span>
-        <p class="kgv-eyebrow">Hinweis</p>
-        <h2>Vor dem Livegang prüfen</h2>
+        <p class="kgv-eyebrow">Kurzinfo</p>
+        <h2>{{ seite.hinweisTitel }}</h2>
         <p>{{ seite.hinweis }}</p>
       </aside>
     </div>
@@ -48,6 +49,49 @@
               }
             </ul>
           }
+          @if (abschnitt.designerCredit) {
+            <a class="rechtliches-designer-credit" href="#" aria-disabled="true" data-kgv-tooltip="Portfolio-Link folgt" data-kgv-tooltip-position="top" (click)="$event.preventDefault()">
+              <span class="rechtliches-designer-credit__tag">B<sup>2</sup></span>
+              <span>Benjamin Bennewitz</span>
+            </a>
+          }
+          @if (abschnitt.accessButtonDemo) {
+            <div class="rechtliches-access-demo" aria-label="Darstellung des Accessibility-Buttons">
+              <span class="rechtliches-access-demo__edge" aria-hidden="true">Rechter Bildschirmrand</span>
+              <span class="rechtliches-access-demo__stack" aria-hidden="true">
+                <span class="rechtliches-access-demo__button">
+                  <span class="material-symbols-outlined" aria-hidden="true">accessibility_new</span>
+                </span>
+                <span class="rechtliches-access-demo__scroll">
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+                </span>
+              </span>
+              <span class="rechtliches-access-demo__label">Accessibility-Button unten rechts, direkt oberhalb des Scroll-to-Top-Buttons.</span>
+            </div>
+          }
+          @if (abschnitt.aktionen) {
+            <div class="rechtliches-actions">
+              @for (link of abschnitt.aktionen; track link.label) {
+                @if (link.pfad) {
+                  <a class="rechtliches-action" [class.rechtliches-action--highlight]="link.hervorgehoben" [routerLink]="link.pfad" [fragment]="link.fragment || undefined">
+                    <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                    <span>
+                      <strong>{{ link.label }}</strong>
+                      <small>{{ link.text }}</small>
+                    </span>
+                  </a>
+                } @else {
+                  <a class="rechtliches-action" [class.rechtliches-action--highlight]="link.hervorgehoben" [href]="link.href">
+                    <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                    <span>
+                      <strong>{{ link.label }}</strong>
+                      <small>{{ link.text }}</small>
+                    </span>
+                  </a>
+                }
+              }
+            </div>
+          }
         </article>
       }
     </div>
@@ -56,13 +100,26 @@
       <div class="rechtliches-sidebar__box kgv-card">
         <p class="kgv-eyebrow">Direkt weiter</p>
         <h2>Fragen oder Ergänzungen?</h2>
-        <p>Die rechtlichen Texte enthalten bewusst markierte Platzhalter, damit echte Vereinsdaten erst nach finaler Prüfung veröffentlicht werden.</p>
+        <p>Hinweise zu Kontaktdaten, Datenschutz oder Barrieren können direkt an den Verein gesendet werden.</p>
         <div class="rechtliches-sidebar__links">
-          @for (link of seite.kontaktLinks; track link.pfad) {
-            <a [routerLink]="link.pfad">
-              <strong>{{ link.label }}</strong>
-              <span>{{ link.text }}</span>
-            </a>
+          @for (link of seite.kontaktLinks; track link.label) {
+            @if (link.pfad) {
+              <a [routerLink]="link.pfad" [fragment]="link.fragment || undefined" [class.rechtliches-sidebar__link--highlight]="link.hervorgehoben">
+                <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                <span>
+                  <strong>{{ link.label }}</strong>
+                  <small>{{ link.text }}</small>
+                </span>
+              </a>
+            } @else {
+              <a [href]="link.href" [class.rechtliches-sidebar__link--highlight]="link.hervorgehoben">
+                <span class="material-symbols-outlined" aria-hidden="true">{{ link.icon }}</span>
+                <span>
+                  <strong>{{ link.label }}</strong>
+                  <small>{{ link.text }}</small>
+                </span>
+              </a>
+            }
           }
         </div>
       </div>

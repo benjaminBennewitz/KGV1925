@@ -27,7 +27,7 @@
 
         <div class="site-footer__socials" aria-label="Social Media Kanäle">
           @for (social of socialHinweise; track social.label) {
-            <span class="site-footer__social" [attr.title]="social.hinweis" [attr.aria-label]="social.hinweis">
+            <span class="site-footer__social site-footer__social--tooltip-slow" [attr.data-kgv-tooltip]="social.hinweis" data-kgv-tooltip-position="top" [attr.aria-label]="social.hinweis">
               {{ social.kurzform }}
             </span>
           }
@@ -58,7 +58,7 @@
 
     <div class="site-footer__bottom">
       <span>© {{ jahr }} Kleingartenverein am Steinberg e.V. 1925</span>
-      <span>Designed by <strong class="site-footer__designer"><span>B<sup>2</sup></span> Benjamin Bennewitz</strong></span>
+      <span>Designed by <a class="site-footer__designer" href="#" aria-disabled="true" data-kgv-tooltip="Portfolio-Link folgt" data-kgv-tooltip-position="top" (click)="$event.preventDefault()"><span>B<sup>2</sup></span> Benjamin Bennewitz</a></span>
     </div>
   </div>
 </footer>

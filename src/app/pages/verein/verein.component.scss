@@ -1266,7 +1266,9 @@ details.person-card:not([open]) > .person-card__details {
   }
 
   .person-card__toggle {
-    display: none;
+    align-items: center;
+    display: inline-flex;
+    transform: rotate(180deg);
   }
 
   details.person-card:not([open]) > .person-card__details {
