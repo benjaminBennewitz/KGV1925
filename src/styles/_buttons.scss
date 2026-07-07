@@ -65,15 +65,15 @@
 
 .kgv-button--secondary {
   background: var(--kgv-surface);
-  border-color: var(--kgv-secondary);
+  border-color: var(--kgv-focus);
   box-shadow: none;
-  color: var(--kgv-secondary);
+  color: var(--kgv-focus);
 }
 
 .kgv-button--secondary:hover {
   background: var(--kgv-surface-lavender);
-  border-color: var(--kgv-secondary-hover);
-  color: var(--kgv-secondary-hover);
+  border-color: var(--kgv-focus);
+  color: var(--kgv-focus);
 }
 
 .kgv-button--ghost {
