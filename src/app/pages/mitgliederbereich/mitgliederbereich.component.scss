@@ -615,25 +615,39 @@
   scroll-padding-block-start: 0.45rem;
 }
 
-.admin-garden-card {
+.admin-garden-card,
+.admin-tab {
   align-items: start;
   background: rgba(255, 255, 255, 0.84);
   border: 1px solid rgba(216, 222, 214, 0.82);
-  border-radius: var(--kgv-radius-md);
   color: var(--kgv-text-main);
   cursor: pointer;
   display: grid;
+  text-align: left;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.admin-garden-card {
+  border-radius: var(--kgv-radius-md);
   gap: 0.16rem;
   justify-items: start;
   padding: 0.8rem;
-  text-align: left;
-  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
   width: 100%;
+}
+
+.admin-tab {
+  border-radius: var(--kgv-radius-lg);
+  gap: 0.35rem;
+  min-height: 8rem;
+  padding: 0.9rem;
 }
 
 .admin-garden-card:hover,
 .admin-garden-card:focus-visible,
-.admin-garden-card--active {
+.admin-garden-card--active,
+.admin-tab:hover,
+.admin-tab:focus-visible,
+.admin-tab--active {
   background: var(--kgv-surface-sage);
   border-color: var(--kgv-primary-soft);
   box-shadow: 0 12px 28px rgba(24, 33, 27, 0.12);
@@ -887,31 +901,6 @@
   gap: 0.75rem;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   padding: 0.75rem;
-}
-
-.admin-tab {
-  align-items: start;
-  background: rgba(255, 255, 255, 0.84);
-  border: 1px solid rgba(216, 222, 214, 0.82);
-  border-radius: var(--kgv-radius-lg);
-  color: var(--kgv-text-main);
-  cursor: pointer;
-  display: grid;
-  gap: 0.35rem;
-  min-height: 8rem;
-  padding: 0.9rem;
-  text-align: left;
-  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-}
-
-.admin-tab:hover,
-.admin-tab:focus-visible,
-.admin-tab--active {
-  background: var(--kgv-surface-sage);
-  border-color: var(--kgv-primary-soft);
-  box-shadow: 0 12px 28px rgba(24, 33, 27, 0.12);
-  outline: none;
-  transform: translateY(-1px);
 }
 
 .admin-tab .material-symbols-outlined {

@@ -108,12 +108,6 @@
   min-width: 0;
 }
 
-.verein-hero__content .kgv-heading,
-.verein-hero__content .kgv-subline {
-  max-width: 48rem;
-  overflow-wrap: anywhere;
-}
-
 .verein-hero__badges {
   display: flex;
   flex-wrap: wrap;
@@ -735,22 +729,26 @@ details.person-card:not([open]) > .person-card__details {
   grid-template-rows: repeat(12, minmax(1.55rem, 1fr));
 }
 
-.site-map__plot {
+.site-map__plot,
+.site-map__house {
   align-items: center;
   appearance: none;
-  background: var(--kgv-surface-lavender);
-  border: 1px solid color-mix(in srgb, var(--kgv-secondary) 28%, white);
   border-radius: var(--kgv-radius-sm);
-  color: var(--kgv-secondary-hover);
   cursor: pointer;
   display: inline-flex;
   font: inherit;
-  font-size: 0.75rem;
   font-weight: 900;
   justify-content: center;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.site-map__plot {
+  background: var(--kgv-surface-lavender);
+  border: 1px solid color-mix(in srgb, var(--kgv-secondary) 28%, white);
+  color: var(--kgv-secondary-hover);
+  font-size: 0.75rem;
   min-height: 2.3rem;
   padding: 0.2rem;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 .site-map__plot--free {
@@ -759,47 +757,32 @@ details.person-card:not([open]) > .person-card__details {
   color: var(--kgv-success);
 }
 
-.site-map__plot:hover,
-.site-map__plot:focus-visible {
-  background: var(--kgv-primary);
-  border-color: var(--kgv-primary);
-  color: var(--kgv-text-inverse);
-  transform: translateY(-1px);
-}
-
 .site-map__house {
-  align-items: center;
-  appearance: none;
   background:
     radial-gradient(circle at 100% 0%, rgba(216, 188, 122, 0.26), transparent 7rem),
     var(--kgv-surface-sage);
   border: 1px solid rgba(49, 92, 69, 0.24);
-  border-radius: var(--kgv-radius-sm);
   color: var(--kgv-primary);
-  cursor: pointer;
-  display: inline-flex;
-  font: inherit;
   font-size: 0.74rem;
-  font-weight: 900;
   gap: 0.32rem;
-  justify-content: center;
   min-height: 2.5rem;
   padding: 0.35rem 0.45rem;
   text-align: center;
   text-decoration: none;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
-.site-map__house .material-symbols-outlined {
-  font-size: 1rem;
-}
-
+.site-map__plot:hover,
+.site-map__plot:focus-visible,
 .site-map__house:hover,
 .site-map__house:focus-visible {
   background: var(--kgv-primary);
   border-color: var(--kgv-primary);
   color: var(--kgv-text-inverse);
   transform: translateY(-1px);
+}
+
+.site-map__house .material-symbols-outlined {
+  font-size: 1rem;
 }
 
 .map-placeholder {
@@ -841,10 +824,6 @@ details.person-card:not([open]) > .person-card__details {
 /* ==========================================================================
    07   Gärten Panel
    ========================================================================== */
-
-.garden-section {
-  overflow-x: clip;
-}
 
 .garden-panel {
   background:
@@ -1060,17 +1039,21 @@ details.person-card:not([open]) > .person-card__details {
   width: min(100%, 58rem);
 }
 
-.garden-modal__close {
+.garden-modal__close,
+.garden-modal__gallery-nav button {
   align-items: center;
   appearance: none;
-  background: rgba(255, 255, 255, 0.88);
   border: 1px solid var(--kgv-border-soft);
   border-radius: var(--kgv-radius-round);
-  color: var(--kgv-text-main);
   cursor: pointer;
   display: inline-flex;
-  height: 2.6rem;
   justify-content: center;
+}
+
+.garden-modal__close {
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--kgv-text-main);
+  height: 2.6rem;
   position: absolute;
   right: 1rem;
   top: 1rem;
@@ -1130,16 +1113,9 @@ details.person-card:not([open]) > .person-card__details {
 }
 
 .garden-modal__gallery-nav button {
-  align-items: center;
-  appearance: none;
   background: var(--kgv-surface-sage);
-  border: 1px solid var(--kgv-border-soft);
-  border-radius: var(--kgv-radius-round);
   color: var(--kgv-primary);
-  cursor: pointer;
-  display: inline-flex;
   height: 2.2rem;
-  justify-content: center;
   transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
   width: 2.2rem;
 }
