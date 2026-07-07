@@ -93,6 +93,25 @@ export const routes: Routes = [
     title: 'Mitgliederbereich | KGV1925',
     loadComponent: () => import('./pages/mitgliederbereich/mitgliederbereich.component').then((modul) => modul.MitgliederbereichComponent),
   },
+
+  {
+    path: 'impressum',
+    title: 'Impressum | KGV1925',
+    data: { rechtlicheSeite: 'impressum' },
+    loadComponent: () => import('./pages/rechtliches/rechtliches.component').then((modul) => modul.RechtlichesComponent),
+  },
+  {
+    path: 'datenschutz',
+    title: 'Datenschutz | KGV1925',
+    data: { rechtlicheSeite: 'datenschutz' },
+    loadComponent: () => import('./pages/rechtliches/rechtliches.component').then((modul) => modul.RechtlichesComponent),
+  },
+  {
+    path: 'barrierefreiheit',
+    title: 'Barrierefreiheit | KGV1925',
+    data: { rechtlicheSeite: 'barrierefreiheit' },
+    loadComponent: () => import('./pages/rechtliches/rechtliches.component').then((modul) => modul.RechtlichesComponent),
+  },
   {
     path: '**',
     title: 'Seite nicht gefunden | KGV1925',

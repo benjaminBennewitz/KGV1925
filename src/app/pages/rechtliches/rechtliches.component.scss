@@ -1,0 +1,348 @@
+/*###############################
+###
+###     rechtliches.component.scss
+###     KGV1925 Website
+###     BASED ON: Angular 21.02.0, SCSS
+###     AUTHOR: Benjamin Bennewitz
+###
+###
+###       ██████╗  ▀█
+###       ██╔══██╗ █▄
+###       ██████╦╝
+###       ██╔══██╗
+###       ██████╦╝
+###       ╚═════╝
+###
+###
+#################################*/
+
+/* ========================================================================== 
+   INHALTSVERZEICHNIS
+
+   01   Seitenlayout
+   02   Hero
+   03   Überblick
+   04   Inhaltsbereich
+   05   Sidebar
+   06   Responsive
+   ========================================================================== */
+
+/* ========================================================================== 
+   01   Seitenlayout
+   ========================================================================== */
+
+.rechtliches-page {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-top: 0;
+}
+
+/* ========================================================================== 
+   02   Hero
+   ========================================================================== */
+
+.rechtliches-hero {
+  background: radial-gradient(circle at 14% 20%, rgba(169, 191, 168, 0.34), transparent 23rem), radial-gradient(circle at 88% 10%, rgba(201, 184, 232, 0.28), transparent 25rem), linear-gradient(135deg, rgba(255, 249, 236, 0.86), rgba(238, 245, 239, 0.92) 52%, rgba(243, 239, 249, 0.84));
+  border-bottom: 1px solid rgba(216, 222, 214, 0.72);
+  overflow: hidden;
+  position: relative;
+}
+
+.rechtliches-hero::before {
+  background: rgba(255, 255, 255, 0.48);
+  border-radius: 999px;
+  content: '';
+  height: 18rem;
+  left: -8rem;
+  position: absolute;
+  top: 22%;
+  width: 18rem;
+}
+
+.rechtliches-hero::after {
+  background: rgba(255, 255, 255, 0.44);
+  border-radius: 999px;
+  bottom: -8rem;
+  content: '';
+  height: 22rem;
+  position: absolute;
+  right: 8%;
+  width: 22rem;
+}
+
+.rechtliches-hero__inner {
+  align-items: center;
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.62fr);
+  min-height: clamp(29rem, 62vh, 39rem);
+  padding-block: clamp(3rem, 8vw, 6rem);
+  position: relative;
+  z-index: 1;
+}
+
+.rechtliches-hero__content {
+  display: grid;
+  gap: 1rem;
+  max-width: 52rem;
+}
+
+.rechtliches-hero__content .kgv-heading {
+  max-width: 12ch;
+}
+
+.rechtliches-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.rechtliches-hero__meta span {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: 999px;
+  color: var(--kgv-primary);
+  font-size: 0.82rem;
+  font-weight: 850;
+  padding: 0.42rem 0.78rem;
+}
+
+.rechtliches-notice {
+  display: grid;
+  gap: 0.85rem;
+  padding: clamp(1.35rem, 3vw, 2rem);
+}
+
+.rechtliches-notice__icon {
+  align-items: center;
+  background: linear-gradient(135deg, var(--kgv-surface-sage), var(--kgv-surface-lavender));
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: 999px;
+  color: var(--kgv-primary);
+  display: inline-flex;
+  height: 3.25rem;
+  justify-content: center;
+  width: 3.25rem;
+}
+
+.rechtliches-notice h2 {
+  font-family: var(--kgv-font-display);
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  line-height: 1.08;
+  margin: 0;
+}
+
+.rechtliches-notice p:not(.kgv-eyebrow) {
+  color: var(--kgv-text-muted);
+  margin: 0;
+}
+
+/* ========================================================================== 
+   03   Überblick
+   ========================================================================== */
+
+.rechtliches-overview {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rechtliches-card {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.35rem;
+}
+
+.rechtliches-card__icon {
+  align-items: center;
+  background: var(--kgv-surface-lavender);
+  border-radius: 999px;
+  color: var(--kgv-secondary);
+  display: inline-flex;
+  height: 3rem;
+  justify-content: center;
+  width: 3rem;
+}
+
+.rechtliches-card h2 {
+  font-family: var(--kgv-font-display);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.rechtliches-card p {
+  color: var(--kgv-text-muted);
+  margin: 0;
+}
+
+/* ========================================================================== 
+   04   Inhaltsbereich
+   ========================================================================== */
+
+.rechtliches-content {
+  align-items: start;
+  display: grid;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+}
+
+.rechtliches-content__main {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.rechtliches-section {
+  display: grid;
+  gap: 0.78rem;
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.rechtliches-section h2 {
+  color: var(--kgv-text-main);
+  font-family: var(--kgv-font-display);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.rechtliches-section p {
+  color: var(--kgv-text-muted);
+  line-height: 1.72;
+  margin: 0;
+}
+
+.rechtliches-section ul {
+  color: var(--kgv-text-muted);
+  display: grid;
+  gap: 0.45rem;
+  line-height: 1.65;
+  margin: 0.2rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.rechtliches-section li::marker {
+  color: var(--kgv-primary);
+}
+
+/* ========================================================================== 
+   05   Sidebar
+   ========================================================================== */
+
+.rechtliches-sidebar {
+  position: sticky;
+  top: 6rem;
+}
+
+.rechtliches-sidebar__box {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.35rem;
+}
+
+.rechtliches-sidebar__box h2 {
+  font-family: var(--kgv-font-display);
+  font-size: clamp(1.45rem, 2vw, 1.95rem);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.rechtliches-sidebar__box p:not(.kgv-eyebrow) {
+  color: var(--kgv-text-muted);
+  margin: 0;
+}
+
+.rechtliches-sidebar__links {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.25rem;
+}
+
+.rechtliches-sidebar__links a {
+  background: var(--kgv-surface-sage);
+  border: 1px solid var(--kgv-border-soft);
+  border-radius: var(--kgv-radius-md);
+  color: var(--kgv-text-main);
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem;
+  text-decoration: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.rechtliches-sidebar__links a:hover {
+  border-color: rgba(47, 111, 78, 0.32);
+  box-shadow: var(--kgv-shadow-soft);
+  transform: translateY(-1px);
+}
+
+.rechtliches-sidebar__links a:focus-visible {
+  outline: 3px solid var(--kgv-focus);
+  outline-offset: 3px;
+}
+
+.rechtliches-sidebar__links strong {
+  color: var(--kgv-primary);
+  font-size: 0.95rem;
+}
+
+.rechtliches-sidebar__links span {
+  color: var(--kgv-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+/* ========================================================================== 
+   06   Responsive
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  .rechtliches-hero__inner,
+  .rechtliches-content {
+    grid-template-columns: 1fr;
+  }
+
+  .rechtliches-notice {
+    max-width: 38rem;
+  }
+
+  .rechtliches-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .rechtliches-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .rechtliches-hero__inner {
+    min-height: auto;
+    padding-block: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .rechtliches-section,
+  .rechtliches-sidebar__box,
+  .rechtliches-card,
+  .rechtliches-notice {
+    border-radius: var(--kgv-radius-lg);
+  }
+}
+
+@media (max-width: 420px) {
+  .rechtliches-page {
+    gap: 2.35rem;
+  }
+
+  .rechtliches-hero__meta span {
+    width: 100%;
+  }
+
+  .rechtliches-section,
+  .rechtliches-sidebar__box,
+  .rechtliches-card,
+  .rechtliches-notice {
+    padding: 1rem;
+  }
+}

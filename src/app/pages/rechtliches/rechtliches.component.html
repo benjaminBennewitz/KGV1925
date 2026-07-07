@@ -1,0 +1,71 @@
+<!-- src/app/pages/rechtliches/rechtliches.component.html -->
+
+<div class="kgv-page rechtliches-page">
+  <section class="rechtliches-hero" data-kgv-reveal-static [attr.aria-labelledby]="seite.id + '-titel'">
+    <div class="rechtliches-hero__inner kgv-section">
+      <div class="rechtliches-hero__content">
+        <p class="kgv-eyebrow">{{ seite.eyebrow }}</p>
+        <h1 [id]="seite.id + '-titel'" class="kgv-heading">{{ seite.titel }}</h1>
+        <p class="kgv-subline">{{ seite.subline }}</p>
+        <div class="rechtliches-hero__meta" aria-label="Dokumentinformationen">
+          <span>{{ seite.stand }}</span>
+          <span>Ohne Tracking</span>
+          <span>Verein</span>
+        </div>
+      </div>
+
+      <aside class="rechtliches-notice kgv-card" data-kgv-reveal="right" aria-label="Wichtiger Hinweis">
+        <span class="rechtliches-notice__icon material-symbols-outlined" aria-hidden="true">info</span>
+        <p class="kgv-eyebrow">Hinweis</p>
+        <h2>Vor dem Livegang prüfen</h2>
+        <p>{{ seite.hinweis }}</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="kgv-section rechtliches-overview" aria-label="Kurzüberblick">
+    @for (karte of seite.karten; track karte.titel) {
+      <article class="rechtliches-card kgv-card">
+        <span class="rechtliches-card__icon material-symbols-outlined" aria-hidden="true">{{ karte.icon }}</span>
+        <h2>{{ karte.titel }}</h2>
+        <p>{{ karte.text }}</p>
+      </article>
+    }
+  </section>
+
+  <section class="kgv-section rechtliches-content" aria-label="Seitentext">
+    <div class="rechtliches-content__main">
+      @for (abschnitt of seite.abschnitte; track abschnitt.titel) {
+        <article class="rechtliches-section kgv-card" data-kgv-reveal="soft">
+          <h2>{{ abschnitt.titel }}</h2>
+          @for (absatz of abschnitt.text; track absatz) {
+            <p>{{ absatz }}</p>
+          }
+          @if (abschnitt.liste) {
+            <ul>
+              @for (punkt of abschnitt.liste; track punkt) {
+                <li>{{ punkt }}</li>
+              }
+            </ul>
+          }
+        </article>
+      }
+    </div>
+
+    <aside class="rechtliches-sidebar" aria-label="Weitere rechtliche Seiten">
+      <div class="rechtliches-sidebar__box kgv-card">
+        <p class="kgv-eyebrow">Direkt weiter</p>
+        <h2>Fragen oder Ergänzungen?</h2>
+        <p>Die rechtlichen Texte enthalten bewusst markierte Platzhalter, damit echte Vereinsdaten erst nach finaler Prüfung veröffentlicht werden.</p>
+        <div class="rechtliches-sidebar__links">
+          @for (link of seite.kontaktLinks; track link.pfad) {
+            <a [routerLink]="link.pfad">
+              <strong>{{ link.label }}</strong>
+              <span>{{ link.text }}</span>
+            </a>
+          }
+        </div>
+      </div>
+    </aside>
+  </section>
+</div>

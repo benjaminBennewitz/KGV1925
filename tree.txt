@@ -40,6 +40,10 @@ KGV1925/
 │   │   │   │   ├── nicht-gefunden.component.html
 │   │   │   │   ├── nicht-gefunden.component.scss
 │   │   │   │   └── nicht-gefunden.component.ts
+│   │   │   ├── rechtliches/
+│   │   │   │   ├── rechtliches.component.html
+│   │   │   │   ├── rechtliches.component.scss
+│   │   │   │   └── rechtliches.component.ts
 │   │   │   ├── service/
 │   │   │   │   ├── service.component.html
 │   │   │   │   ├── service.component.scss
