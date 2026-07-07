@@ -50,7 +50,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Frisch gesetzte Pflanzen brauchen regelmäßiger Wasser als eingewachsene Bestände.'
     ],
     tags: ['Gießen', 'Sommer', 'Trockenheit'],
-    bild: 'assets/img/lavendel-1_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-1_aquarell.webp',
     bildAlt: 'Lavendelzweige als ruhiges Gartenmotiv'
   },
   {
@@ -75,7 +75,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Mulch ersetzt keine Bewässerung, verlängert aber die Wirkung.'
     ],
     tags: ['Boden', 'Mulch', 'Wasser sparen'],
-    bild: 'assets/img/lavendel-2_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-2_aquarell.webp',
     bildAlt: 'Lavendel in zarten Aquarellfarben'
   },
   {
@@ -100,7 +100,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Reife Früchte regelmäßig ernten, damit neue Früchte nachkommen.'
     ],
     tags: ['Tomaten', 'Gewächshaus', 'Lüften'],
-    bild: 'assets/img/lavendel-3_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-3_aquarell.webp',
     bildAlt: 'Zarter Lavendelzweig'
   },
   {
@@ -125,7 +125,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Fallobst regelmäßig entfernen, damit Schädlinge weniger Angriffsfläche finden.'
     ],
     tags: ['Apfel', 'Birne', 'Sommerschnitt'],
-    bild: 'assets/img/lavendel-4_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-4_aquarell.webp',
     bildAlt: 'Lavendelstrauß als dekoratives Gartenmotiv'
   },
   {
@@ -150,7 +150,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Blühpflanzen in der Nähe unterstützen Nützlinge.'
     ],
     tags: ['Schädlinge', 'Nützlinge', 'Rosen'],
-    bild: 'assets/img/lavendel-1_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-1_aquarell.webp',
     bildAlt: 'Lavendelzweige als ruhiges Gartenmotiv'
   },
   {
@@ -175,7 +175,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Eine Mischung aus grünen und trockenen Materialien verbessert die Rotte.'
     ],
     tags: ['Kompost', 'Bodenleben', 'Düngung'],
-    bild: 'assets/img/lavendel-2_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-2_aquarell.webp',
     bildAlt: 'Lavendel in zarten Aquarellfarben'
   },
   {
@@ -200,7 +200,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Heimische Gehölze bieten zusätzlich Nahrung und Schutz.'
     ],
     tags: ['Bienen', 'Stauden', 'Lavendel'],
-    bild: 'assets/img/lavendel-3_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-3_aquarell.webp',
     bildAlt: 'Zarter Lavendelzweig'
   },
   {
@@ -225,7 +225,7 @@ export const GARTENWISSEN_BEITRAEGE: GartenwissenBeitrag[] = [
       'Für essbare Pflanzenteile immer sauber arbeiten und vor der Ernte gründlich waschen.'
     ],
     tags: ['Brennnessel', 'Auszug', 'Pflanzenstärkung'],
-    bild: 'assets/img/lavendel-4_aquarell.webp',
+    bild: '/angular-projects/1925/assets/img/lavendel-4_aquarell.webp',
     bildAlt: 'Lavendelstrauß als dekoratives Gartenmotiv'
   }
 ];

@@ -298,7 +298,7 @@ export class MitgliederbereichComponent implements OnDestroy {
       nummer: 'KGV-2026-001',
       betrag: '156,00 Euro',
       status: 'Bezahlt',
-      url: 'assets/downloads/rechnungen/rechnung-kgv-2026-001.pdf',
+      url: '/angular-projects/1925/assets/downloads/rechnungen/rechnung-kgv-2026-001.pdf',
       dateiname: 'rechnung-kgv-2026-001.pdf',
     },
     {
@@ -307,7 +307,7 @@ export class MitgliederbereichComponent implements OnDestroy {
       nummer: 'KGV-2026-014',
       betrag: '84,50 Euro',
       status: 'Offen',
-      url: 'assets/downloads/rechnungen/rechnung-kgv-2026-014.pdf',
+      url: '/angular-projects/1925/assets/downloads/rechnungen/rechnung-kgv-2026-014.pdf',
       dateiname: 'rechnung-kgv-2026-014.pdf',
     },
     {
@@ -316,7 +316,7 @@ export class MitgliederbereichComponent implements OnDestroy {
       nummer: 'KGV-2026-029',
       betrag: '60,00 Euro',
       status: 'In Prüfung',
-      url: 'assets/downloads/rechnungen/rechnung-kgv-2026-029.pdf',
+      url: '/angular-projects/1925/assets/downloads/rechnungen/rechnung-kgv-2026-029.pdf',
       dateiname: 'rechnung-kgv-2026-029.pdf',
     },
   ];
@@ -1481,7 +1481,7 @@ export class MitgliederbereichComponent implements OnDestroy {
       schritteText: '',
       hinweiseText: '',
       tagsText: '',
-      bild: 'assets/img/lavendel-1_aquarell.webp',
+      bild: '/angular-projects/1925/assets/img/lavendel-1_aquarell.webp',
       bildAlt: 'Lavendelzweige als ruhiges Gartenmotiv',
     };
   }
@@ -1523,7 +1523,7 @@ export class MitgliederbereichComponent implements OnDestroy {
       gueltigBisISO: '2026-07-31',
       buttonText: 'Termine ansehen',
       buttonRoute: '/termine',
-      bild: 'assets/img/aktuelles/laubenabend-2026.webp',
+      bild: '/angular-projects/1925/assets/img/aktuelles/laubenabend-2026.webp',
       bildAlt: 'Gemütlicher Laubenabend im Kleingartenverein mit warmem Licht',
       jahr: '2026',
     };
@@ -1947,7 +1947,7 @@ export class MitgliederbereichComponent implements OnDestroy {
     }
 
     if (feld === 'bild') {
-      return /^assets\/img\/[A-Za-zÄÖÜäöüß0-9._\/-]+\.(webp|png|jpg|jpeg)$/.test(textwert) ? '' : 'Bitte einen lokalen Bildpfad wie assets/img/aktuelles/bild.webp eintragen.';
+      return /^\/angular-projects\/1925\/assets\/img\/[A-Za-zÄÖÜäöüß0-9._\/-]+\.(webp|png|jpg|jpeg)$/.test(textwert) ? '' : 'Bitte einen lokalen Bildpfad wie /angular-projects/1925/assets/img/aktuelles/bild.webp eintragen.';
     }
 
     if (!this.adminTextMuster.test(textwert)) {

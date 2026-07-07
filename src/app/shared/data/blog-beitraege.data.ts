@@ -29,7 +29,7 @@ export const BLOG_BEITRAEGE: BlogBeitrag[] = [
     ort: 'Vereinsanlage',
     lesezeit: '2 Min.',
     kurztext: 'Der neue Freitagstreff für Vereinsmitglieder, Nachbarschaft und Gartenfreunde startet ab 17 Uhr mit Getränken und mehr.',
-    bild: 'assets/img/aktuelles/laubenabend-2026.webp',
+    bild: '/angular-projects/1925/assets/img/aktuelles/laubenabend-2026.webp',
     bildAlt: 'Flyer zum Laubenabend am 03. Juli 2026 mit Lichterkette, Abendmotiv und Getränken',
     akzent: 'nacht',
     abschnitte: [
@@ -48,7 +48,7 @@ export const BLOG_BEITRAEGE: BlogBeitrag[] = [
     ort: 'Vereinshaus',
     lesezeit: '2 Min.',
     kurztext: 'Am 07. Juli 2026 tagt der Vorstand um 19 Uhr. Auf der Tagesordnung stehen das Sommerfest, die Begehung und Sonstiges.',
-    bild: 'assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
+    bild: '/angular-projects/1925/assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
     bildAlt: 'Grafik zur 8. Vorstandssitzung am 07. Juli 2026 mit den Themen Nachbesprechung Sommerfest, Planung Begehung und Sonstiges',
     akzent: 'salbei',
     abschnitte: [
@@ -67,7 +67,7 @@ export const BLOG_BEITRAEGE: BlogBeitrag[] = [
     ort: 'Mönchengladbach',
     lesezeit: '2 Min.',
     kurztext: 'Der 75. Kleingartenwettbewerb findet vom 09. bis 12. Juli statt. Ergebnisse und Siegerehrung folgen am 19. Juli.',
-    bild: 'assets/img/aktuelles/gartenwettbewerb-2026.webp',
+    bild: '/angular-projects/1925/assets/img/aktuelles/gartenwettbewerb-2026.webp',
     bildAlt: 'Gestaltete Übersicht zum 75. Kleingartenwettbewerb 2026 mit Terminen und Lavendelmotiv',
     akzent: 'lavendel',
     abschnitte: [
@@ -86,7 +86,7 @@ export const BLOG_BEITRAEGE: BlogBeitrag[] = [
     ort: 'Vereinsanlage',
     lesezeit: '3 Min.',
     kurztext: 'Die Gemeinschaftsarbeitsplanung zeigt die Termine, Gruppen und zugeordneten Gartennummern für die Arbeitseinsätze 2026.',
-    bild: 'assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
+    bild: '/angular-projects/1925/assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
     bildAlt: 'Digital erstellte Gemeinschaftsarbeitsplanung 2026 mit Terminen, Gruppen und zugeordneten Gartennummern',
     akzent: 'sand',
     abschnitte: [
@@ -95,7 +95,7 @@ export const BLOG_BEITRAEGE: BlogBeitrag[] = [
       'Nicht geleistete Gemeinschaftsarbeit wird mit 60,00 Euro pro Stunde in Rechnung gestellt. Im Falle einer Verhinderung ist dies dem Gartenfachberater unter 0173-2836684 oder 02161-5777173 mitzuteilen.',
     ],
     details: ['samstags 9:00–12:00 Uhr', 'Gruppen A bis D', '60,00 Euro/Std. bei nicht geleisteter Arbeit', 'Rückmeldung bei Verhinderung'],
-    downloadUrl: 'assets/downloads/gemeinschaftsarbeit-2026.pdf',
+    downloadUrl: '/angular-projects/1925/assets/downloads/gemeinschaftsarbeit-2026.pdf',
     downloadLabel: 'Plan als PDF herunterladen',
     downloadDateiname: 'gemeinschaftsarbeit-2026.pdf',
   },
@@ -108,7 +108,7 @@ export const BLOG_BEITRAEGE: BlogBeitrag[] = [
     ort: 'Vereinsanlage',
     lesezeit: '2 Min.',
     kurztext: 'Unser Sommerfest stand unter dem Motto: vorbeikommen, einen Tag voller Spaß erleben und Gemeinschaft genießen.',
-    bild: 'assets/img/aktuelles/sommerfest-2026.webp',
+    bild: '/angular-projects/1925/assets/img/aktuelles/sommerfest-2026.webp',
     bildAlt: 'Flyer zum Sommerfest 2026 mit Blumen, Vögeln und Gartenmotiv',
     akzent: 'salbei',
     abschnitte: [

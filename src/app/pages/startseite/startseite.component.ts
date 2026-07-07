@@ -41,7 +41,7 @@ export class StartseiteComponent implements OnInit, OnDestroy {
     return this.adminContent.aktivesStartseitenPopup(this.heutigesDatumISO());
   }
   protected readonly heroBild = {
-    pfad: 'assets/img/hero-vereinsgarten-mock.webp',
+    pfad: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock.webp',
     alt: 'Blick in eine grüne Kleingartenanlage mit Vereinshaus und bepflanztem Weg',
   };
   protected readonly heroKurzinfos = [

@@ -58,27 +58,27 @@ export interface VereinshausDetail {
 
 const GARTEN_DETAIL_BILDER: DetailBild[] = [
   {
-    pfad: 'assets/img/hero-vereinsgarten-mock.webp',
+    pfad: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock.webp',
     alt: 'Grüner Weg durch die Kleingartenanlage am Steinberg',
   },
   {
-    pfad: 'assets/img/aktuelles/gartenwettbewerb-2026.webp',
+    pfad: '/angular-projects/1925/assets/img/aktuelles/gartenwettbewerb-2026.webp',
     alt: 'Gepflegte Gartenparzelle mit Beetflächen und Sommerbepflanzung',
   },
   {
-    pfad: 'assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
+    pfad: '/angular-projects/1925/assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
     alt: 'Gemeinschaftsfläche mit Werkzeugen und gepflegten Wegen',
   },
   {
-    pfad: 'assets/img/aktuelles/sommerfest-2026.webp',
+    pfad: '/angular-projects/1925/assets/img/aktuelles/sommerfest-2026.webp',
     alt: 'Einladender Außenbereich der Gartenanlage im Sommer',
   },
   {
-    pfad: 'assets/img/aktuelles/laubenabend-2026.webp',
+    pfad: '/angular-projects/1925/assets/img/aktuelles/laubenabend-2026.webp',
     alt: 'Stimmungsvolle Laubenansicht innerhalb der Kleingartenanlage',
   },
   {
-    pfad: 'assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
+    pfad: '/angular-projects/1925/assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
     alt: 'Vereinsnaher Blick auf Treffpunkt und Organisation der Anlage',
   },
 ];
@@ -89,27 +89,27 @@ export const VEREINSHAUS_DETAIL: VereinshausDetail = {
   icon: 'home_work',
   bilder: [
     {
-      pfad: 'assets/img/aktuelles/sommerfest-2026.webp',
+      pfad: '/angular-projects/1925/assets/img/aktuelles/sommerfest-2026.webp',
       alt: 'Vereinshaus und Außenbereich während einer sommerlichen Veranstaltung',
     },
     {
-      pfad: 'assets/img/hero-vereinsgarten-mock.webp',
+      pfad: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock.webp',
       alt: 'Weg durch die Gartenanlage in Richtung Vereinshaus',
     },
     {
-      pfad: 'assets/img/aktuelles/laubenabend-2026.webp',
+      pfad: '/angular-projects/1925/assets/img/aktuelles/laubenabend-2026.webp',
       alt: 'Stimmungsvolle Abendansicht rund um das Vereinshaus',
     },
     {
-      pfad: 'assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
+      pfad: '/angular-projects/1925/assets/img/aktuelles/gemeinschaftsarbeit-uebersicht.webp',
       alt: 'Gemeinschaftsbereich rund um Vereinsarbeit und Anlage',
     },
     {
-      pfad: 'assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
+      pfad: '/angular-projects/1925/assets/img/aktuelles/vorstandssitzung-2026-07-07.webp',
       alt: 'Vereinsorganisation und Treffpunkt im Umfeld des Vereinshauses',
     },
     {
-      pfad: 'assets/img/aktuelles/gartenwettbewerb-2026.webp',
+      pfad: '/angular-projects/1925/assets/img/aktuelles/gartenwettbewerb-2026.webp',
       alt: 'Gepflegte Anlage als Rahmen für kleinere Feiern und Treffen',
     },
   ],
@@ -202,7 +202,7 @@ export const ANLAGEN_INFOS: AnlagenInfo[] = [
     text: 'Rücksichtnahme, gepflegte Wege, Ruhezeiten und ein respektvoller Umgang bilden die Grundlage für ein gutes Miteinander in der Anlage.',
     hinweis: 'Die vollständige Haus- und Gartenordnung steht als PDF zum Download bereit.',
     downloadLabel: 'Hausordnung als PDF herunterladen',
-    downloadUrl: 'assets/downloads/Hausordnung-kgv1925__Juli-2026.pdf',
+    downloadUrl: '/angular-projects/1925/assets/downloads/Hausordnung-kgv1925__Juli-2026.pdf',
     downloadDateiname: 'Hausordnung-kgv1925__Juli-2026.pdf',
   },
   {
@@ -225,7 +225,7 @@ export const GARTEN_PARZELLEN: GartenParzelle[] = Array.from({ length: 48 }, (_,
     nummer,
     titel: `Garten ${gartennummer}`,
     status,
-    bild: 'assets/img/hero-vereinsgarten-mock.webp',
+    bild: '/angular-projects/1925/assets/img/hero-vereinsgarten-mock.webp',
     alt: `Blick in die Gartenanlage für Garten ${gartennummer}`,
     bilder: GARTEN_DETAIL_BILDER,
     groesse: 'ca. 250 m²',
