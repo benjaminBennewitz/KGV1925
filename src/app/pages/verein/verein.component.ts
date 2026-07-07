@@ -1,6 +1,7 @@
 /* src/app/pages/verein/verein.component.ts */
 
-import { Component } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, inject, OnDestroy, PLATFORM_ID, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ANLAGEN_INFOS, DetailBild, GARTEN_PARZELLEN, GartenFilter, GartenParzelle, GartenStatus, VEREINSHAUS_DETAIL, VereinshausDetail, VORSTANDSMITGLIEDER, Vorstandsmitglied } from '../../shared/data/verein.data';
 import { DialogA11yDirective } from '../../shared/directives/dialog-a11y.directive';
@@ -11,7 +12,7 @@ import { DialogA11yDirective } from '../../shared/directives/dialog-a11y.directi
   templateUrl: './verein.component.html',
   styleUrl: './verein.component.scss',
 })
-export class VereinComponent {
+export class VereinComponent implements OnDestroy {
   protected aktiveGartenFilter: GartenFilter = 'alle';
   protected ausgewaehlterGarten: GartenParzelle | null = null;
   protected ausgewaehltesVereinshaus: VereinshausDetail | null = null;
@@ -19,6 +20,10 @@ export class VereinComponent {
   protected readonly anlagenInfos = ANLAGEN_INFOS;
   protected readonly gartenFilter: GartenFilter[] = ['alle', 'frei', 'verpachtet'];
   protected readonly gaerten = GARTEN_PARZELLEN;
+  protected readonly istVorstandAufDesktopAusgeklappt = signal(false); // Desktop-Status
+  private readonly istBrowser = isPlatformBrowser(inject(PLATFORM_ID)); // Browserprüfung
+  private readonly vorstandDesktopMediaQuery = '(min-width: 1441px)'; // Desktop-Breakpoint
+  private mediaQueryListe: MediaQueryList | null = null; // Viewportabfrage
   protected readonly vereinshausDetail = VEREINSHAUS_DETAIL;
   protected readonly geschaeftsfuehrenderVorstand = VORSTANDSMITGLIEDER.filter((mitglied) => mitglied.typ === 'geschaeftsfuehrend');
   protected readonly beisitzende = VORSTANDSMITGLIEDER.filter((mitglied) => mitglied.typ === 'beisitz');
@@ -28,6 +33,26 @@ export class VereinComponent {
   protected readonly lageplanMittelBlock = this.ermittleGaertenNachNummern([26, 25, 24, 23, 22, 21]);
   protected readonly lageplanHausBlock = this.ermittleGaertenNachNummern([13, 14, 15, 16, 17, 18, 19, 20]);
   protected readonly lageplanOstBlock = this.ermittleGaertenNachNummern([12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+
+  /**
+   * Initialisiert die Desktop-Erkennung für dauerhaft geöffnete Vorstandskarten.
+   */
+  constructor() {
+    if (!this.istBrowser) {
+      return;
+    }
+
+    this.mediaQueryListe = window.matchMedia(this.vorstandDesktopMediaQuery);
+    this.aktualisiereVorstandDesktopStatus(this.mediaQueryListe);
+    this.mediaQueryListe.addEventListener('change', this.verarbeiteVorstandBreakpoint);
+  }
+
+  /**
+   * Entfernt den Media-Query-Listener beim Verlassen der Seite.
+   */
+  public ngOnDestroy(): void {
+    this.mediaQueryListe?.removeEventListener('change', this.verarbeiteVorstandBreakpoint);
+  }
 
   protected get gefilterteGaerten(): GartenParzelle[] {
     if (this.aktiveGartenFilter === 'alle') {
@@ -153,6 +178,20 @@ export class VereinComponent {
    */
   protected ermittleVorstandsname(mitglied: Vorstandsmitglied): string {
     return `${mitglied.vorname} ${mitglied.nachname}`;
+  }
+
+  /**
+   * Reagiert auf Änderungen des Desktop-Breakpoints.
+   */
+  private readonly verarbeiteVorstandBreakpoint = (event: MediaQueryListEvent): void => {
+    this.aktualisiereVorstandDesktopStatus(event);
+  };
+
+  /**
+   * Aktualisiert, ob Vorstandskarten dauerhaft geöffnet dargestellt werden.
+   */
+  private aktualisiereVorstandDesktopStatus(event: MediaQueryList | MediaQueryListEvent): void {
+    this.istVorstandAufDesktopAusgeklappt.set(event.matches);
   }
 
   /**

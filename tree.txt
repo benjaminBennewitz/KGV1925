@@ -146,6 +146,7 @@ KGV1925/
 │   │       └── lavendel-4_aquarell.webp
 │   ├── environments/
 │   │   ├── environment.developerakademie.ts
+│   │   ├── environment.production.ts
 │   │   └── environment.ts
 │   ├── styles/
 │   │   ├── _accessibility.scss

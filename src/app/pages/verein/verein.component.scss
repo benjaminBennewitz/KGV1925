@@ -182,6 +182,8 @@
 }
 
 .verein-hero__icon {
+  --kgv-icon-size: 3.5rem;
+
   align-items: center;
   background: var(--kgv-surface-sage);
   border-radius: var(--kgv-radius-round);
@@ -282,6 +284,8 @@
 }
 
 .board-group__title span {
+  --kgv-icon-size: 2.8rem;
+
   align-items: center;
   background: var(--kgv-surface-sage);
   border-radius: var(--kgv-radius-round);
@@ -385,6 +389,8 @@ details.person-card:not([open]) > .person-card__details {
 }
 
 .person-card__icon {
+  --kgv-icon-size: 3rem;
+
   align-items: center;
   background: var(--kgv-surface-lavender);
   border-radius: var(--kgv-radius-round);
@@ -1232,21 +1238,26 @@ details.person-card:not([open]) > .person-card__details {
 }
 
 
-@media (min-width: 1440px) {
-  .person-card--executive {
+@media (min-width: 1441px) {
+  .executive-grid,
+  .assessor-grid {
+    align-items: stretch;
+  }
+
+  .person-card {
     min-height: 14rem;
   }
 
   .person-card__summary {
     cursor: default;
+    pointer-events: none;
   }
 
   .person-card__toggle {
-    align-items: center;
-    display: inline-flex;
-    transform: rotate(180deg);
+    display: none;
   }
 
+  .person-card__details,
   details.person-card:not([open]) > .person-card__details {
     display: grid;
   }
@@ -1500,6 +1511,8 @@ details.person-card:not([open]) > .person-card__details {
   }
 
   .person-card__icon {
+    --kgv-icon-size: 2.55rem;
+
     height: 2.55rem;
     width: 2.55rem;
   }

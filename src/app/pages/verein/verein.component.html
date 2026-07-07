@@ -63,7 +63,7 @@
 
         <div class="executive-grid">
           @for (mitglied of geschaeftsfuehrenderVorstand; track mitglied.position) {
-            <details class="person-card person-card--executive kgv-card kgv-card--interactive">
+            <details class="person-card person-card--executive kgv-card kgv-card--interactive" [attr.open]="istVorstandAufDesktopAusgeklappt() ? '' : null">
               <summary class="person-card__summary">
                 <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
                 <span class="person-card__summary-text">
@@ -98,7 +98,7 @@
 
         <div class="assessor-grid">
           @for (mitglied of beisitzende; track $index) {
-            <details class="person-card kgv-card kgv-card--interactive">
+            <details class="person-card kgv-card kgv-card--interactive" [attr.open]="istVorstandAufDesktopAusgeklappt() ? '' : null">
               <summary class="person-card__summary">
                 <span class="person-card__icon material-symbols-outlined" aria-hidden="true">{{ mitglied.icon }}</span>
                 <span class="person-card__summary-text">
